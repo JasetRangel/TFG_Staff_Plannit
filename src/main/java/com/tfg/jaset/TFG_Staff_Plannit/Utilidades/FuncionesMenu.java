@@ -4,11 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 public class FuncionesMenu {
     public static void cambiarVentana( ActionEvent event, String rutaFXML, String tituloVentana, boolean forma) throws IOException {
@@ -29,7 +33,7 @@ public class FuncionesMenu {
         stageActual.getIcons().add(logo);
         stageActual.show();
     }
-
+    //METODO PARA VALIDAR QUE TODOS LOS CAMPOS DE UNA ESCENA, ESTEN RELLENOS
     public static  boolean camposCompletos(TextInputControl ... campos){
         for (TextInputControl ti:campos){
             if (ti.getText()==null || ti.getText().trim().isEmpty())
@@ -37,6 +41,33 @@ public class FuncionesMenu {
         }
         return  true;
     }
+    //MÉTODO PARA MOSTRAR DIALOG CON MENSAJES
+    public static void mostrarMensajeAlerta(String title, String msj){
+        Alert alert=new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msj);
+        alert.showAndWait();
+    }
+
+    //MÉTODO PARA CONFIRMAR UNA ACCIÓN
+    public static boolean mostrarDialogConfirmacion(String title, String msj){
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msj);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    //MÉTODO GENÉRICO PARA ELIMINAR CUALQUIER OBJETO DE LA BBDD
+    public static  <T> void eliminarEntidad(T entidade, Consumer<T> accionElimina){
+        if(mostrarDialogConfirmacion("Confirmación","¿Está seguro de que desea eliminar este registro?")){
+            accionElimina.accept(entidade);
+        }
+    }
+
 
 
 }

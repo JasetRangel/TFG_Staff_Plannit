@@ -1,11 +1,11 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 
-import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Usuario;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.UsuarioRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
+import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -34,6 +34,9 @@ public class UsuariosController implements Initializable {
     UsuarioRepository userRepository;
     @Autowired
     EmpleadoRepository empleadoRepository;
+
+    @Autowired
+    private UsuarioUtils userUtils;
 
     @FXML
     private Button btnBuscar;
@@ -95,21 +98,27 @@ public class UsuariosController implements Initializable {
                 table.getSelectionModel().clearSelection();
             }
         });
-
+///////////////////////----------------------------ACIONES DE LOS BOTONES -------------------------///////////////////////////7
         btnModificar.setOnAction(event -> {
             if(table.getSelectionModel().getSelectedItem()==null){
-                mostrarMensajeAlerta("Selleción Requerida","Debe seleccionar un campo de la tabla");
+                FuncionesMenu.mostrarMensajeAlerta("Selleción Requerida","Debe seleccionar un campo de la tabla");
             }
             else
                 mostrarDialogModificarUsuario();
         });
 
         btnNewUser.setOnAction(event -> {
-            mostrarDialogAgregarUser();
+            mostrarDialogAgregarUsuario();
+        });
+
+        btnEliminar.setOnAction(event->{
+            eliminarUsuario();
         });
 
 
     }
+
+    ///////////////////////----------------------------MÉTODOS -------------------------///////////////////////////7
 
     // Verifica si el nodo es o está dentro de la TableView
     private boolean isDescendant(EventTarget target, Node node) {
@@ -126,81 +135,52 @@ public class UsuariosController implements Initializable {
     }
 
     @FXML
-    private void mostrarDialogAgregarUser(){
-        Usuario userSelected=table.getSelectionModel().getSelectedItem();
-        Dialog<Usuario>dialog=new Dialog<>();
-        dialog.setTitle("Nuevo usuario");
-        dialog.setHeaderText("Agregar un nuevo Usuario a la lista de usuarios");
-        //configuro los botones
-        ButtonType guardar=new ButtonType("Guardar",ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(guardar,ButtonType.CANCEL);
+    public void mostrarDialogAgregarUsuario() {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Nuevo Usuario");
+        dialog.setHeaderText("Ingrese los datos del nuevo usuario");
 
-        //creo el formulario para el nuevo Usuario
-        GridPane grid=new GridPane();
+        ButtonType guardarButtonType = new ButtonType("Guardar", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(guardarButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20,150,10,10));
+        grid.setPadding(new Insets(20, 150, 10, 10));
 
-        TextField dniUser=new TextField();
-        dniUser.setPromptText("DNI Usuario");
-
-
-        TextField nombreUsuario=new TextField();
-        nombreUsuario.setPromptText("Numbre de usuario");
-
-
-        TextField password=new TextField();
+        TextField dniUser = new TextField();
+        dniUser.setPromptText("DNI del Usuario");
+        TextField nombreUsuario = new TextField();
+        nombreUsuario.setPromptText("Nombre de Usuario");
+        PasswordField password = new PasswordField();
         password.setPromptText("Contraseña");
-
-
-        TextField permiso=new TextField();
+        TextField permiso = new TextField();
         permiso.setPromptText("Permiso");
 
-
-        grid.add( new Label("DNI Usuario: "),0,0);
-        grid.add(dniUser,1,0);
-        grid.add(new Label("Nombre Usuario: "),0,1);
-        grid.add(nombreUsuario,1,1);
-        grid.add(new Label("Contraseña: "),0,2);
-        grid.add(password,1,2);
-        grid.add(new Label("Permiso: "),0,3);
-        grid.add(permiso,1,3);
+        grid.add(new Label("DNI Usuario:"), 0, 0);
+        grid.add(dniUser, 1, 0);
+        grid.add(new Label("Nombre Usuario:"), 0, 1);
+        grid.add(nombreUsuario, 1, 1);
+        grid.add(new Label("Contraseña:"), 0, 2);
+        grid.add(password, 1, 2);
+        grid.add(new Label("Permiso:"), 0, 3);
+        grid.add(permiso, 1, 3);
 
         dialog.getDialogPane().setContent(grid);
 
-        //configuro el boton de guardado
-        Node guardarButton=dialog.getDialogPane().lookupButton(guardar);
-        guardarButton.addEventFilter(ActionEvent.ACTION, event ->{
-            if(!FuncionesMenu.camposCompletos(dniUser,nombreUsuario,password,permiso)) {
-                event.consume();// evita que la ventana se cierre, no enteresa que se cierre la ventana ya que
-                // no se ha podido insertar el usuario
-                mostrarMensajeAlerta("Campo Incompleto", "Debe rellenar todos los campos");
-            }else /*if(userRepository.existsByEmpleadoDni(dniUser.getText())) */{
-
-                Optional<Empleado>empleadoExiste=empleadoRepository.findByDni(dniUser.getText());
-                if(empleadoExiste.isPresent()){
-                    System.out.println("El empleado ya existe");
-                    Usuario nuevoUsuario = new Usuario();
-
-                    nuevoUsuario.setEmpleado(empleadoExiste.get());// establezco la relacion con el empleado existente
-                    //nuevoUsuario.setDni(empleadoExiste.get().getDni());
-                    nuevoUsuario.setNombreUsuario(nombreUsuario.getText());
-                    nuevoUsuario.setContrasenia(password.getText());
-                    nuevoUsuario.setPermiso(permiso.getText());
-                    userRepository.save(nuevoUsuario);//guardo al nuevo usuario
-                    mostrarMensajeAlerta("Ingreso Correcto", "Usuario agregado correctamente");
-                    refrescarTablaUsuarios();
-                    dialog.close();
-                }else{
-                    event.consume(); // Evita que la ventana se cierre
-                    mostrarMensajeAlerta("Error", "Empleado con DNI dado no existe");
-                }
-
+        Node guardarButton = dialog.getDialogPane().lookupButton(guardarButtonType);
+        guardarButton.addEventFilter(ActionEvent.ACTION, event -> {
+            String resultado = userUtils.agregarNuevoUsuario(dniUser.getText(), nombreUsuario.getText(), password.getText(), permiso.getText());
+            if (!resultado.equals("Usuario agregado correctamente.")) {
+                event.consume();
+                FuncionesMenu.mostrarMensajeAlerta("Error en la Insersión",resultado);
+            }
+            else{
+                FuncionesMenu.mostrarMensajeAlerta("Insersión exitosa",resultado);
             }
         });
 
-        Optional<Usuario>resultado= dialog.showAndWait();
-
+        dialog.showAndWait();
     }
     @FXML
    private  void mostrarDialogModificarUsuario(){
@@ -249,8 +229,7 @@ public class UsuariosController implements Initializable {
            if (dialogButton == guardarButtonType) {
                userSelected.setNombreUsuario(nombreUsuario.getText());
                userSelected.setPermiso(permiso.getText());
-               // Aquí puedes llamar a tu método para actualizar la base de datos con el usuario modificado
-               actualizarUsuario(userSelected);
+
                return userSelected;
            }
            return null;
@@ -264,17 +243,29 @@ public class UsuariosController implements Initializable {
            alert.setTitle("Actualización Exitosa");
            alert.setHeaderText(null);
            alert.setContentText("Los cambios en el usuario han sido guardados correctamente.");
-
+           actualizarUsuario(userSelected);
            alert.showAndWait();
        });
 
    }
 
+   @FXML
+   private  void eliminarUsuario(){
+        Usuario userSelected=table.getSelectionModel().getSelectedItem();
+        if(userSelected==null){
+            FuncionesMenu.mostrarMensajeAlerta("Selección Requerida", "Debe seleccionar un usuario de la tabla");
+            return;
+        }
+        FuncionesMenu.eliminarEntidad(userSelected,usuario -> {
+            userRepository.delete(usuario);
+            refrescarTablaUsuarios();
+            FuncionesMenu.mostrarMensajeAlerta("Eliminación Existosa.","El usuario se ha eliminado correctamente.");
+        });
+   }
+
     private void actualizarUsuario(Usuario userSelected) {
         // Guardar el usuario actualizado en la base de datos
         userSelected= userRepository.save(userSelected);
-
-        // Opcionalmente, si necesitas refrescar la tabla para mostrar los datos actualizados:
         refrescarTablaUsuarios();
     }
 
@@ -283,12 +274,6 @@ public class UsuariosController implements Initializable {
         List<Usuario> usuarios = userRepository.findAll();
         table.setItems(FXCollections.observableArrayList(usuarios));
     }
-    public void mostrarMensajeAlerta(String title, String msj){
-        Alert alert=new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(msj);
-        alert.showAndWait();
-    }
+
 
 }
