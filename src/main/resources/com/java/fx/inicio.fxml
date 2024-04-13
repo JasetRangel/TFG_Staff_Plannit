@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="inicioPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.Controllers.InicioController">
+   <children>
+      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="65.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+               <children>
+                  <Pane layoutX="120.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #1A1769;" AnchorPane.bottomAnchor="39.99999999999999" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <HBox layoutX="14.0" layoutY="-11.0" prefHeight="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                     <children>
+                        <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="38.0" minWidth="156.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Button" HBox.hgrow="ALWAYS" />
+                        <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="38.0" minWidth="156.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Button" HBox.hgrow="ALWAYS" />
+                        <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="38.0" minWidth="156.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Button" HBox.hgrow="ALWAYS" />
+                        <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="38.0" minWidth="156.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Button" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <Button fx:id="btnMenu" alignment="BASELINE_LEFT" layoutY="27.0" mnemonicParsing="false" onAction="#mostrarMenu" prefHeight="38.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Menu" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/menuIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </top>
+         <left>
+            <AnchorPane fx:id="slider" prefWidth="200.0" style="-fx-background-color: #1A1769;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox layoutY="60.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="-7.2000000000000455" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+                     <children>
+                        <Button fx:id="btnClienttes" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#mostrarClientes" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Clientes" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/ClientsIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnEmpleados" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#mostrarEmpleados" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Empleados" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/EmpleadosIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnUsuarios" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#mostrarUsuarios" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Usuarios" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/UsersIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnEventos" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#mostrarEventos" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Eventos" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/EventIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnCerrarSesion" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Cerrar Sesión" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/UsersExitIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnSalir" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#salirDelaApp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Salir" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/ButtonCloseIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </left>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <StackPane fx:id="contenidoPane" layoutX="112.0" layoutY="111.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
