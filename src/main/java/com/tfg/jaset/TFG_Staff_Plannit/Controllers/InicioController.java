@@ -6,6 +6,8 @@ import com.tfg.jaset.TFG_Staff_Plannit.Models.Usuario;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.SpringContextUtil;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,12 +18,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 @Component
 public class InicioController extends MenuController implements Initializable  {
@@ -61,13 +65,15 @@ public class InicioController extends MenuController implements Initializable  {
     @FXML
     private StackPane contenidoPane;
 
+
+    private DateTimeFormatter formatter= DateTimeFormatter.ofPattern("HH:mm");
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //ALMACENO AL OBJETO USUARIO ACTUAL
         Usuario usuarioActual= UsuarioUtils.getUsuarioActual();
         //obtengo la hora actual
-        LocalTime horaActual= LocalTime.now();
-        LocalDate diaActual= LocalDate.now();
+
 
         // combio de forma al cursor al pasar por encima de un boton
         btnCerrarSesion.setCursor(Cursor.HAND);
@@ -78,8 +84,11 @@ public class InicioController extends MenuController implements Initializable  {
         btnUsuarios.setCursor(Cursor.HAND);
         btnMenu.setCursor(Cursor.HAND);
         labelNombre.setText(usuarioActual.getNombreUsuario());
-        labelHora.setText(horaActual.toString());
-        labelFecha.setText(diaActual.toString());
+
+
+
+        inicializarReloj();
+
         btnCerrarSesion.setOnAction(event -> {
             try {
                 FuncionesMenu.cambiarVentana(event,"/com/java/fx/log.fxml","Log",false);
@@ -92,6 +101,18 @@ public class InicioController extends MenuController implements Initializable  {
 
 
     }
+
+    private void inicializarReloj() {
+        Timeline reloj=new Timeline(new KeyFrame(Duration.ZERO, e ->{
+            LocalTime horaActual= LocalTime.now();
+            labelHora.setText(horaActual.format(formatter));
+            LocalDate diaActual= LocalDate.now();
+            labelFecha.setText(diaActual.toString());
+        }), new KeyFrame(Duration.minutes(1)));
+        reloj.setCycleCount(Timeline.INDEFINITE);
+        reloj.play();
+    }
+
     @FXML
     private  void mostrarMenu(ActionEvent event){
         this.desplazarMenu(event,slider);
