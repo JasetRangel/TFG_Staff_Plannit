@@ -5,6 +5,7 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Usuario;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.UsuarioRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
+import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,16 +49,18 @@ public class LogginController implements Initializable {
         String nombreUser=txtNomUsuario.getText();
         String password=txtPassword.getText();
         if(validarCampos()){
-            mostrarAlertaError("Debe rellenar todos los campos del formulario", "Campo Vacío");
+            FuncionesMenu.mostrarMensajeAlerta("Debe rellenar todos los campos del formulario", "Campo Vacío");
             return;
         }
         Optional<Usuario>userLogeado=usuarioRepository.findByNombreUsuario(nombreUser);
         if(userLogeado.isPresent() && userLogeado.get().getContrasenia().equals(password)){
             //el usuario existe
+            //almaceno al usuario que ha iniciado sesión
+            UsuarioUtils.setUsuarioActual(userLogeado.get());
             FuncionesMenu.cambiarVentana(event,"/com/java/fx/inicio.fxml","INICIO",true);
         }else{
             // Usuario no existe o contraseña incorrecta
-            mostrarAlertaError("Usuario o contraseña incorrecto", "Campo Incorrecto");
+            FuncionesMenu.mostrarMensajeAlerta("Usuario o contraseña incorrecto", "Campo Incorrecto");
         }
 
     }
@@ -76,12 +79,6 @@ public class LogginController implements Initializable {
         }
         return algunCampoVacio;
     }
-    private void mostrarAlertaError(String msj,String encabezado){
-        Alert alert=new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("ERROR");
-        alert.setHeaderText(encabezado);
-        alert.setContentText(msj);
-        alert.showAndWait();
-    }
+
 
 }

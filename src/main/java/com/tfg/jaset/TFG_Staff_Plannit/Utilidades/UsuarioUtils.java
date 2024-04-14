@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class UsuarioUtils {
+    private static Usuario usuarioActual;// para almacenar el objeto correspondiente al usuario que ha iniciado session
 
     @Autowired
     private EmpleadoRepository empleadoRepository;
@@ -38,6 +39,12 @@ public class UsuarioUtils {
         usuarioRepository.save(nuevoUsuario);
         return "Usuario agregado correctamente.";
     }
+    public static void setUsuarioActual(Usuario usuario) {
+        usuarioActual = usuario;
+    }
 
+    public static Usuario getUsuarioActual() {
+        return usuarioActual;
+    }
 
 }

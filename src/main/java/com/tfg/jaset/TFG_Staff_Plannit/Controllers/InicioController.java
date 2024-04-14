@@ -2,8 +2,10 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 
 
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Usuario;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.SpringContextUtil;
+import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,12 +13,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 @Component
 public class InicioController extends MenuController implements Initializable  {
@@ -42,7 +47,13 @@ public class InicioController extends MenuController implements Initializable  {
     private Button btnUsuarios;
 
     @FXML
-    private AnchorPane inicioPane;
+    private Label labelNombre;
+
+    @FXML
+    private Label labelHora;
+
+    @FXML
+    private Label labelFecha;
 
     @FXML
     private AnchorPane slider;
@@ -50,10 +61,14 @@ public class InicioController extends MenuController implements Initializable  {
     @FXML
     private StackPane contenidoPane;
 
-    private UsuariosController usuarioController;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //ALMACENO AL OBJETO USUARIO ACTUAL
+        Usuario usuarioActual= UsuarioUtils.getUsuarioActual();
+        //obtengo la hora actual
+        LocalTime horaActual= LocalTime.now();
+        LocalDate diaActual= LocalDate.now();
+
         // combio de forma al cursor al pasar por encima de un boton
         btnCerrarSesion.setCursor(Cursor.HAND);
         btnClienttes.setCursor(Cursor.HAND);
@@ -62,9 +77,13 @@ public class InicioController extends MenuController implements Initializable  {
         btnEventos.setCursor(Cursor.HAND);
         btnUsuarios.setCursor(Cursor.HAND);
         btnMenu.setCursor(Cursor.HAND);
+        labelNombre.setText(usuarioActual.getNombreUsuario());
+        labelHora.setText(horaActual.toString());
+        labelFecha.setText(diaActual.toString());
         btnCerrarSesion.setOnAction(event -> {
             try {
                 FuncionesMenu.cambiarVentana(event,"/com/java/fx/log.fxml","Log",false);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
