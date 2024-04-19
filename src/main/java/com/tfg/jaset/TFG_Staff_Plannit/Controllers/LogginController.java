@@ -41,6 +41,14 @@ public class LogginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        txtNomUsuario.setFocusTraversable(true);
+        txtPassword.setFocusTraversable(true);
+        btnLogin.setFocusTraversable(true);
+        FuncionesMenu.tabular(logPane);
+
+
+
         btnLogin.setCursor(Cursor.HAND);
     }
 

@@ -1,18 +1,29 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Utilidades;
 
+import com.sun.javafx.scene.traversal.Direction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
+
 
 public class FuncionesMenu {
     public static void cambiarVentana( ActionEvent event, String rutaFXML, String tituloVentana, boolean forma) throws IOException {
@@ -67,6 +78,33 @@ public class FuncionesMenu {
             accionElimina.accept(entidade);
         }
     }
+
+    // MÉTODO PARA TABULAR, ES DECIR, CAMIAR DE UN CAMPO A OTRO
+    public static void tabular(Parent parent) {
+        // Ordena los nodos por su posición en el eje Y para seguir el flujo visual top-down
+        List<Node> focusableNodes = parent.getChildrenUnmodifiable().stream()
+                .filter(Node::isFocusTraversable)
+                .sorted(Comparator.comparingDouble(Node::getLayoutY))
+                .collect(Collectors.toList());
+
+        parent.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                Node currentNode = (Node) event.getTarget();
+                int currentIndex = focusableNodes.indexOf(currentNode);
+                if (currentIndex != -1) {
+                    if (currentNode instanceof Button) {
+                        ((Button) currentNode).fire();  // Ejecuta la acción del botón
+                    } else {
+                        // Calcula el índice del siguiente nodo enfocable y solicita el foco
+                        int nextIndex = (currentIndex + 1) % focusableNodes.size();
+                        focusableNodes.get(nextIndex).requestFocus();
+                    }
+                    event.consume();
+                }
+            }
+        });
+    }
+
 
 
 
