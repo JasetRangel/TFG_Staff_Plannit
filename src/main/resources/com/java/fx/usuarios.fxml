@@ -93,7 +93,7 @@
             </VBox>
          </right>
          <center>
-            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="columDNI" prefWidth="134.39996337890625" text="DNI" />
                 <TableColumn fx:id="columUser" minWidth="0.0" prefWidth="198.39996337890625" text="Nombre Usuario" />

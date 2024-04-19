@@ -26,7 +26,7 @@ public class EventosEmpleado {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funcion_id")
-    private Funcione funcion;
+    private Funciones funcion;
 
     @Column(name = "horas_trabajadas", precision = 5, scale = 2)
     private BigDecimal horasTrabajadas;

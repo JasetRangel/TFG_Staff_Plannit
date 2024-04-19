@@ -90,23 +90,25 @@
                      </font>
                   </Button>
                </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
             </VBox>
          </right>
          <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <TableView fx:id="tablaEmpleados" layoutX="46.0" layoutY="21.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <columns>
-                      <TableColumn maxWidth="1.7976931348623157E308" prefWidth="75.0" text="DNI/NIE" />
-                      <TableColumn maxWidth="1.7976931348623157E308" prefWidth="75.0" text="NOMBRE" />
-                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="75.0" text="APELLIDOS" />
-                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="75.0" text="EDAD" />
-                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="75.0" text="EMAIL" />
-                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="75.0" text="DIRECCIÓN" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
+            <TableView fx:id="tablaEmpleados" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <columns>
+                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="DNI/NIE" />
+                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="NOMBRE" />
+                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="APELLIDOS" />
+                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="EDAD" />
+                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="EMAIL" />
+                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="DIRECCIÓN" />
+               </columns>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="10.0" />
+               </BorderPane.margin>
+            </TableView>
          </center>
       </BorderPane>
    </children>
