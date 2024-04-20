@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.WindowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -150,8 +151,11 @@ public class UsuariosController implements Initializable {
 
         TextField dniUser = new TextField();
         dniUser.setPromptText("DNI del Usuario");
+        dniUser.requestFocus();
         TextField nombreUsuario = new TextField();
         nombreUsuario.setPromptText("Nombre de Usuario");
+
+
         PasswordField password = new PasswordField();
         password.setPromptText("Contraseña");
         TextField permiso = new TextField();
@@ -168,6 +172,7 @@ public class UsuariosController implements Initializable {
 
         dialog.getDialogPane().setContent(grid);
 
+
         Node guardarButton = dialog.getDialogPane().lookupButton(guardarButtonType);
         guardarButton.addEventFilter(ActionEvent.ACTION, event -> {
             String resultado = userUtils.agregarNuevoUsuario(dniUser.getText(), nombreUsuario.getText(), password.getText(), permiso.getText());
@@ -179,7 +184,10 @@ public class UsuariosController implements Initializable {
                 FuncionesMenu.mostrarMensajeAlerta("Insersión exitosa",resultado);
             }
         });
-
+        dialog.getDialogPane().getScene().getWindow().addEventFilter(WindowEvent.WINDOW_SHOWN, event -> {
+            dniUser.requestFocus(); // Establece el foco inicial en nombreUsuario cuando el diálogo se muestra
+        });
+        FuncionesMenu.tabular(grid);
         dialog.showAndWait();
     }
     @FXML
@@ -265,7 +273,7 @@ public class UsuariosController implements Initializable {
 
     private void actualizarUsuario(Usuario userSelected) {
         // Guardar el usuario actualizado en la base de datos
-        userSelected= userRepository.save(userSelected);
+        userRepository.save(userSelected);
         refrescarTablaUsuarios();
     }
 
