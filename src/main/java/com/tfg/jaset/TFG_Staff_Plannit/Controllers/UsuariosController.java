@@ -23,6 +23,7 @@ import javafx.stage.WindowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -105,7 +106,7 @@ public class UsuariosController implements Initializable {
                 FuncionesMenu.mostrarMensajeAlerta("Selleción Requerida","Debe seleccionar un campo de la tabla");
             }
             else
-                mostrarDialogModificarUsuario();
+                mostrarDialogModificarUsuario(event);
         });
 
         btnNewUser.setOnAction(event -> {
@@ -182,6 +183,7 @@ public class UsuariosController implements Initializable {
             }
             else{
                 FuncionesMenu.mostrarMensajeAlerta("Insersión exitosa",resultado);
+                refrescarTablaUsuarios();
             }
         });
         dialog.getDialogPane().getScene().getWindow().addEventFilter(WindowEvent.WINDOW_SHOWN, event -> {
@@ -191,8 +193,17 @@ public class UsuariosController implements Initializable {
         dialog.showAndWait();
     }
     @FXML
-   private  void mostrarDialogModificarUsuario(){
+   private  void mostrarDialogModificarUsuario(ActionEvent event){
+        boolean usuarioActual;
         Usuario userSelected=table.getSelectionModel().getSelectedItem();
+        if(userSelected.getDni().equals(UsuarioUtils.getUsuarioActual().getDni())){
+            FuncionesMenu.mostrarDialogConfirmacion("Modificación Usuario Aactual",
+                    "Va a modificar el usuario con el que ha iniciado sesión. Tendrá que volver a iniciar sesión.");
+            usuarioActual=true;
+        }else{
+            usuarioActual=false;
+        }
+
         //creo el DIALOG para modificar al usuario
        Dialog<Usuario>dialog=new Dialog<>();
        dialog.setTitle("Modificar Usuario");
@@ -220,14 +231,6 @@ public class UsuariosController implements Initializable {
        grid.add(new Label("Permiso:"), 0, 1);
        grid.add(permiso, 1, 1);
 
-       // Habilita/deshabilita el botón de guardar dependiendo de si el nombreUsuario está vacío
-       Node guardarButton = dialog.getDialogPane().lookupButton(guardarButtonType);
-       guardarButton.setDisable(true);
-
-       // Validación en tiempo real para el campo nombreUsuario
-       nombreUsuario.textProperty().addListener((observable, oldValue, newValue) -> {
-           guardarButton.setDisable(newValue.trim().isEmpty());
-       });
 
        dialog.getDialogPane().setContent(grid);
        // Request focus en el nombre de usuario inicialmente
@@ -244,7 +247,8 @@ public class UsuariosController implements Initializable {
        });
        Optional<Usuario> resultado = dialog.showAndWait();
 
-       resultado.ifPresent(usuario -> {
+
+        resultado.ifPresent(usuario -> {
            // si el usuario no es nulo
            // Mostrar un mensaje al usuario
            Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -253,6 +257,13 @@ public class UsuariosController implements Initializable {
            alert.setContentText("Los cambios en el usuario han sido guardados correctamente.");
            actualizarUsuario(userSelected);
            alert.showAndWait();
+            if(usuarioActual){
+                try {
+                    FuncionesMenu.cambiarVentana(event,"/com/java/fx/log.fxml","Log",false);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
        });
 
    }
@@ -262,6 +273,14 @@ public class UsuariosController implements Initializable {
         Usuario userSelected=table.getSelectionModel().getSelectedItem();
         if(userSelected==null){
             FuncionesMenu.mostrarMensajeAlerta("Selección Requerida", "Debe seleccionar un usuario de la tabla");
+            return;
+        }
+       //COMPRUEBO QUE NO SE ELIMINE EL USUARIO CON EL QUE SE HA INICIADO SESIÓN
+       System.out.println(UsuarioUtils.getUsuarioActual().getNombreUsuario());
+        Usuario userActual=UsuarioUtils.getUsuarioActual();
+
+        if(UsuarioUtils.getUsuarioActual() !=null && userSelected.getDni().equals(userActual.getDni())){
+            FuncionesMenu.mostrarMensajeAlerta("Acción Prhibida","No puede eliminar el usuario con el que se ha iniciaciado esión");
             return;
         }
         FuncionesMenu.eliminarEntidad(userSelected,usuario -> {
