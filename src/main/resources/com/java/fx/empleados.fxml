@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.Controllers.EmpleadosController">
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.Controllers.EmpleadosController">
    <children>
       <BorderPane layoutX="60.0" layoutY="78.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -96,14 +96,16 @@
             </VBox>
          </right>
          <center>
-            <TableView fx:id="tablaEmpleados" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tablaEmpleados" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="50.0" BorderPane.alignment="CENTER">
                <columns>
-                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="DNI/NIE" />
-                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="NOMBRE" />
-                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="APELLIDOS" />
-                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="EDAD" />
-                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="EMAIL" />
-                  <TableColumn maxWidth="1.7976931348623157E308" prefWidth="100.0" text="DIRECCIÓN" />
+                  <TableColumn fx:id="columDni" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="DNI/NIE" />
+                  <TableColumn fx:id="columNombre" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="NOMBRE" />
+                  <TableColumn fx:id="columApellidos" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="APELLIDOS" />
+                  <TableColumn fx:id="columnEdad" maxWidth="1.7976931348623157E308" prefWidth="50.0" text="EDAD" />
+                  <TableColumn fx:id="columEmail" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="EMAIL" />
+                  <TableColumn fx:id="columDirecicon" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="DIRECCIÓN" />
+                  <TableColumn fx:id="columCuenta" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="CUENTA BANCARIA" />
+                  <TableColumn fx:id="columTelefono" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="TELÉFONO" />
                </columns>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" />

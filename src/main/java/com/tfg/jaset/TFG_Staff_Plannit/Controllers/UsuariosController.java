@@ -7,7 +7,7 @@ import com.tfg.jaset.TFG_Staff_Plannit.Repositories.UsuarioRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
@@ -78,6 +78,19 @@ public class UsuariosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //configuro los datos que quiero mostrar y los asocio con las propiedades de la clase Usuario
+        columDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
+        columUser.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
+        columPermiso.setCellValueFactory(new PropertyValueFactory<>("permiso"));
+
+        // Agrega un manejador de clics a la escena
+        pane.setOnMouseClicked(event -> {
+            // Comprueba si el clic fue fuera de la TableView
+            if(!isDescendant(event.getTarget(),table)){
+                table.getSelectionModel().clearSelection();
+            }
+        });
+
         // hago que el raton cambie de forma cuando pasa por un boton
         btnModificar.setCursor(Cursor.HAND);
         btnBuscar.setCursor(Cursor.HAND);
@@ -91,7 +104,7 @@ public class UsuariosController implements Initializable {
             btnEliminar.setDisable(true);
             btnModificar.setDisable(true);
         }
-        refrescarTablaUsuarios();
+        FuncionesMenu.refrescarDatosTabla(table, userRepository);
 
         //configuro los datos que quiero mostrar y los asocio con las propiedades de la clase Usuario
         columDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
@@ -188,7 +201,7 @@ public class UsuariosController implements Initializable {
             }
             else{
                 FuncionesMenu.mostrarMensajeAlerta("Insersión exitosa",resultado);
-                refrescarTablaUsuarios();
+                FuncionesMenu.refrescarDatosTabla(table, userRepository);
             }
         });
         dialog.getDialogPane().getScene().getWindow().addEventFilter(WindowEvent.WINDOW_SHOWN, event -> {
@@ -297,7 +310,7 @@ public class UsuariosController implements Initializable {
         }
         FuncionesMenu.eliminarEntidad(userSelected,usuario -> {
             userRepository.delete(usuario);
-            refrescarTablaUsuarios();
+            FuncionesMenu.refrescarDatosTabla(table, userRepository);
             FuncionesMenu.mostrarMensajeAlerta("Eliminación Existosa.","El usuario se ha eliminado correctamente.");
         });
    }
@@ -305,14 +318,10 @@ public class UsuariosController implements Initializable {
     private void actualizarUsuario(Usuario userSelected) {
         // Guardar el usuario actualizado en la base de datos
         userRepository.save(userSelected);
-        refrescarTablaUsuarios();
+        FuncionesMenu.refrescarDatosTabla(table, userRepository);
     }
 
-    private void refrescarTablaUsuarios() {
-        // Recargar la lista de usuarios desde la base de datos y actualizar la TableView
-        List<Usuario> usuarios = userRepository.findAll();
-        table.setItems(FXCollections.observableArrayList(usuarios));
-    }
+
 
 
 }

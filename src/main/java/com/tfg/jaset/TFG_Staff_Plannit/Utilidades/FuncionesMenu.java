@@ -1,15 +1,13 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Utilidades;
 
 import com.sun.javafx.scene.traversal.Direction;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -23,6 +21,7 @@ import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public class FuncionesMenu {
@@ -43,6 +42,12 @@ public class FuncionesMenu {
         Image logo=new Image(FuncionesMenu.class.getResourceAsStream("/images/staffPlannit.jpg"));
         stageActual.getIcons().add(logo);
         stageActual.show();
+    }
+
+    // MÉTODO PARA CARGAR LOS DATOS EN LAS TABLAS MI UI
+    public static <T> void refrescarDatosTabla(TableView<T> tabla, JpaRepository<T,?> repository){
+        List<T> registros=repository.findAll();
+        tabla.setItems(FXCollections.observableArrayList(registros));
     }
     //METODO PARA VALIDAR QUE TODOS LOS CAMPOS DE UNA ESCENA, ESTEN RELLENOS
     public static  boolean camposCompletos(TextInputControl ... campos){
