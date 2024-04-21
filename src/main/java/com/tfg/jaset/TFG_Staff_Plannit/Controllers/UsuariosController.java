@@ -86,6 +86,11 @@ public class UsuariosController implements Initializable {
         btnVerDatos.setCursor(Cursor.HAND);
         btnNewUser.setCursor(Cursor.HAND);
 
+        //DESHABILITO LOS BOTONES DE ELIMINAR Y MODIFICAR, SEGUN SU PERMISO
+        if(UsuarioUtils.getUsuarioActual().getPermiso().equals("USER")){
+            btnEliminar.setDisable(true);
+            btnModificar.setDisable(true);
+        }
         refrescarTablaUsuarios();
 
         //configuro los datos que quiero mostrar y los asocio con las propiedades de la clase Usuario
@@ -195,14 +200,21 @@ public class UsuariosController implements Initializable {
     @FXML
    private  void mostrarDialogModificarUsuario(ActionEvent event){
         boolean usuarioActual;
+        boolean seguir;
         Usuario userSelected=table.getSelectionModel().getSelectedItem();
         if(userSelected.getDni().equals(UsuarioUtils.getUsuarioActual().getDni())){
-            FuncionesMenu.mostrarDialogConfirmacion("Modificación Usuario Aactual",
+
+            seguir=FuncionesMenu.mostrarDialogConfirmacion("Modificación Usuario Aactual",
                     "Va a modificar el usuario con el que ha iniciado sesión. Tendrá que volver a iniciar sesión.");
+            if(!seguir){
+                return;
+            }
             usuarioActual=true;
         }else{
             usuarioActual=false;
         }
+
+
 
         //creo el DIALOG para modificar al usuario
        Dialog<Usuario>dialog=new Dialog<>();

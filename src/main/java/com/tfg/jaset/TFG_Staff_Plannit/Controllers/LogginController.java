@@ -65,6 +65,7 @@ public class LogginController implements Initializable {
             //el usuario existe
             //almaceno al usuario que ha iniciado sesión
             UsuarioUtils.setUsuarioActual(userLogeado.get());
+
             FuncionesMenu.cambiarVentana(event,"/com/java/fx/inicio.fxml","INICIO",true);
         }else{
             // Usuario no existe o contraseña incorrecta
