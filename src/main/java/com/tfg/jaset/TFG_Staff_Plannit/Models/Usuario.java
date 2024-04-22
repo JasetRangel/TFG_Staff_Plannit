@@ -20,7 +20,7 @@ public class Usuario {
     private String dni;
 
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)// HE CAMBIADO DE LAZY A EAGER
     @JoinColumn(name = "dni", referencedColumnName = "dni", insertable = false, updatable = false)
     private Empleado empleado;
 

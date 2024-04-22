@@ -83,7 +83,7 @@ public class InicioController extends MenuController implements Initializable  {
         btnEventos.setCursor(Cursor.HAND);
         btnUsuarios.setCursor(Cursor.HAND);
         btnMenu.setCursor(Cursor.HAND);
-        labelNombre.setText(usuarioActual.getNombreUsuario());
+        labelNombre.setText(usuarioActual.getEmpleado().getNombre());
 
 
 

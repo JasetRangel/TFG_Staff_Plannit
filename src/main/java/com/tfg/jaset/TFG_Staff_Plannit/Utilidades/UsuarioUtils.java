@@ -47,9 +47,7 @@ public class UsuarioUtils {
         return usuarioActual;
     }
 
-    public static  void setUserPermiso(Usuario u){
-        usuarioActual.setPermiso(u.getPermiso());
-    }
-   // public static String getPermiso
+
+
 
 }

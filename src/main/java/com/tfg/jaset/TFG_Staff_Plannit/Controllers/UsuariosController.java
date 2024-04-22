@@ -100,10 +100,8 @@ public class UsuariosController implements Initializable {
         btnNewUser.setCursor(Cursor.HAND);
 
         //DESHABILITO LOS BOTONES DE ELIMINAR Y MODIFICAR, SEGUN SU PERMISO
-        if(UsuarioUtils.getUsuarioActual().getPermiso().equals("USER")){
-            btnEliminar.setDisable(true);
-            btnModificar.setDisable(true);
-        }
+        FuncionesMenu.desactivarByPermiso(btnEliminar,btnModificar);
+
         FuncionesMenu.refrescarDatosTabla(table, userRepository);
 
         //configuro los datos que quiero mostrar y los asocio con las propiedades de la clase Usuario
@@ -227,8 +225,6 @@ public class UsuariosController implements Initializable {
             usuarioActual=false;
         }
 
-
-
         //creo el DIALOG para modificar al usuario
        Dialog<Usuario>dialog=new Dialog<>();
        dialog.setTitle("Modificar Usuario");
@@ -301,7 +297,7 @@ public class UsuariosController implements Initializable {
             return;
         }
        //COMPRUEBO QUE NO SE ELIMINE EL USUARIO CON EL QUE SE HA INICIADO SESIÓN
-       System.out.println(UsuarioUtils.getUsuarioActual().getNombreUsuario());
+
         Usuario userActual=UsuarioUtils.getUsuarioActual();
 
         if(UsuarioUtils.getUsuarioActual() !=null && userSelected.getDni().equals(userActual.getDni())){

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -108,6 +109,20 @@ public class FuncionesMenu {
                 }
             }
         });
+    }
+
+    //MÉTODO PARA ELIMINAR DESACTIVAR O NO LOS BOTONES SEGÚN EL PERMISO DEL USUARIO
+    public static  void desactivarByPermiso(Button ... botones){
+        if(UsuarioUtils.getUsuarioActual().getPermiso().equals("USER")){
+            for(Button b:botones){
+                b.setDisable(true);
+            }
+        }
+    }
+
+    //MÉTODO PARA ACTUALIZAR LOS CAMBIOS HECHOS SOBRE UN OBJETO
+    public static <T> void actualizarObjeto(JpaRepository<T,?> repository, T entidad){
+         repository.save(entidad);
     }
 
 
