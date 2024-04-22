@@ -2,6 +2,7 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 
 
+import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Usuario;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.SpringContextUtil;
@@ -63,7 +64,7 @@ public class InicioController extends MenuController implements Initializable  {
     private AnchorPane slider;
 
     @FXML
-    private StackPane contenidoPane;
+    public static StackPane contenidoPane;
 
 
     private DateTimeFormatter formatter= DateTimeFormatter.ofPattern("HH:mm");
@@ -119,30 +120,30 @@ public class InicioController extends MenuController implements Initializable  {
 
     }
     // Método para cambiar el contenido del StackPane
-    private void mostrarVista(String fxmlArchivo) throws IOException {
+    /*private void mostrarVista(String fxmlArchivo) throws IOException {
         contenidoPane.getChildren().clear(); // Limpiar el contenido actual
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlArchivo));
         // Establecer la fábrica del controlador para integrar con Spring
         fxmlLoader.setControllerFactory(SpringContextUtil.getContext()::getBean);
         Node vista = fxmlLoader.load(); // Cargar la nueva vista usando el fxmlLoader configurado
         contenidoPane.getChildren().add(vista); // Añadir la vista al StackPane
-    }
+    }*/
 
     @FXML
     private void mostrarClientes(ActionEvent event) throws IOException {
-        mostrarVista("/com/java/fx/clientes.fxml");
+        FuncionesMenu.mostrarVista(Main.context,contenidoPane,"/com/java/fx/clientes.fxml");
     }
     @FXML
     private void mostrarEmpleados(ActionEvent event) throws IOException {
-        mostrarVista("/com/java/fx/empleados.fxml");
+        FuncionesMenu.mostrarVista(Main.context,contenidoPane,"/com/java/fx/empleados.fxml");
     }
     @FXML
     private void mostrarUsuarios(ActionEvent event) throws IOException {
-        mostrarVista("/com/java/fx/usuarios.fxml");
+        FuncionesMenu.mostrarVista(Main.context,contenidoPane,"/com/java/fx/usuarios.fxml");
     }
     @FXML
     private void mostrarEventos(ActionEvent event) throws IOException {
-        mostrarVista("/com/java/fx/eventos.fxml");
+        FuncionesMenu.mostrarVista(Main.context,contenidoPane,"/com/java/fx/eventos.fxml");
     }
 
 

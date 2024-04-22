@@ -1,5 +1,6 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
+import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -96,6 +98,16 @@ public class EmpleadosController implements Initializable {
             }
         });
         FuncionesMenu.refrescarDatosTabla(tablaEmpleados,empleadoRepository);
+        // Agregar un listener a la propiedad selectedItemProperty de la tabla.
+        tablaEmpleados.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                try {
+                    FuncionesMenu.mostrarVista(Main.context,InicioController.contenidoPane,"com/java/fx/crudEmpleados.fxml");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);//MANEJAR ESTA EXCEPCIÓN
+                }
+            }
+        });
     }
 
     // Verifica si el nodo es o está dentro de la TableView
@@ -129,6 +141,11 @@ public class EmpleadosController implements Initializable {
             FuncionesMenu.refrescarDatosTabla(tablaEmpleados, empleadoRepository);
             FuncionesMenu.mostrarMensajeAlerta("Eliminación Existosa.","El usuario se ha eliminado correctamente.");
         });
+    }
+
+    @FXML
+    private void datosEmpleados(){
+
     }
 
     @FXML

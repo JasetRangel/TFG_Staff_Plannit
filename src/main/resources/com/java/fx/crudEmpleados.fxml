@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.CrudControllers.CrudEmpleados">
+   <children>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox layoutX="100.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #1A1769;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../../../images/update.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="btnActualizar" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="ACTUALIZAR" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnEliminar" layoutX="40.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="ELIMINAR" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/Delete.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnVerInforme" layoutX="140.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="VER INFORME" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/pdf.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnInformar" layoutX="240.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="INFORMAR" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/sendPDF.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding>
+            </HBox>
+            <Label layoutX="20.0" layoutY="70.0" prefHeight="30.0" prefWidth="80.0" text="NOMBRE:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="120.0" prefHeight="30.0" prefWidth="80.0" text="APELLIDOS:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="80.0" text="DNI/NIE:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="170.0" prefHeight="30.0" prefWidth="80.0" text="EDAD:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField layoutX="110.0" layoutY="20.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField layoutX="110.0" layoutY="70.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField layoutX="110.0" layoutY="120.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField layoutX="110.0" layoutY="170.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <Label layoutX="290.0" layoutY="20.0" prefHeight="30.0" prefWidth="80.0" text="EMAIL:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="285.0" layoutY="70.0" prefHeight="30.0" prefWidth="80.0" text="DIRECCIÓN:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="290.0" layoutY="120.0" prefHeight="30.0" prefWidth="80.0" text="C. BANCARIA:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="290.0" layoutY="170.0" prefHeight="30.0" prefWidth="80.0" text="TELÉFONO:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField layoutX="390.0" layoutY="20.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField layoutX="390.0" layoutY="70.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField layoutX="390.0" layoutY="120.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField layoutX="390.0" layoutY="170.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

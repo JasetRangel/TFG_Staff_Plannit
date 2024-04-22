@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,10 +23,12 @@ import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public class FuncionesMenu {
+
     public static void cambiarVentana( ActionEvent event, String rutaFXML, String tituloVentana, boolean forma) throws IOException {
         FXMLLoader fxml=new FXMLLoader(FuncionesMenu.class.getResource(rutaFXML));//cargo el fxml de la ventana nueva
         // Obteniendo el contexto de Spring desde la clase de utilidad
@@ -43,6 +46,14 @@ public class FuncionesMenu {
         Image logo=new Image(FuncionesMenu.class.getResourceAsStream("/images/staffPlannit.jpg"));
         stageActual.getIcons().add(logo);
         stageActual.show();
+    }
+
+    // MÉTODO PARA PONER UNA VISTA DENTRO DEL PANE DE LA VENTANA PRINCIPAL
+    public static void mostrarVista(ApplicationContext springContext, StackPane contenedor, String rutaFXML) throws IOException {
+        FXMLLoader loader = new FXMLLoader(FuncionesMenu.class.getResource(rutaFXML));
+        loader.setControllerFactory(springContext::getBean);
+        Node vista = loader.load();
+        contenedor.getChildren().setAll(vista);
     }
 
     // MÉTODO PARA CARGAR LOS DATOS EN LAS TABLAS MI UI
