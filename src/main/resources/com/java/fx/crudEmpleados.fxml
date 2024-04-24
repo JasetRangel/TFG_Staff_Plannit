@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.CrudControllers.CrudEmpleados">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -77,54 +76,54 @@
                   <Insets left="30.0" right="30.0" />
                </padding>
             </HBox>
-            <Label layoutX="20.0" layoutY="70.0" prefHeight="30.0" prefWidth="80.0" text="NOMBRE:">
+            <Label layoutX="20.0" layoutY="120.0" prefHeight="30.0" prefWidth="80.0" text="NOMBRE:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="20.0" layoutY="120.0" prefHeight="30.0" prefWidth="80.0" text="APELLIDOS:">
+            <Label layoutX="20.0" layoutY="170.0" prefHeight="30.0" prefWidth="80.0" text="APELLIDOS:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="80.0" text="DNI/NIE:">
+            <Label layoutX="20.0" layoutY="70.0" prefHeight="30.0" prefWidth="80.0" text="DNI/NIE:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="20.0" layoutY="170.0" prefHeight="30.0" prefWidth="80.0" text="EDAD:">
+            <Label layoutX="20.0" layoutY="220.0" prefHeight="30.0" prefWidth="80.0" text="EDAD:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="110.0" layoutY="20.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField layoutX="110.0" layoutY="70.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField layoutX="110.0" layoutY="120.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField layoutX="110.0" layoutY="170.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <Label layoutX="290.0" layoutY="20.0" prefHeight="30.0" prefWidth="80.0" text="EMAIL:">
+            <TextField fx:id="txtDNI" layoutX="110.0" layoutY="70.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField fx:id="txtNombre" layoutX="110.0" layoutY="120.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField fx:id="txtApellidos" layoutX="110.0" layoutY="170.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField fx:id="txtEdad" layoutX="110.0" layoutY="220.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <Label layoutX="290.0" layoutY="70.0" prefHeight="30.0" prefWidth="80.0" text="EMAIL:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="285.0" layoutY="70.0" prefHeight="30.0" prefWidth="80.0" text="DIRECCIÓN:">
+            <Label layoutX="285.0" layoutY="120.0" prefHeight="30.0" prefWidth="80.0" text="DIRECCIÓN:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="290.0" layoutY="120.0" prefHeight="30.0" prefWidth="80.0" text="C. BANCARIA:">
+            <Label layoutX="290.0" layoutY="170.0" prefHeight="30.0" prefWidth="80.0" text="C. BANCARIA:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="290.0" layoutY="170.0" prefHeight="30.0" prefWidth="80.0" text="TELÉFONO:">
+            <Label layoutX="290.0" layoutY="220.0" prefHeight="30.0" prefWidth="80.0" text="TELÉFONO:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="390.0" layoutY="20.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField layoutX="390.0" layoutY="70.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField layoutX="390.0" layoutY="120.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField layoutX="390.0" layoutY="170.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField fx:id="txtEmail" layoutX="390.0" layoutY="70.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField fx:id="txtDireccion" layoutX="390.0" layoutY="120.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField fx:id="txtBanco" layoutX="390.0" layoutY="170.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <TextField fx:id="txtTel" layoutX="390.0" layoutY="220.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
          </children>
       </AnchorPane>
    </children>

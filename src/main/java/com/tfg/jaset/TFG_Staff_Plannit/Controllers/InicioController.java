@@ -64,13 +64,14 @@ public class InicioController extends MenuController implements Initializable  {
     private AnchorPane slider;
 
     @FXML
-    public static StackPane contenidoPane;
-
+    public StackPane contenidoPane;
+    private static StackPane contenidoPaneStatic;
 
     private DateTimeFormatter formatter= DateTimeFormatter.ofPattern("HH:mm");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        contenidoPaneStatic=contenidoPane;// Asigno el StackPane de la instancia al estático
         //ALMACENO AL OBJETO USUARIO ACTUAL
         Usuario usuarioActual= UsuarioUtils.getUsuarioActual();
         //obtengo la hora actual
@@ -101,6 +102,10 @@ public class InicioController extends MenuController implements Initializable  {
 
 
 
+    }
+
+    public static StackPane getContenidoPane() {
+        return contenidoPaneStatic;
     }
 
     private void inicializarReloj() {

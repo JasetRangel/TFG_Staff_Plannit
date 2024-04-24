@@ -23,11 +23,25 @@ import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public class FuncionesMenu {
+
+    @Getter
+    @Setter
+    private static Object objetoSeleccionado;
+/*
+    public static Object getObjetoSeleccionado() {
+        return objetoSeleccionado;
+    }
+
+    public static void setObjetoSeleccionado(Object objeto) {
+        objetoSeleccionado = objeto;
+    } */
 
     public static void cambiarVentana( ActionEvent event, String rutaFXML, String tituloVentana, boolean forma) throws IOException {
         FXMLLoader fxml=new FXMLLoader(FuncionesMenu.class.getResource(rutaFXML));//cargo el fxml de la ventana nueva

@@ -101,11 +101,9 @@ public class EmpleadosController implements Initializable {
         // Agregar un listener a la propiedad selectedItemProperty de la tabla.
         tablaEmpleados.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                try {
-                    FuncionesMenu.mostrarVista(Main.context,InicioController.contenidoPane,"com/java/fx/crudEmpleados.fxml");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);//MANEJAR ESTA EXCEPCIÓN
-                }
+                Empleado empleadoSelected=tablaEmpleados.getSelectionModel().getSelectedItem();
+                FuncionesMenu.setObjetoSeleccionado(empleadoSelected);
+                Main.cambiarVista("/com/java/fx/crudEmpleados.fxml");
             }
         });
     }
