@@ -4,6 +4,7 @@ import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,9 @@ public class CrudEmpleados implements Initializable {
 
     @FXML
     private Button btnVerInforme;
+
+    @FXML
+    private  Button btnVolver;
 
     @FXML
     private TextField txtApellidos;
@@ -61,5 +65,13 @@ public class CrudEmpleados implements Initializable {
         txtTel.setText(empleado.getTelefono());
         txtBanco.setText(empleado.getCuentaBancaria());
 
+        btnActualizar.setCursor(Cursor.HAND);
+        btnEliminar.setCursor(Cursor.HAND);
+        btnInformar.setCursor(Cursor.HAND);
+        btnVerInforme.setCursor(Cursor.HAND);
+        btnVolver.setCursor(Cursor.HAND);
+
     }
+
+
 }
