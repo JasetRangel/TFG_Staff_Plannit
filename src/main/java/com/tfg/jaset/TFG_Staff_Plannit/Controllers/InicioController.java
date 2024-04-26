@@ -5,16 +5,13 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Usuario;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
-import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.SpringContextUtil;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -67,7 +64,7 @@ public class InicioController extends MenuController implements Initializable  {
     public StackPane contenidoPane;
     private static StackPane contenidoPaneStatic;
 
-    private DateTimeFormatter formatter= DateTimeFormatter.ofPattern("HH:mm");
+    private final DateTimeFormatter formatter= DateTimeFormatter.ofPattern("HH:mm");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -87,8 +84,6 @@ public class InicioController extends MenuController implements Initializable  {
         btnMenu.setCursor(Cursor.HAND);
         labelNombre.setText(usuarioActual.getEmpleado().getNombre());
 
-
-
         inicializarReloj();
 
         btnCerrarSesion.setOnAction(event -> {
@@ -99,9 +94,6 @@ public class InicioController extends MenuController implements Initializable  {
                 throw new RuntimeException(e);
             }
         });
-
-
-
     }
 
     public static StackPane getContenidoPane() {
@@ -122,33 +114,22 @@ public class InicioController extends MenuController implements Initializable  {
     @FXML
     private  void mostrarMenu(ActionEvent event){
         this.desplazarMenu(event,slider);
-
     }
-    // Método para cambiar el contenido del StackPane
-    /*private void mostrarVista(String fxmlArchivo) throws IOException {
-        contenidoPane.getChildren().clear(); // Limpiar el contenido actual
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlArchivo));
-        // Establecer la fábrica del controlador para integrar con Spring
-        fxmlLoader.setControllerFactory(SpringContextUtil.getContext()::getBean);
-        Node vista = fxmlLoader.load(); // Cargar la nueva vista usando el fxmlLoader configurado
-        contenidoPane.getChildren().add(vista); // Añadir la vista al StackPane
-    }*/
-
     @FXML
     private void mostrarClientes(ActionEvent event) throws IOException {
-        FuncionesMenu.mostrarVista(Main.context,contenidoPane,"/com/java/fx/clientes.fxml");
+        Main.cambiarVista("/com/java/fx/clientes.fxml");
     }
     @FXML
     private void mostrarEmpleados(ActionEvent event) throws IOException {
-        FuncionesMenu.mostrarVista(Main.context,contenidoPane,"/com/java/fx/empleados.fxml");
+        Main.cambiarVista("/com/java/fx/empleados.fxml");
     }
     @FXML
     private void mostrarUsuarios(ActionEvent event) throws IOException {
-        FuncionesMenu.mostrarVista(Main.context,contenidoPane,"/com/java/fx/usuarios.fxml");
+        Main.cambiarVista("/com/java/fx/usuarios.fxml");
     }
     @FXML
     private void mostrarEventos(ActionEvent event) throws IOException {
-        FuncionesMenu.mostrarVista(Main.context,contenidoPane,"/com/java/fx/eventos.fxml");
+        Main.cambiarVista("/com/java/fx/eventos.fxml");
     }
 
 

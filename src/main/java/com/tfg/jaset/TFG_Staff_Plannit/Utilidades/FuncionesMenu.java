@@ -1,6 +1,6 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Utilidades;
 
-import com.sun.javafx.scene.traversal.Direction;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -16,13 +16,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationContext;
@@ -50,6 +48,7 @@ public class FuncionesMenu {
 
         // Crear una nueva escena con la vista cargada
         Scene scene=new Scene(fxml.load());
+
 
         // Obtengo la ventana actual y la sustituyo con la nueva ventana
         Stage stageActual= (Stage) ((Node)event.getSource()).getScene().getWindow();

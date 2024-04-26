@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +19,6 @@ import java.io.IOException;
 @SpringBootApplication
 public class Main extends Application {
 
-	//public static ConfigurableApplicationContext springContext;
-
-	private StackPane rootPane;
 	private static Main instance;
 	public Main() {
 		instance = this;
@@ -30,14 +26,6 @@ public class Main extends Application {
 	@Getter
 	@Setter
 	private static Object objetoSeleccionado;
-	/*
-	public static Object getObjetoSeleccionado() {
-		return objetoSeleccionado;
-	}
-
-	public static void setObjetoSeleccionado(Object objeto) {
-		objetoSeleccionado = objeto;
-	}*/
 
 	public static Main getInstance() {
 		return instance;
@@ -73,7 +61,7 @@ public class Main extends Application {
 			Node vista = loader.load();
 			InicioController.getContenidoPane().getChildren().setAll(vista);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
