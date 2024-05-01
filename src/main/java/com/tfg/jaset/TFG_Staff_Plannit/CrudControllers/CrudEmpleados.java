@@ -11,6 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,6 +63,18 @@ public class CrudEmpleados implements Initializable {
     @FXML
     private TextField txtTel;
 
+    @FXML
+    private HBox padre;
+
+    @FXML
+    private HBox padreBotonones;
+
+    @FXML
+    private VBox padreColun1;
+
+    @FXML
+    private VBox padreColun2;
+
     @Autowired
     private EmpleadoRepository empleadoRepository;
     @Autowired
@@ -68,6 +83,17 @@ public class CrudEmpleados implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        txtDNI.setFocusTraversable(true);
+        txtDireccion.setFocusTraversable(true);
+        txtEdad.setFocusTraversable(true);
+        txtEmail.setFocusTraversable(true);
+        txtNombre.setFocusTraversable(true);
+        txtTel.setFocusTraversable(true);
+        txtApellidos.setFocusTraversable(true);
+        txtBanco.setFocusTraversable(true);
+
+        padreColun2.setFocusTraversable(true);
+        padreBotonones.setFocusTraversable(true);
         Empleado empleado= (Empleado) FuncionesMenu.getObjetoSeleccionado();
         if(empleado==null){
 
@@ -87,7 +113,11 @@ public class CrudEmpleados implements Initializable {
             btnVerInforme.setCursor(Cursor.HAND);
             btnVolver.setCursor(Cursor.HAND);
         }
+        //FuncionesMenu.tabular(padreColun1);
+        FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
+       // FuncionesMenu.tabular(padreColun2);
 
+        FuncionesMenu.configurarEstiloBotones(btnActualizar,btnEliminar,btnInformar,btnVerInforme,btnVolver);
 
     }
     @FXML

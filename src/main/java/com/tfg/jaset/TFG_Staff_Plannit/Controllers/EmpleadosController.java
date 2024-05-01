@@ -99,13 +99,18 @@ public class EmpleadosController implements Initializable {
         });
         FuncionesMenu.refrescarDatosTabla(tablaEmpleados,empleadoRepository);
         // Agregar un listener a la propiedad selectedItemProperty de la tabla.
-        tablaEmpleados.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                Empleado empleadoSelected=tablaEmpleados.getSelectionModel().getSelectedItem();
-                FuncionesMenu.setObjetoSeleccionado(empleadoSelected);
-                Main.cambiarVista("/com/java/fx/crudEmpleados.fxml");
-            }
+        FuncionesMenu.configurarTabla(tablaEmpleados, empleado -> {
+            Empleado empleadoSelected=tablaEmpleados.getSelectionModel().getSelectedItem();
+            FuncionesMenu.setObjetoSeleccionado(empleadoSelected);
+            Main.cambiarVista("/com/java/fx/crudEmpleados.fxml");
         });
+//        tablaEmpleados.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+//            if (newSelection != null) {
+//                Empleado empleadoSelected=tablaEmpleados.getSelectionModel().getSelectedItem();
+//                FuncionesMenu.setObjetoSeleccionado(empleadoSelected);
+//                Main.cambiarVista("/com/java/fx/crudEmpleados.fxml");
+//            }
+//        });
     }
 
     // Verifica si el nodo es o está dentro de la TableView

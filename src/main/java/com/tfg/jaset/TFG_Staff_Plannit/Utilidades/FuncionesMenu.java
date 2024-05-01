@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -110,30 +111,91 @@ public class FuncionesMenu {
     }
 
     // MÉTODO PARA TABULAR, ES DECIR, CAMIAR DE UN CAMPO A OTRO
-    public static void tabular(Parent parent) {
-        // Ordena los nodos por su posición en el eje Y para seguir el flujo visual top-down
-        List<Node> focusableNodes = parent.getChildrenUnmodifiable().stream()
-                .filter(Node::isFocusTraversable)
-                .sorted(Comparator.comparingDouble(Node::getLayoutY))
-                .collect(Collectors.toList());
+    public static void tabular(Parent... parents) {
+        List<Node> focusableNodes = new ArrayList<>();
 
-        parent.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER) {
+        // Agregamos todos los nodos enfocables de todos los contenedores.
+        for (Parent parent : parents) {
+            focusableNodes.addAll(parent.getChildrenUnmodifiable().stream()
+                    .filter(Node::isFocusTraversable)
+                    .collect(Collectors.toList()));
+        }
+
+        // Ordenamos todos los nodos por su posición en el eje Y para una navegación coherente.
+        focusableNodes.sort(Comparator.comparingDouble(Node::getLayoutY));
+
+        for (Parent parent : parents) {
+            parent.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
                 Node currentNode = (Node) event.getTarget();
                 int currentIndex = focusableNodes.indexOf(currentNode);
+                int nextIndex = currentIndex;
+
                 if (currentIndex != -1) {
-                    if (currentNode instanceof Button) {
+                    if (event.getCode() == KeyCode.ENTER && currentNode instanceof Button) {
                         ((Button) currentNode).fire();  // Ejecuta la acción del botón
-                    } else {
-                        // Calcula el índice del siguiente nodo enfocable y solicita el foco
-                        int nextIndex = (currentIndex + 1) % focusableNodes.size();
-                        focusableNodes.get(nextIndex).requestFocus();
+                        event.consume();
+                    } else if (event.getCode() == KeyCode.DOWN) {
+                        nextIndex = (currentIndex + 1) % focusableNodes.size(); // Siguiente nodo
+                    } else if (event.getCode() == KeyCode.UP) {
+                        nextIndex = (currentIndex - 1 + focusableNodes.size()) % focusableNodes.size(); // Nodo anterior
+                    } else if (event.getCode() == KeyCode.ENTER) {
+                        nextIndex = (currentIndex + 1) % focusableNodes.size(); // Siguiente nodo en Enter si no es un botón
                     }
-                    event.consume();
+
+                    if (nextIndex != currentIndex) {
+                        focusableNodes.get(nextIndex).requestFocus();
+                        event.consume();
+                    }
+                }
+            });
+        }
+    }
+    // MÉTODO PARA NAVEGAR DENTRO DE LA TABLA
+    public static <T> void configurarTabla(TableView<T> tabla, Consumer<T> accion) {
+        tabla.setRowFactory(tv -> {
+            TableRow<T> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    T rowData = row.getItem();
+                    accion.accept(rowData);
+                }
+            });
+            return row;
+        });
+
+        tabla.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                T selected = tabla.getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    accion.accept(selected);
                 }
             }
         });
     }
+
+
+    public static void configurarEstiloBotones(Button... botones) {
+        for (Button boton : botones) {
+
+            // Añadir listeners para el enfoque y el hover del mouse
+            boton.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+                if (isNowFocused) {
+                    boton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+                } else if (!boton.isHover()) {
+                    boton.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
+                }
+            });
+
+            boton.hoverProperty().addListener((obs, wasHovered, isNowHovered) -> {
+                if (isNowHovered) {
+                    boton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+                } else if (!boton.isFocused()) {
+                    boton.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
+                }
+            });
+        }
+    }
+
 
     //MÉTODO PARA ELIMINAR DESACTIVAR O NO LOS BOTONES SEGÚN EL PERMISO DEL USUARIO
     public static  void desactivarByPermiso(Button ... botones){

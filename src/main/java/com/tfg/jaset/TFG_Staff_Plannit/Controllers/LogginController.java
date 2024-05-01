@@ -46,7 +46,7 @@ public class LogginController implements Initializable {
         txtPassword.setFocusTraversable(true);
         btnLogin.setFocusTraversable(true);
         FuncionesMenu.tabular(logPane);
-
+        FuncionesMenu.configurarEstiloBotones(btnLogin);
 
 
         btnLogin.setCursor(Cursor.HAND);

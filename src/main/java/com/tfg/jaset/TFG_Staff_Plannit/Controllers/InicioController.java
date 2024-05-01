@@ -71,8 +71,8 @@ public class InicioController extends MenuController implements Initializable  {
         contenidoPaneStatic=contenidoPane;// Asigno el StackPane de la instancia al estático
         //ALMACENO AL OBJETO USUARIO ACTUAL
         Usuario usuarioActual= UsuarioUtils.getUsuarioActual();
-        //obtengo la hora actual
 
+        FuncionesMenu.configurarEstiloBotones(btnCerrarSesion,btnClienttes,btnEmpleados,btnSalir,btnEventos,btnUsuarios);
 
         // combio de forma al cursor al pasar por encima de un boton
         btnCerrarSesion.setCursor(Cursor.HAND);

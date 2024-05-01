@@ -8,22 +8,15 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.CrudControllers.CrudEmpleados">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox layoutX="100.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #1A1769;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox fx:id="padreBotonones" layoutX="100.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #1A1769;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                     <image>
-                        <Image url="@../../../images/update.png" />
-                     </image>
-                  </ImageView>
                   <Button fx:id="btnActualizar" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="ACTUALIZAR" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
@@ -31,6 +24,13 @@
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/update.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                   <Button fx:id="btnEliminar" layoutX="40.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#eliminar" style="-fx-background-color: transparent;" text="ELIMINAR" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <font>
@@ -88,54 +88,142 @@
                   <Insets left="30.0" right="30.0" />
                </padding>
             </HBox>
-            <Label layoutX="20.0" layoutY="120.0" prefHeight="30.0" prefWidth="80.0" text="NOMBRE:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="20.0" layoutY="170.0" prefHeight="30.0" prefWidth="80.0" text="APELLIDOS:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="20.0" layoutY="70.0" prefHeight="30.0" prefWidth="80.0" text="DNI/NIE:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="20.0" layoutY="220.0" prefHeight="30.0" prefWidth="80.0" text="EDAD:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtDNI" layoutX="110.0" layoutY="70.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField fx:id="txtNombre" layoutX="110.0" layoutY="120.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField fx:id="txtApellidos" layoutX="110.0" layoutY="170.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField fx:id="txtEdad" layoutX="110.0" layoutY="220.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <Label layoutX="290.0" layoutY="70.0" prefHeight="30.0" prefWidth="80.0" text="EMAIL:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="285.0" layoutY="120.0" prefHeight="30.0" prefWidth="80.0" text="DIRECCIÓN:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="290.0" layoutY="170.0" prefHeight="30.0" prefWidth="80.0" text="C. BANCARIA:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="290.0" layoutY="220.0" prefHeight="30.0" prefWidth="80.0" text="TELÉFONO:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtEmail" layoutX="390.0" layoutY="70.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField fx:id="txtDireccion" layoutX="390.0" layoutY="120.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField fx:id="txtBanco" layoutX="390.0" layoutY="170.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
-            <TextField fx:id="txtTel" layoutX="390.0" layoutY="220.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" />
+            <HBox fx:id="padre" layoutX="100.0" layoutY="79.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="80.0" text="DNI/NIE:" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label prefHeight="30.0" prefWidth="80.0" text="NOMBRE:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label prefHeight="30.0" prefWidth="80.0" text="APELLIDOS:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label prefHeight="30.0" prefWidth="80.0" text="EDAD:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="50.0" top="80.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox fx:id="padreColun1" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="SOMETIMES">
+                     <children>
+                        <TextField fx:id="txtDNI" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="txtNombre" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="txtApellidos" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="txtEdad" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                     <HBox.margin>
+                        <Insets top="80.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="80.0" text="EMAIL:" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label prefHeight="30.0" prefWidth="80.0" text="DIRECCIÓN:" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label prefHeight="30.0" prefWidth="80.0" text="C. BANCARIA:" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label prefHeight="30.0" prefWidth="80.0" text="TELÉFONO:" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="20.0" top="80.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox fx:id="padreColun2" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="SOMETIMES">
+                     <children>
+                        <TextField fx:id="txtEmail" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="txtDireccion" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="txtBanco" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="txtTel" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="50.0" top="80.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
    </children>
