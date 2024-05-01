@@ -147,10 +147,6 @@ public class CrudEmpleados implements Initializable {
 
 
     }
-    @FXML
-    private void actualizar(){
-
-    }
 
     @FXML
     private  void actualiza_InsertarEmpleado(){
