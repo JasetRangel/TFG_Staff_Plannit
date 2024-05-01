@@ -11,13 +11,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -38,6 +36,9 @@ public class CrudEmpleados implements Initializable {
 
     @FXML
     private  Button btnVolver;
+
+    @FXML
+    private Button btnGuardar;
 
     @FXML
     private TextField txtApellidos;
@@ -80,6 +81,7 @@ public class CrudEmpleados implements Initializable {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    private Empleado empleado;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -94,7 +96,7 @@ public class CrudEmpleados implements Initializable {
 
         padreColun2.setFocusTraversable(true);
         padreBotonones.setFocusTraversable(true);
-        Empleado empleado= (Empleado) FuncionesMenu.getObjetoSeleccionado();
+        empleado= (Empleado) FuncionesMenu.getObjetoSeleccionado();
         if(empleado!=null){
             txtDNI.setText(empleado.getDni());
             txtNombre.setText(empleado.getNombre());
@@ -112,7 +114,7 @@ public class CrudEmpleados implements Initializable {
             btnVolver.setCursor(Cursor.HAND);
         }
         FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
-        FuncionesMenu.configurarEstiloBotones(btnActualizar,btnEliminar,btnInformar,btnVerInforme,btnVolver);
+        FuncionesMenu.configurarEstiloBotones(btnActualizar,btnEliminar,btnInformar,btnVerInforme,btnVolver,btnGuardar);
 
     }
     @FXML
@@ -147,6 +149,32 @@ public class CrudEmpleados implements Initializable {
     }
     @FXML
     private void actualizar(){
+
+    }
+
+    @FXML
+    private  void actualiza_InsertarEmpleado(){
+        Empleado empleNuevo=new Empleado();
+        if(FuncionesMenu.camposCompletos(txtDNI,txtDireccion,txtApellidos,txtNombre,txtTel,txtEdad,txtBanco,txtEmail)){
+            empleNuevo.setDni(txtDNI.getText());
+            empleNuevo.setNombre(txtNombre.getText());
+            empleNuevo.setApellidos(txtApellidos.getText());
+            empleNuevo.setEmail(txtEmail.getText());
+            empleNuevo.setEdad(Integer.parseInt(txtEdad.getText()));
+            empleNuevo.setCuentaBancaria(txtBanco.getText());
+            empleNuevo.setDireccion(txtDireccion.getText());
+            empleNuevo.setTelefono(txtTel.getText());
+        }else {
+            FuncionesMenu.mostrarMensajeAlerta("Campos vacíos","Asegurese de que todos los campos estás rellenos");
+        }
+        if (empleado==null || empleado.esDiferente(empleado,empleNuevo)) {
+            if(FuncionesMenu.mostrarDialogConfirmacion("Guardar Cambios","¿Quiere guardar los cambios?")){
+                FuncionesMenu.actualizarObjeto(empleadoRepository,empleNuevo);
+            }
+        }else{
+            FuncionesMenu.mostrarMensajeAlerta("Cambios requeridos","No se ha hecho ningún cambio en el Empleado");
+        }
+
 
     }
 

@@ -43,4 +43,36 @@ public class Empleado {
     @OneToOne(mappedBy = "empleado")
     private Usuario usuario;
 
+    public Empleado() {
+
+    }
+
+    public boolean esDiferente(Empleado e1, Empleado e2) {
+        boolean esDiferente = false;
+        if(!e1.getDni().equals(e2.getDni())){
+            esDiferente = true;
+        }
+        if (!esDiferente && !e1.getNombre().equals(e2.getNombre())) {
+            esDiferente = true;
+        }
+        if (!esDiferente && !e1.getApellidos().equals(e2.getApellidos())) {
+            esDiferente = true;
+        }
+        if (!esDiferente && !e1.getEmail().equals(e2.getEmail())) {
+            esDiferente = true;
+        }
+        if (!esDiferente && !e1.getDireccion().equals(e2.getDireccion())) {
+            esDiferente = true;
+        }
+        if(!esDiferente && !e1.getCuentaBancaria().equals(e2.getCuentaBancaria())) {
+            esDiferente = true;
+        }
+        if(!esDiferente && !e1.getTelefono().equals(e2.getTelefono())) {
+            esDiferente = true;
+        }
+        if(!esDiferente && !e1.getEdad().equals(e2.getEdad())) {
+            esDiferente = true;
+        }
+        return esDiferente;
+    }
 }

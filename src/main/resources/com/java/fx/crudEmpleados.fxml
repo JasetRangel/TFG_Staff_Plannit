@@ -17,7 +17,7 @@
          <children>
             <HBox fx:id="padreBotonones" layoutX="100.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #1A1769;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button fx:id="btnActualizar" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="ACTUALIZAR" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnActualizar" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#actualiza_InsertarEmpleado" style="-fx-background-color: transparent;" text="ACTUALIZAR" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -83,7 +83,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="guardar" layoutX="480.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="GUARDAR" textFill="WHITE">
+                  <Button fx:id="btnGuardar" layoutX="480.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#actualiza_InsertarEmpleado" style="-fx-background-color: transparent;" text="GUARDAR" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>

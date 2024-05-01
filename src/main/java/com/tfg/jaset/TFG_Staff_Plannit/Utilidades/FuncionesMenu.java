@@ -10,21 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyEvent;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
@@ -33,14 +28,7 @@ public class FuncionesMenu {
     @Getter
     @Setter
     private static Object objetoSeleccionado;
-/*
-    public static Object getObjetoSeleccionado() {
-        return objetoSeleccionado;
-    }
 
-    public static void setObjetoSeleccionado(Object objeto) {
-        objetoSeleccionado = objeto;
-    } */
 
     public static void cambiarVentana( ActionEvent event, String rutaFXML, String tituloVentana, boolean forma) throws IOException {
         FXMLLoader fxml=new FXMLLoader(FuncionesMenu.class.getResource(rutaFXML));//cargo el fxml de la ventana nueva
@@ -57,17 +45,9 @@ public class FuncionesMenu {
         stageActual.setMaximized(forma);
         stageActual.setResizable(forma);
         stageActual.setTitle(tituloVentana);
-        Image logo=new Image(FuncionesMenu.class.getResourceAsStream("/images/staffPlannit.jpg"));
+        Image logo=new Image(Objects.requireNonNull(FuncionesMenu.class.getResourceAsStream("/images/staffPlannit.jpg")));
         stageActual.getIcons().add(logo);
         stageActual.show();
-    }
-
-    // MÉTODO PARA PONER UNA VISTA DENTRO DEL PANE DE LA VENTANA PRINCIPAL
-    public static void mostrarVista(ApplicationContext springContext, StackPane contenedor, String rutaFXML) throws IOException {
-        FXMLLoader loader = new FXMLLoader(FuncionesMenu.class.getResource(rutaFXML));
-        loader.setControllerFactory(springContext::getBean);
-        Node vista = loader.load();
-        contenedor.getChildren().setAll(vista);
     }
 
     // MÉTODO PARA CARGAR LOS DATOS EN LAS TABLAS MI UI
