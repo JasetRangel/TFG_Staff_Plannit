@@ -33,7 +33,7 @@
                               <Insets top="15.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" onAction="#filtrarDatosPorDNI" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" right="30.0" top="15.0" />
                            </HBox.margin>
@@ -49,7 +49,7 @@
          <right>
             <VBox prefHeight="350.0" prefWidth="154.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnNewEmpleado" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Add Empleado">
+                  <Button fx:id="btnNewEmpleado" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#agregarEmpleado" prefHeight="30.0" prefWidth="110.0" text="Add Empleado">
                      <VBox.margin>
                         <Insets left="10.0" top="20.0" />
                      </VBox.margin>

@@ -95,9 +95,7 @@ public class CrudEmpleados implements Initializable {
         padreColun2.setFocusTraversable(true);
         padreBotonones.setFocusTraversable(true);
         Empleado empleado= (Empleado) FuncionesMenu.getObjetoSeleccionado();
-        if(empleado==null){
-
-        }else{
+        if(empleado!=null){
             txtDNI.setText(empleado.getDni());
             txtNombre.setText(empleado.getNombre());
             txtApellidos.setText(empleado.getApellidos());
@@ -113,10 +111,7 @@ public class CrudEmpleados implements Initializable {
             btnVerInforme.setCursor(Cursor.HAND);
             btnVolver.setCursor(Cursor.HAND);
         }
-        //FuncionesMenu.tabular(padreColun1);
         FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
-       // FuncionesMenu.tabular(padreColun2);
-
         FuncionesMenu.configurarEstiloBotones(btnActualizar,btnEliminar,btnInformar,btnVerInforme,btnVolver);
 
     }
