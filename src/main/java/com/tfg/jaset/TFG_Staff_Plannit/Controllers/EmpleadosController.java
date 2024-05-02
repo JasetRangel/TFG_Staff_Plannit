@@ -85,6 +85,14 @@ public class EmpleadosController implements Initializable {
         columCuenta.setCellValueFactory(new PropertyValueFactory<>("cuentaBancaria"));
         columTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
 
+        FuncionesMenu.refrescarDatosTabla(tablaEmpleados,empleadoRepository);
+
+        FuncionesMenu.configurarTabla(tablaEmpleados, empleado -> {
+            Empleado empleadoSelected=tablaEmpleados.getSelectionModel().getSelectedItem();
+            FuncionesMenu.setObjetoSeleccionado(empleadoSelected);
+            Main.cambiarVista("/com/java/fx/crudEmpleados.fxml");
+        });
+
         txtBusqueda.setPromptText("Ingrese el DNI/NIE del empleado");
 
         // Agrega un manejador de clics a la escena
@@ -93,13 +101,6 @@ public class EmpleadosController implements Initializable {
             if(!isDescendant(event.getTarget(),tablaEmpleados)){
                 tablaEmpleados.getSelectionModel().clearSelection();
             }
-        });
-        FuncionesMenu.refrescarDatosTabla(tablaEmpleados,empleadoRepository);
-
-        FuncionesMenu.configurarTabla(tablaEmpleados, empleado -> {
-            Empleado empleadoSelected=tablaEmpleados.getSelectionModel().getSelectedItem();
-            FuncionesMenu.setObjetoSeleccionado(empleadoSelected);
-            Main.cambiarVista("/com/java/fx/crudEmpleados.fxml");
         });
     }
 

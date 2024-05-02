@@ -15,16 +15,16 @@ public class EventosEmpleado {
     private EventosEmpleadoId id;
 
     @MapsId("eventoId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "evento_id", nullable = false)
     private Evento evento;
 
     @MapsId("empleadoDni")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "empleado_dni", nullable = false)
     private Empleado empleadoDni;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "funcion_id")
     private Funciones funcion;
 

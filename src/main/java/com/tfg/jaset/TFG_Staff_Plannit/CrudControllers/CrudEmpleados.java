@@ -1,29 +1,49 @@
 package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 
+import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
+import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.UsuarioRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
 @Component
 public class CrudEmpleados implements Initializable {
     @FXML
-    private Button btnActualizar;
+    private AnchorPane panePadre;
+
+    @FXML
+    private TableView<InformeEmpleado> tablaInformes;
+
+    @FXML
+    private TableColumn<InformeEmpleado, String> anio;
+
+    @FXML
+    private TableColumn<InformeEmpleado, String> mes;
+
+    @FXML
+    private TableColumn<InformeEmpleado, String> informe;
 
     @FXML
     private Button btnEliminar;
@@ -81,10 +101,15 @@ public class CrudEmpleados implements Initializable {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    EventoEmpleadoRepository eventoEmpleadoRepository;
+
+
     private Empleado empleado;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+
         txtDNI.setFocusTraversable(true);
         txtDireccion.setFocusTraversable(true);
         txtEdad.setFocusTraversable(true);
@@ -107,16 +132,21 @@ public class CrudEmpleados implements Initializable {
             txtTel.setText(empleado.getTelefono());
             txtBanco.setText(empleado.getCuentaBancaria());
 
-            btnActualizar.setCursor(Cursor.HAND);
+            btnGuardar.setCursor(Cursor.HAND);
             btnEliminar.setCursor(Cursor.HAND);
             btnInformar.setCursor(Cursor.HAND);
             btnVerInforme.setCursor(Cursor.HAND);
             btnVolver.setCursor(Cursor.HAND);
         }
         FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
-        FuncionesMenu.configurarEstiloBotones(btnActualizar,btnEliminar,btnInformar,btnVerInforme,btnVolver,btnGuardar);
+        FuncionesMenu.configurarEstiloBotones(btnEliminar,btnInformar,btnVerInforme,btnVolver,btnGuardar);
+
+
+
 
     }
+    // Método para cargar los informes en la tabla
+
     @FXML
     private void volver(){
         Main.cambiarVista("/com/java/fx/empleados.fxml");
