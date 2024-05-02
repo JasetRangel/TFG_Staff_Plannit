@@ -3,8 +3,11 @@ package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.EventosEmpleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
+import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.UsuarioRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
@@ -23,6 +26,7 @@ import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -100,7 +104,8 @@ public class CrudEmpleados implements Initializable {
     private EmpleadoRepository empleadoRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
-
+    @Autowired
+    EventosRepository eventoRepository;
     @Autowired
     EventoEmpleadoRepository eventoEmpleadoRepository;
 
@@ -109,6 +114,10 @@ public class CrudEmpleados implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+
+        anio.setCellValueFactory(new PropertyValueFactory<>("anio"));
+        mes.setCellValueFactory(new PropertyValueFactory<>("mes"));
+        informe.setCellValueFactory(new PropertyValueFactory<>("nombreInforme"));
 
         txtDNI.setFocusTraversable(true);
         txtDireccion.setFocusTraversable(true);
@@ -141,19 +150,44 @@ public class CrudEmpleados implements Initializable {
         FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
         FuncionesMenu.configurarEstiloBotones(btnEliminar,btnInformar,btnVerInforme,btnVolver,btnGuardar);
 
-
+        cargarInformesEmpleado();
 
 
     }
     // Método para cargar los informes en la tabla
+    // Método para cargar los informes y los eventos relacionados en la tabla
+    public void cargarInformesEmpleado() {
+        String dniEmpleado = txtDNI.getText().trim(); // Obtener el DNI del empleado
+        List<InformeEmpleado> informes = eventoEmpleadoRepository.findInformesPorEmpleado(dniEmpleado);
+
+        for (InformeEmpleado informe : informes) {
+            List<Evento> eventos = eventoRepository.findEventosPorInforme(informe.getAnio(), informe.getMes(), dniEmpleado);
+            informe.setEventos(eventos);  // Asegúrate de que esta línea esté agregando correctamente los eventos
+        }
+
+        tablaInformes.setItems(FXCollections.observableArrayList(informes));
+    }
+
+//    public void cargarInformesEmpleado() {
+//        String dniEmpleado = txtDNI.getText().trim(); // Asumiendo que tienes una manera de obtener el DNI
+//        List<InformeEmpleado> informes = eventoEmpleadoRepository.findInformesPorEmpleado(dniEmpleado);
+//
+//        tablaInformes.setItems(FXCollections.observableArrayList(informes));
+//    }
 
     @FXML
     private void volver(){
+
         Main.cambiarVista("/com/java/fx/empleados.fxml");
     }
     @FXML
-    private void verInforme(){
-
+    private void verInforme() {
+        if (tablaInformes.getSelectionModel().getSelectedItem() != null) {
+            InformeEmpleado informeSeleccionado = tablaInformes.getSelectionModel().getSelectedItem();
+            mostrarDetallesInforme(informeSeleccionado);
+        } else {
+            FuncionesMenu.mostrarMensajeAlerta("Selección requerida", "Seleccione un informe de la tabla para ver los detalles.");
+        }
     }
     @FXML
     private void informar(){
@@ -203,5 +237,41 @@ public class CrudEmpleados implements Initializable {
 
 
     }
+    private void mostrarDetallesInforme(InformeEmpleado informe) {
+        System.out.println("Detalles del Informe:");
+        System.out.println("Año: " + informe.getAnio());
+        System.out.println("Mes: " + informe.getMes());
+        System.out.println("Informe: " + informe.getNombreInforme());
+        System.out.println("Eventos Participados:");
+        for (Evento evento : informe.getEventos()) {
+            System.out.println(" - Evento: " + evento.getDetalles()
+                    + ", Fecha Inicio: " + evento.getFechaInicio()
+                    + ", Fecha Fin: " + evento.getFechaFin()
+                    + ", Horas Trabajadas: " + encontrarHoras(evento, informe.getAnio(), informe.getMes()));
+        }
+    }
+
+//    private BigDecimal encontrarHoras(Evento evento, Integer anio, String mes) {
+//        // Aquí debes implementar la lógica para obtener las horas trabajadas en este evento,
+//        // posiblemente requiriendo más datos o ajustes en tus modelos o consultas.
+//        return BigDecimal.ZERO;  // Ejemplo de valor por defecto
+//    }
+private BigDecimal encontrarHoras(Evento evento, Integer anio, String mes) {
+    // Recuperar todos los registros EventosEmpleado para un evento específico
+    List<EventosEmpleado> registros = eventoEmpleadoRepository.findByEventoId(evento.getId());
+    BigDecimal horasTotales = BigDecimal.ZERO;
+
+    // Sumar todas las horas trabajadas para este evento
+    for (EventosEmpleado registro : registros) {
+        if (registro.getHorasTrabajadas() != null) {
+            horasTotales = horasTotales.add(registro.getHorasTrabajadas());
+        }
+    }
+
+    return horasTotales;
+}
+
+
+
 
 }

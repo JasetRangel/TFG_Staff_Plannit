@@ -31,7 +31,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnVerInforme" layoutX="140.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="VER INFORME" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnVerInforme" layoutX="140.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#verInforme" style="-fx-background-color: transparent;" text="VER INFORME" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>

@@ -18,7 +18,7 @@ public class Evento {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
