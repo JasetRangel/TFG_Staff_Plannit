@@ -3,7 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.Controllers.ClientesController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.Controllers.ClientesController">
    <children>
       <BorderPane layoutX="60.0" layoutY="78.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -32,7 +33,7 @@
                               <Insets top="15.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" onAction="#filtrarClientePorNombre" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" right="30.0" top="15.0" />
                            </HBox.margin>
@@ -46,9 +47,9 @@
             </AnchorPane>
          </top>
          <right>
-            <VBox prefHeight="350.0" prefWidth="154.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="350.0" prefWidth="154.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnNewClient" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Cliente Nuevo">
+                  <Button fx:id="btnNuevo" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="30.0" prefWidth="110.0" text="Cliente Nuevo">
                      <VBox.margin>
                         <Insets left="10.0" top="20.0" />
                      </VBox.margin>
@@ -56,7 +57,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnModificar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Modificar">
+                  <Button fx:id="btnEliminar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="30.0" prefWidth="110.0" text="Eliminar">
                      <VBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </VBox.margin>
@@ -64,7 +65,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnEliminar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Eliminar">
+                  <Button fx:id="btnListar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#listar" prefHeight="30.0" prefWidth="110.0" text="Listar">
                      <VBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </VBox.margin>
@@ -72,15 +73,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnReporteTotal" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Reporte Total">
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnVerDatos" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Ver Datos">
+                  <Button fx:id="btnReporteTotal" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#reporteTotal" prefHeight="30.0" prefWidth="110.0" text="Reporte Total">
                      <VBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </VBox.margin>
@@ -92,11 +85,19 @@
             </VBox>
          </right>
          <center>
-            <ListView prefHeight="500.0" prefWidth="700.0" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="30.0" />
-               </BorderPane.margin>
-            </ListView>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="tablaClientes" layoutX="98.0" layoutY="36.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                    <columns>
+                      <TableColumn fx:id="columId" minWidth="75.0" prefWidth="0.0" text="ID" />
+                      <TableColumn fx:id="columNombre" minWidth="75.0" prefWidth="0.0" text="NOMBRE" />
+                        <TableColumn fx:id="columTel" minWidth="75.0" prefWidth="0.0" text="TELÉFONO" />
+                        <TableColumn fx:id="columEmail" minWidth="100.0" prefWidth="0.0" text="EMAIL" />
+                        <TableColumn fx:id="columDescripcion" minWidth="100.0" prefWidth="0.0" text="DESCRIPCIÓN" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
          </center>
       </BorderPane>
    </children>

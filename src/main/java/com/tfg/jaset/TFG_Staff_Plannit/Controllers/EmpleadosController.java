@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +31,13 @@ public class EmpleadosController implements Initializable {
     private Button btnEliminar;
 
     @FXML
-    private Button btnModificar;
+    private Button btnListar;
 
     @FXML
     private Button btnNewEmpleado;
+
+    @FXML
+    private Button btnReporteTotal;
 
     @FXML
     private TextField txtBusqueda;
@@ -68,14 +72,24 @@ public class EmpleadosController implements Initializable {
     @FXML
     private TableView<Empleado> tablaEmpleados;
 
-
-
     @Autowired
     EmpleadoRepository empleadoRepository;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        FuncionesMenu.desactivarByPermiso(btnEliminar, btnModificar);
+
+        columDni.prefWidthProperty().bind(tablaEmpleados.widthProperty().multiply(0.1));
+        columNombre.prefWidthProperty().bind(tablaEmpleados.widthProperty().multiply(0.15));
+        columnEdad.prefWidthProperty().bind(tablaEmpleados.widthProperty().multiply(0.05));
+        columApellidos.prefWidthProperty().bind(tablaEmpleados.widthProperty().multiply(0.15));
+        columCuenta.prefWidthProperty().bind(tablaEmpleados.widthProperty().multiply(0.15));
+        columDirecicon.prefWidthProperty().bind(tablaEmpleados.widthProperty().multiply(0.2));
+        columTelefono.prefWidthProperty().bind(tablaEmpleados.widthProperty().multiply(0.1));
+        columEmail.prefWidthProperty().bind(tablaEmpleados.widthProperty().multiply(0.10));
+
+        FuncionesMenu.desactivarByPermiso(btnEliminar);
+       // FuncionesMenu.configurarEstiloBotones(btnEliminar,btnBuscar,btnNewEmpleado,btnListar,btnReporteTotal);
+
         columDni.setCellValueFactory(new PropertyValueFactory<>("dni"));
         columNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
@@ -95,31 +109,12 @@ public class EmpleadosController implements Initializable {
 
         txtBusqueda.setPromptText("Ingrese el DNI/NIE del empleado");
 
-        // Agrega un manejador de clics a la escena
-        pane.setOnMouseClicked(event -> {
-            // Comprueba si el clic fue fuera de la TableView
-            if(!isDescendant(event.getTarget(),tablaEmpleados)){
-                tablaEmpleados.getSelectionModel().clearSelection();
-            }
-        });
     }
 
-    // Verifica si el nodo es o está dentro de la TableView
-    private boolean isDescendant(EventTarget target, Node node) {
-        if (target instanceof Node current) {
-            while (current != null) {
-                if (current.equals(node)) {
-                    return true;
-                }
-                current = current.getParent();
-            }
-        }
-        return false;
-    }
     @FXML
     private void eliminarEmpleado() {
-        Empleado empleadoSelected=tablaEmpleados.getSelectionModel().getSelectedItem();
-        if(empleadoSelected==null){
+        Empleado empleadoSelected = tablaEmpleados.getSelectionModel().getSelectedItem();
+        if(empleadoSelected ==null){
             FuncionesMenu.mostrarMensajeAlerta("Selección Requerida", "Debe seleccionar un usuario de la tabla");
             return;
         }
@@ -140,7 +135,7 @@ public class EmpleadosController implements Initializable {
         String filtro = txtBusqueda.getText().trim();
         if (filtro.isEmpty()) {
             // Si no hay filtro, cargar todos los empleados
-            tablaEmpleados.setItems(FXCollections.observableArrayList(empleadoRepository.findAll()));
+            //tablaEmpleados.setItems(FXCollections.observableArrayList(empleadoRepository.findAll()));
             FuncionesMenu.mostrarMensajeAlerta("Campo requerido","Debe rellenar el campo de búsqueda");
         } else {
             empleadoRepository.findByDni(filtro).ifPresentOrElse(
@@ -159,6 +154,16 @@ public class EmpleadosController implements Initializable {
     @FXML
     private void agregarEmpleado(){
         Main.cambiarVista("/com/java/fx/crudEmpleados.fxml");
+    }
+
+    @FXML
+    private void reporteTotal(){
+        FuncionesMenu.mostrarMensajeAlerta("Componente vacío","En desarrollo");
+    }
+    @FXML
+    private void listar(){
+        txtBusqueda.setText("");
+        FuncionesMenu.refrescarDatosTabla(tablaEmpleados,empleadoRepository);
     }
 
 

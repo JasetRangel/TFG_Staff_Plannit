@@ -110,6 +110,10 @@ public class CrudEmpleados implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+    //CONFIGURO EL TAMAÑO DE LA COLUMNAS PARA QUE SE ADAPTEN DINAMICAMENTE AL TAMAÑO DE LA PANTALLA
+        anio.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.2));
+        mes.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.4));
+        informe.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.4));
 
         anio.setCellValueFactory(new PropertyValueFactory<>("anio"));
         mes.setCellValueFactory(new PropertyValueFactory<>("mes"));

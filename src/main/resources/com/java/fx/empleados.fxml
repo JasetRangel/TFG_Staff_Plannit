@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.Controllers.EmpleadosController">
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.Controllers.EmpleadosController">
    <children>
       <BorderPane layoutX="60.0" layoutY="78.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -20,7 +20,7 @@
                <children>
                   <HBox layoutX="14.0" prefHeight="50.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="163.0" text="Nombre Empleado:" HBox.hgrow="ALWAYS">
+                        <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="158.0" text="Nombre Empleado:" HBox.hgrow="NEVER">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
@@ -28,12 +28,12 @@
                               <Insets left="30.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="txtBusqueda" maxHeight="-Infinity" maxWidth="700.0" prefHeight="25.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="txtBusqueda" maxHeight="-Infinity" maxWidth="500.0" minWidth="150.0" prefHeight="26.0" prefWidth="241.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets top="15.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" onAction="#filtrarDatosPorDNI" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" onAction="#filtrarDatosPorDNI" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="NEVER">
                            <HBox.margin>
                               <Insets left="10.0" right="30.0" top="15.0" />
                            </HBox.margin>
@@ -47,9 +47,9 @@
             </AnchorPane>
          </top>
          <right>
-            <VBox prefHeight="350.0" prefWidth="154.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="350.0" prefWidth="154.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnNewEmpleado" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#agregarEmpleado" prefHeight="30.0" prefWidth="110.0" text="Add Empleado">
+                  <Button fx:id="btnNewEmpleado" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#agregarEmpleado" prefHeight="30.0" prefWidth="110.0" text="Add Empleado">
                      <VBox.margin>
                         <Insets left="10.0" top="20.0" />
                      </VBox.margin>
@@ -57,7 +57,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnEliminar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#eliminarEmpleado" prefHeight="30.0" prefWidth="110.0" text="Eliminar">
+                  <Button fx:id="btnEliminar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#eliminarEmpleado" prefHeight="30.0" prefWidth="110.0" text="Eliminar">
                      <VBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </VBox.margin>
@@ -65,13 +65,21 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnListar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Listar">
+                  <Button fx:id="btnListar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#listar" prefHeight="30.0" prefWidth="110.0" text="Listar">
                      <VBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </VBox.margin>
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
+                  </Button>
+                  <Button fx:id="btnReporteTotal" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="112.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#reporteTotal" prefHeight="30.0" prefWidth="110.0" text="Reporte Total">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </VBox.margin>
                   </Button>
                </children>
                <BorderPane.margin>
@@ -80,21 +88,22 @@
             </VBox>
          </right>
          <center>
-            <TableView fx:id="tablaEmpleados" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="50.0" BorderPane.alignment="CENTER">
-               <columns>
-                  <TableColumn fx:id="columDni" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="DNI/NIE" />
-                  <TableColumn fx:id="columNombre" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="NOMBRE" />
-                  <TableColumn fx:id="columApellidos" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="APELLIDOS" />
-                  <TableColumn fx:id="columnEdad" maxWidth="1.7976931348623157E308" prefWidth="50.0" text="EDAD" />
-                  <TableColumn fx:id="columEmail" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="EMAIL" />
-                  <TableColumn fx:id="columDirecicon" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="DIRECCIÓN" />
-                  <TableColumn fx:id="columCuenta" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="CUENTA BANCARIA" />
-                  <TableColumn fx:id="columTelefono" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="TELÉFONO" />
-               </columns>
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="10.0" />
-               </BorderPane.margin>
-            </TableView>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="tablaEmpleados" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="50.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <columns>
+                        <TableColumn fx:id="columDni" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="0.0" text="DNI/NIE" />
+                        <TableColumn fx:id="columNombre" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="0.0" text="NOMBRE" />
+                        <TableColumn fx:id="columApellidos" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="0.0" text="APELLIDOS" />
+                        <TableColumn fx:id="columnEdad" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="0.0" text="EDAD" />
+                        <TableColumn fx:id="columEmail" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="0.0" text="EMAIL" />
+                        <TableColumn fx:id="columDirecicon" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="0.0" text="DIRECCIÓN" />
+                        <TableColumn fx:id="columCuenta" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="0.0" text="CUENTA BANCARIA" />
+                        <TableColumn fx:id="columTelefono" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="0.0" text="TELÉFONO" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
          </center>
       </BorderPane>
    </children>

@@ -116,19 +116,19 @@ public class InicioController extends MenuController implements Initializable  {
         this.desplazarMenu(event,slider);
     }
     @FXML
-    private void mostrarClientes(ActionEvent event) throws IOException {
+    private void mostrarClientes() throws IOException {
         Main.cambiarVista("/com/java/fx/clientes.fxml");
     }
     @FXML
-    private void mostrarEmpleados(ActionEvent event) throws IOException {
+    private void mostrarEmpleados() throws IOException {
         Main.cambiarVista("/com/java/fx/empleados.fxml");
     }
     @FXML
-    private void mostrarUsuarios(ActionEvent event) throws IOException {
+    private void mostrarUsuarios() throws IOException {
         Main.cambiarVista("/com/java/fx/usuarios.fxml");
     }
     @FXML
-    private void mostrarEventos(ActionEvent event) throws IOException {
+    private void mostrarEventos() throws IOException {
         Main.cambiarVista("/com/java/fx/eventos.fxml");
     }
 
