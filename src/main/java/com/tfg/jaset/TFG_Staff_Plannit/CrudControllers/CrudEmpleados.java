@@ -110,10 +110,8 @@ public class CrudEmpleados implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-    //CONFIGURO EL TAMAÑO DE LA COLUMNAS PARA QUE SE ADAPTEN DINAMICAMENTE AL TAMAÑO DE LA PANTALLA
-        anio.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.2));
-        mes.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.4));
-        informe.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.4));
+
+        FuncionesMenu.botonMano(btnGuardar, btnEliminar, btnInformar, btnVerInforme, btnVolver);
 
         anio.setCellValueFactory(new PropertyValueFactory<>("anio"));
         mes.setCellValueFactory(new PropertyValueFactory<>("mes"));
@@ -130,6 +128,7 @@ public class CrudEmpleados implements Initializable {
 
         padreColun2.setFocusTraversable(true);
         padreBotonones.setFocusTraversable(true);
+
         empleado= (Empleado) FuncionesMenu.getObjetoSeleccionado();
         if(empleado!=null){
             txtDNI.setText(empleado.getDni());
@@ -141,11 +140,6 @@ public class CrudEmpleados implements Initializable {
             txtTel.setText(empleado.getTelefono());
             txtBanco.setText(empleado.getCuentaBancaria());
 
-            btnGuardar.setCursor(Cursor.HAND);
-            btnEliminar.setCursor(Cursor.HAND);
-            btnInformar.setCursor(Cursor.HAND);
-            btnVerInforme.setCursor(Cursor.HAND);
-            btnVolver.setCursor(Cursor.HAND);
         }
         FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
         FuncionesMenu.configurarEstiloBotones(btnEliminar,btnInformar,btnVerInforme,btnVolver,btnGuardar);
@@ -184,13 +178,11 @@ public class CrudEmpleados implements Initializable {
     }
     @FXML
     private void informar(){
-
+        FuncionesMenu.mostrarMensajeAlerta("Desarrollando","Función en desarollo");
     }
     @FXML
     private void eliminar(){
         Empleado empleadoEliminar= (Empleado) FuncionesMenu.getObjetoSeleccionado();
-        Empleado empleadoActual=UsuarioUtils.getUsuarioActual().getEmpleado();
-        System.out.println(empleadoEliminar.getDni()+" empleado Actual: "+empleadoActual.getDni());
 
             if (empleadoEliminar.getDni().equals(UsuarioUtils.getUsuarioActual().getDni())) {
                 FuncionesMenu.mostrarMensajeAlerta("Acción no permitida","No puede eliminar a este empleado, "

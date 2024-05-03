@@ -2,7 +2,6 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Cliente;
-import com.tfg.jaset.TFG_Staff_Plannit.Models.Funciones;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.ClientesRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import javafx.collections.FXCollections;
@@ -86,7 +85,7 @@ public class ClientesController implements Initializable {
         FuncionesMenu.configurarTabla(tablaClientes, cliente -> {
             Cliente clienteSelected=tablaClientes.getSelectionModel().getSelectedItem();
             FuncionesMenu.setObjetoSeleccionado(clienteSelected);
-            Main.cambiarVista("");
+            Main.cambiarVista("/com/java/fx/crudClientes.fxml");
         });
 
 
@@ -126,7 +125,7 @@ public class ClientesController implements Initializable {
     }
     @FXML
     private void agregarCliente(){
-        Main.cambiarVista("");
+        Main.cambiarVista("/com/java/fx/crudClientes.fxml");
     }
     @FXML
     private void listar(){

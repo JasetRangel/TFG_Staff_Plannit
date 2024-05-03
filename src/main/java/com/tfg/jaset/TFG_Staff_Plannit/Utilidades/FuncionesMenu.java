@@ -1,9 +1,12 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Utilidades;
 
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -191,7 +194,12 @@ public class FuncionesMenu {
          repository.save(entidad);
     }
 
+    public static void botonMano(Button... botones) {
+        for (Button boton : botones) {
+            boton.setCursor(Cursor.HAND);
+        }
 
+    }
 
 
 

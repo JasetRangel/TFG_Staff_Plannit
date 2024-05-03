@@ -33,4 +33,23 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private Set<Evento> eventos = new LinkedHashSet<>();
 
+    public boolean esDiferente(Cliente c1, Cliente c2) {
+        boolean esDiferente = false;
+        if(!c1.getId().equals(c2.getId())) {
+            esDiferente = true;
+        }
+        if(!esDiferente && !c1.getNombre().equals(c2.getNombre())) {
+            esDiferente = true;
+        }
+        if(!esDiferente && !c1.getTelefono().equals(c2.getTelefono())) {
+            esDiferente = true;
+        }
+        if(!esDiferente && !c1.getEmail().equals(c2.getEmail())) {
+            esDiferente = true;
+        }
+        if(!esDiferente && !c1.getDetalles().equals(c2.getDetalles())) {
+            esDiferente = true;
+        }
+        return esDiferente;
+    }
 }
