@@ -22,6 +22,7 @@ public interface EventoEmpleadoRepository extends JpaRepository<EventosEmpleado,
             "WHERE emp.dni = :dniEmpleado "+
             "GROUP BY YEAR (e.id.fecha),MONTHNAME(e.id.fecha), emp.nombre"
     )
+
     List<InformeEmpleado> findInformesPorEmpleado(String dniEmpleado);
 
 }
