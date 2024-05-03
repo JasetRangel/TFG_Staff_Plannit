@@ -8,7 +8,6 @@ import com.tfg.jaset.TFG_Staff_Plannit.Models.EventosEmpleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
-import com.tfg.jaset.TFG_Staff_Plannit.Repositories.UsuarioRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.collections.FXCollections;
@@ -20,7 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +26,14 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
 
 @Component
 public class CrudEmpleados implements Initializable {
-    @FXML
-    private AnchorPane panePadre;
 
     @FXML
     private TableView<InformeEmpleado> tablaInformes;
@@ -103,8 +101,6 @@ public class CrudEmpleados implements Initializable {
     @Autowired
     private EmpleadoRepository empleadoRepository;
     @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
     EventosRepository eventoRepository;
     @Autowired
     EventoEmpleadoRepository eventoEmpleadoRepository;
@@ -168,13 +164,6 @@ public class CrudEmpleados implements Initializable {
         tablaInformes.setItems(FXCollections.observableArrayList(informes));
     }
 
-//    public void cargarInformesEmpleado() {
-//        String dniEmpleado = txtDNI.getText().trim(); // Asumiendo que tienes una manera de obtener el DNI
-//        List<InformeEmpleado> informes = eventoEmpleadoRepository.findInformesPorEmpleado(dniEmpleado);
-//
-//        tablaInformes.setItems(FXCollections.observableArrayList(informes));
-//    }
-
     @FXML
     private void volver(){
 
@@ -207,9 +196,6 @@ public class CrudEmpleados implements Initializable {
                     empleadoRepository.delete(empleadoEliminar);
                 }
             }
-
-
-
     }
 
     @FXML
@@ -234,9 +220,8 @@ public class CrudEmpleados implements Initializable {
         }else{
             FuncionesMenu.mostrarMensajeAlerta("Cambios requeridos","No se ha hecho ningún cambio en el Empleado");
         }
-
-
     }
+
     private void mostrarDetallesInforme(InformeEmpleado informe) {
         System.out.println("Detalles del Informe:");
         System.out.println("Año: " + informe.getAnio());
@@ -247,29 +232,31 @@ public class CrudEmpleados implements Initializable {
             System.out.println(" - Evento: " + evento.getDetalles()
                     + ", Fecha Inicio: " + evento.getFechaInicio()
                     + ", Fecha Fin: " + evento.getFechaFin()
-                    + ", Horas Trabajadas: " + encontrarHoras(evento, informe.getAnio(), informe.getMes()));
+                    + ", Horas Trabajadas: " + encontrarHoras(evento));
         }
     }
 
-//    private BigDecimal encontrarHoras(Evento evento, Integer anio, String mes) {
-//        // Aquí debes implementar la lógica para obtener las horas trabajadas en este evento,
-//        // posiblemente requiriendo más datos o ajustes en tus modelos o consultas.
-//        return BigDecimal.ZERO;  // Ejemplo de valor por defecto
-//    }
-private BigDecimal encontrarHoras(Evento evento, Integer anio, String mes) {
-    // Recuperar todos los registros EventosEmpleado para un evento específico
-    List<EventosEmpleado> registros = eventoEmpleadoRepository.findByEventoId(evento.getId());
-    BigDecimal horasTotales = BigDecimal.ZERO;
+    private BigDecimal encontrarHoras(Evento evento) {
+        // Recuperar todos los registros EventosEmpleado para un evento específico
+        List<EventosEmpleado> registros = eventoEmpleadoRepository.findByEventoId(evento.getId());
+        BigDecimal horasTotales = BigDecimal.ZERO;
 
-    // Sumar todas las horas trabajadas para este evento
-    for (EventosEmpleado registro : registros) {
-        if (registro.getHorasTrabajadas() != null) {
-            horasTotales = horasTotales.add(registro.getHorasTrabajadas());
+        // Sumar todas las horas trabajadas para este evento
+        for (EventosEmpleado registro : registros) {
+            LocalTime entrada = registro.getHoraEntrada();
+            LocalTime salida = registro.getHoraSalida();
+            if (entrada != null && salida != null && !salida.isBefore(entrada)) {
+                // Calcula la duración entre la hora de entrada y la hora de salida
+                Duration duracion = Duration.between(entrada, salida);
+                // Convierte la duración a horas en formato decimal
+                BigDecimal horas = BigDecimal.valueOf(duracion.toMinutes() / 60.0);
+                // Añade al total
+                horasTotales = horasTotales.add(horas);
+            }
         }
-    }
 
-    return horasTotales;
-}
+        return horasTotales;
+    }
 
 
 

@@ -43,7 +43,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnInformar" layoutX="240.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="INFORMAR" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnInformar" layoutX="240.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#informar" style="-fx-background-color: transparent;" text="INFORMAR" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

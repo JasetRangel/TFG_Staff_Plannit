@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -28,7 +28,10 @@ public class EventosEmpleado {
     @JoinColumn(name = "funcion_id")
     private Funciones funcion;
 
-    @Column(name = "horas_trabajadas", precision = 5, scale = 2)
-    private BigDecimal horasTrabajadas;
+    @Column(name = "hora_entrada")
+    private LocalTime horaEntrada;
+
+    @Column(name = "hora_salida")
+    private LocalTime horaSalida;
 
 }

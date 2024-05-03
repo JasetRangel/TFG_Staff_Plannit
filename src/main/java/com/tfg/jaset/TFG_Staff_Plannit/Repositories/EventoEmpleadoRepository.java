@@ -15,7 +15,7 @@ public interface EventoEmpleadoRepository extends JpaRepository<EventosEmpleado,
     List<EventosEmpleado> findByFuncionId(Integer funcionId); // asumiendo que Funciones tiene un atributo id
     Optional<EventosEmpleado> findByEmpleadoDniDniAndEventoId(String dni, Integer id); // asumiendo que Empleado y Evento tienen atributos dni y id respectivamente
 
-    @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleado(YEAR(e.id.fecha), MONTHNAME(e.id.fecha), emp.nombre,SUM (e.horasTrabajadas)) " +
+    @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleado(YEAR(e.id.fecha), MONTHNAME(e.id.fecha), emp.nombre,MIN (e.horaEntrada),MAX (e.horaSalida)) " +
             "FROM EventosEmpleado e " +
             "JOIN e.empleadoDni emp " +
             "JOIN e.evento evento "+

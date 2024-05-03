@@ -1,12 +1,11 @@
 package com.tfg.jaset.TFG_Staff_Plannit.DTOs;
 
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +15,16 @@ public class InformeEmpleado {
     private Integer anio;
     private String mes;
     private String nombreInforme;
-    private BigDecimal horasTotales;
+    private LocalTime horaEntrada;
+    private LocalTime horaSalida;
     private List<Evento>eventos;
 
-    public InformeEmpleado(Integer anio, String mes, String nombreInforme, BigDecimal horasTotales) {
+    public InformeEmpleado(Integer anio, String mes, String nombreInforme, LocalTime horaEntrada, LocalTime horaSalida) {
         this.anio = anio;
         this.mes = mes;
         this.nombreInforme = String.format("%s_%s_%d",nombreInforme,mes,anio);
-        this.horasTotales = horasTotales;
+        this.horaEntrada = horaEntrada;
+        this.horaSalida = horaSalida;
         this.eventos = new ArrayList<>();
     }
 
