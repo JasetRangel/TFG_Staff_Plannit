@@ -1,23 +1,24 @@
 package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeClientes;
-import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Cliente;
-import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.ClientesRepository;
+import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -44,6 +45,9 @@ public class CrudClientes implements Initializable {
     private Button btnVolver;
 
     @FXML
+    private TableView<InformeClientes> tablaInformes;
+
+    @FXML
     private TableColumn<InformeClientes, String> informe;
 
     @FXML
@@ -61,8 +65,6 @@ public class CrudClientes implements Initializable {
     @FXML
     private VBox padreColun2;
 
-    @FXML
-    private TableView<Cliente> tablaInformes;
 
     @FXML
     private TextArea txtDescripcion;
@@ -79,6 +81,12 @@ public class CrudClientes implements Initializable {
     @FXML
     private TextField txtTel;
 
+    @Autowired
+    private ClientesRepository ClientesRepository;
+
+    @Autowired
+    EventosRepository eventosRepository;
+
     private Cliente cliente;
 
     public CrudClientes(ClientesRepository clientesRepository) {
@@ -89,6 +97,12 @@ public class CrudClientes implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         FuncionesMenu.botonMano(btnGuardar, btnEliminar, btnInformar, btnVerInforme, btnVolver);
+        anio.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
+        mes.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
+        informe.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.4));
+
+        initializeTableColumns();
+
 
         txtId.setFocusTraversable(true);
         txtNombre.setFocusTraversable(true);
@@ -110,9 +124,30 @@ public class CrudClientes implements Initializable {
             txtTel.setText(cliente.getTelefono());
             txtEmail.setText(cliente.getEmail());
             txtDescripcion.setText(cliente.getDetalles());
+            cargarInformesClientes(Integer.parseInt(txtId.getText()) );
         }
 
     }
+
+    private void initializeTableColumns() {
+        anio.setCellValueFactory(new PropertyValueFactory<>("anio"));
+        mes.setCellValueFactory(new PropertyValueFactory<>("mes"));
+        informe.setCellValueFactory(new PropertyValueFactory<>("nombreInforme"));
+    }
+
+    private void cargarInformesClientes(Integer clienteId) {
+        List<InformeClientes> informes = clientesRepository.findInformesPorCliente(clienteId);
+        informes.forEach(informe -> {
+            List<Evento> eventos = eventosRepository.findEventosByClienteAndYearAndMonth(clienteId, informe.getAnio(), informe.getMes());
+            informe.setEventos(eventos);
+        });
+        tablaInformes.setItems(FXCollections.observableArrayList(informes));
+    }
+
+//    private void cargarInformesClientes(Integer clienteId) {
+//        List<InformeClientes> informes = clientesRepository.findInformesPorCliente(clienteId);
+//        tablaInformes.setItems(FXCollections.observableArrayList(informes));
+//    }
 
     @FXML
     private void verInforme() {

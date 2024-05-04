@@ -1,5 +1,6 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Repositories;
 
+import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeClientes;
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.EventosEmpleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.EventosEmpleadoId;
@@ -19,7 +20,7 @@ public interface EventoEmpleadoRepository extends JpaRepository<EventosEmpleado,
             "WHERE emp.dni = :dniEmpleado "+
             "GROUP BY YEAR (e.id.fecha),MONTHNAME(e.id.fecha), emp.nombre"
     )
-
     List<InformeEmpleado> findInformesPorEmpleado(String dniEmpleado);
+
 
 }

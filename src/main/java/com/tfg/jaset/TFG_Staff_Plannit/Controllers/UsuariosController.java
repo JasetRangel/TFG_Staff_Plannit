@@ -79,6 +79,10 @@ public class UsuariosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //configuro los datos que quiero mostrar y los asocio con las propiedades de la clase Usuario
+        columDNI.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
+        columPermiso.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
+        columUser.prefWidthProperty().bind(table.widthProperty().multiply(0.4));
+
         columDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
         columUser.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
         columPermiso.setCellValueFactory(new PropertyValueFactory<>("permiso"));
@@ -92,12 +96,9 @@ public class UsuariosController implements Initializable {
         });
 
         // hago que el raton cambie de forma cuando pasa por un boton
-        btnModificar.setCursor(Cursor.HAND);
-        btnBuscar.setCursor(Cursor.HAND);
-        btnEliminar.setCursor(Cursor.HAND);
+        FuncionesMenu.botonMano(btnBuscar, btnEliminar, btnModificar, btnNewUser);
         btnPassword.setCursor(Cursor.HAND);
         btnVerDatos.setCursor(Cursor.HAND);
-        btnNewUser.setCursor(Cursor.HAND);
 
         //DESHABILITO LOS BOTONES DE ELIMINAR Y MODIFICAR, SEGUN SU PERMISO
         FuncionesMenu.desactivarByPermiso(btnEliminar,btnModificar);

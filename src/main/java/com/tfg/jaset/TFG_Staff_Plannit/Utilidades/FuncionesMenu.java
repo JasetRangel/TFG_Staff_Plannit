@@ -1,8 +1,6 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Utilidades;
 
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +16,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyEvent;
 import lombok.Getter;
@@ -101,7 +98,7 @@ public class FuncionesMenu {
         for (Parent parent : parents) {
             focusableNodes.addAll(parent.getChildrenUnmodifiable().stream()
                     .filter(Node::isFocusTraversable)
-                    .collect(Collectors.toList()));
+                    .toList());
         }
 
         // Ordenamos todos los nodos por su posición en el eje Y para una navegación coherente.

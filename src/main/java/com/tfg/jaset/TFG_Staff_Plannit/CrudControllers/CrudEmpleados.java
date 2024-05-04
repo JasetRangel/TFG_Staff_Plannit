@@ -113,6 +113,10 @@ public class CrudEmpleados implements Initializable {
 
         FuncionesMenu.botonMano(btnGuardar, btnEliminar, btnInformar, btnVerInforme, btnVolver);
 
+        anio.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
+        mes.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
+        informe.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.4));
+
         anio.setCellValueFactory(new PropertyValueFactory<>("anio"));
         mes.setCellValueFactory(new PropertyValueFactory<>("mes"));
         informe.setCellValueFactory(new PropertyValueFactory<>("nombreInforme"));
