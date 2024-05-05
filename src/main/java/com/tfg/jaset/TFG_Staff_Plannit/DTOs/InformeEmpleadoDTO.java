@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class InformeEmpleado {
+public class InformeEmpleadoDTO {
     private Integer anio;
     private String mes;
     private String nombreInforme;
@@ -18,7 +18,7 @@ public class InformeEmpleado {
     private LocalTime horaSalida;
     private List<Evento>eventos;
 
-    public InformeEmpleado(Integer anio, String mes, String nombreInforme, LocalTime horaEntrada, LocalTime horaSalida) {
+    public InformeEmpleadoDTO(Integer anio, String mes, String nombreInforme, LocalTime horaEntrada, LocalTime horaSalida) {
         this.anio = anio;
         this.mes = mes;
         this.nombreInforme = String.format("%s_%s_%d",nombreInforme,mes,anio);

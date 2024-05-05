@@ -69,7 +69,8 @@ public class ClientesController implements Initializable {
         columNombre.prefWidthProperty().bind(tablaClientes.widthProperty().multiply(0.2));
         columEmail.prefWidthProperty().bind(tablaClientes.widthProperty().multiply(0.2));
         columTel.prefWidthProperty().bind(tablaClientes.widthProperty().multiply(0.2));
-        columEmail.prefWidthProperty().bind(tablaClientes.widthProperty().multiply(0.3));
+        columDescripcion.prefWidthProperty().bind(tablaClientes.widthProperty().multiply(0.3));
+
 
         FuncionesMenu.desactivarByPermiso(btnEliminar);
        // FuncionesMenu.configurarEstiloBotones(btnBuscar, btnEliminar, btnListar, btnNuevo, btnReporteTotal);
@@ -134,6 +135,6 @@ public class ClientesController implements Initializable {
     }
     @FXML
     private void reporteTotal(){
-        FuncionesMenu.mostrarMensajeAlerta("Componente vacío","En desarrollo");
+        FuncionesMenu.mostrarMensajeAlerta("Componente Sin Función","En desarrollo");
     }
 }

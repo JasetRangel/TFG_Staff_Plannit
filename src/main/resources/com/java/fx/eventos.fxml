@@ -3,7 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -27,12 +28,12 @@
                               <Insets left="30.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="txtBusqueda" maxHeight="-Infinity" maxWidth="700.0" prefHeight="25.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="txtBusqueda" maxHeight="25.0" maxWidth="500.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="240.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets top="15.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Buscar" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" right="30.0" top="15.0" />
                            </HBox.margin>
@@ -48,7 +49,7 @@
          <right>
             <VBox prefHeight="350.0" prefWidth="154.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnNewEvento" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Add Evento">
+                  <Button fx:id="btnNewEvento" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Evento Nuevo">
                      <VBox.margin>
                         <Insets left="10.0" top="20.0" />
                      </VBox.margin>
@@ -72,31 +73,24 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnReporteTotal" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Reporte Total">
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnVerDatos" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Ver Datos">
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
                </children>
             </VBox>
          </right>
          <center>
-            <ListView prefHeight="500.0" prefWidth="700.0" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="30.0" />
-               </BorderPane.margin>
-            </ListView>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="tablaEventos" layoutX="106.0" layoutY="67.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                    <columns>
+                      <TableColumn fx:id="columId" prefWidth="75.0" text="ID " />
+                      <TableColumn fx:id="columCliente" prefWidth="75.0" text="NOMBRE CLIENTE" />
+                        <TableColumn fx:id="columInicio" prefWidth="75.0" text="FECHA INICIO" />
+                        <TableColumn fx:id="columFin" prefWidth="75.0" text="FECHA FIN" />
+                        <TableColumn fx:id="columDireccion" prefWidth="75.0" text="DIRECCIÓN" />
+                        <TableColumn fx:id="columDetalles" prefWidth="75.0" text="DETALLES" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
          </center>
       </BorderPane>
    </children>

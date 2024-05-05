@@ -28,12 +28,12 @@
                               <Insets left="30.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="txtBusqueda" maxHeight="-Infinity" maxWidth="500.0" minWidth="150.0" prefHeight="26.0" prefWidth="241.0" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="txtBusqueda" maxHeight="25.0" maxWidth="500.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="240.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets top="15.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" onAction="#filtrarDatosPorDNI" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="NEVER">
+                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#filtrarDatosPorDNI" prefHeight="25.0" prefWidth="60.0" text="Buscar" HBox.hgrow="NEVER">
                            <HBox.margin>
                               <Insets left="10.0" right="30.0" top="15.0" />
                            </HBox.margin>

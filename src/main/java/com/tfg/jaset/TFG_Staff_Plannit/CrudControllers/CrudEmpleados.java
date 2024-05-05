@@ -1,6 +1,6 @@
 package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 
-import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleado;
+import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleadoDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
@@ -13,7 +13,6 @@ import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,16 +35,16 @@ import java.util.ResourceBundle;
 public class CrudEmpleados implements Initializable {
 
     @FXML
-    private TableView<InformeEmpleado> tablaInformes;
+    private TableView<InformeEmpleadoDTO> tablaInformes;
 
     @FXML
-    private TableColumn<InformeEmpleado, String> anio;
+    private TableColumn<InformeEmpleadoDTO, String> anio;
 
     @FXML
-    private TableColumn<InformeEmpleado, String> mes;
+    private TableColumn<InformeEmpleadoDTO, String> mes;
 
     @FXML
-    private TableColumn<InformeEmpleado, String> informe;
+    private TableColumn<InformeEmpleadoDTO, String> informe;
 
     @FXML
     private Button btnEliminar;
@@ -156,9 +155,9 @@ public class CrudEmpleados implements Initializable {
     // Método para cargar los informes y los eventos relacionados en la tabla
     public void cargarInformesEmpleado() {
         String dniEmpleado = txtDNI.getText().trim(); // Obtener el DNI del empleado
-        List<InformeEmpleado> informes = eventoEmpleadoRepository.findInformesPorEmpleado(dniEmpleado);
+        List<InformeEmpleadoDTO> informes = eventoEmpleadoRepository.findInformesPorEmpleado(dniEmpleado);
 
-        for (InformeEmpleado informe : informes) {
+        for (InformeEmpleadoDTO informe : informes) {
             List<Evento> eventos = eventoRepository.findEventosPorInforme(informe.getAnio(), informe.getMes(), dniEmpleado);
             informe.setEventos(eventos);  // Asegúrate de que esta línea esté agregando correctamente los eventos
         }
@@ -174,7 +173,7 @@ public class CrudEmpleados implements Initializable {
     @FXML
     private void verInforme() {
         if (tablaInformes.getSelectionModel().getSelectedItem() != null) {
-            InformeEmpleado informeSeleccionado = tablaInformes.getSelectionModel().getSelectedItem();
+            InformeEmpleadoDTO informeSeleccionado = tablaInformes.getSelectionModel().getSelectedItem();
             mostrarDetallesInforme(informeSeleccionado);
         } else {
             FuncionesMenu.mostrarMensajeAlerta("Selección requerida", "Seleccione un informe de la tabla para ver los detalles.");
@@ -222,7 +221,7 @@ public class CrudEmpleados implements Initializable {
         }
     }
 
-    private void mostrarDetallesInforme(InformeEmpleado informe) {
+    private void mostrarDetallesInforme(InformeEmpleadoDTO informe) {
         System.out.println("Detalles del Informe:");
         System.out.println("Año: " + informe.getAnio());
         System.out.println("Mes: " + informe.getMes());

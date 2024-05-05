@@ -1,6 +1,6 @@
 package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 
-import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeClientes;
+import com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeClientesDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Cliente;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
@@ -27,7 +27,7 @@ public class CrudClientes implements Initializable {
 
     private final ClientesRepository clientesRepository;
     @FXML
-    private TableColumn<InformeClientes, String> anio;
+    private TableColumn<InformeClientesDTO, String> anio;
 
     @FXML
     private Button btnEliminar;
@@ -45,13 +45,13 @@ public class CrudClientes implements Initializable {
     private Button btnVolver;
 
     @FXML
-    private TableView<InformeClientes> tablaInformes;
+    private TableView<InformeClientesDTO> tablaInformes;
 
     @FXML
-    private TableColumn<InformeClientes, String> informe;
+    private TableColumn<InformeClientesDTO, String> informe;
 
     @FXML
-    private TableColumn<InformeClientes, String> mes;
+    private TableColumn<InformeClientesDTO, String> mes;
 
     @FXML
     private HBox padre;
@@ -136,7 +136,7 @@ public class CrudClientes implements Initializable {
     }
 
     private void cargarInformesClientes(Integer clienteId) {
-        List<InformeClientes> informes = clientesRepository.findInformesPorCliente(clienteId);
+        List<InformeClientesDTO> informes = clientesRepository.findInformesPorCliente(clienteId);
         informes.forEach(informe -> {
             List<Evento> eventos = eventosRepository.findEventosByClienteAndYearAndMonth(clienteId, informe.getAnio(), informe.getMes());
             informe.setEventos(eventos);

@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
-public class InformeClientes {
+public class InformeClientesDTO {
     private Integer anio;
     private String mes;
     private String nombreInforme;
     private List<Evento> eventos;
 
-    public InformeClientes(Integer anio, String mes, String nombreInforme) {
+    public InformeClientesDTO(Integer anio, String mes, String nombreInforme) {
         this.anio = anio;
         this.mes = mes;
         this.nombreInforme = nombreInforme;
