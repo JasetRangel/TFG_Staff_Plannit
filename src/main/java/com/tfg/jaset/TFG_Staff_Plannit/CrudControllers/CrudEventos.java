@@ -3,7 +3,11 @@ package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoEmpleadosDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Cliente;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
+import com.tfg.jaset.TFG_Staff_Plannit.Repositories.ClientesRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
+import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -89,6 +93,12 @@ public class CrudEventos implements Initializable {
     @Autowired
     private EventoEmpleadoRepository eventoEmpleadoRepository;
 
+    @Autowired
+    private ClientesRepository clientesRepository;
+
+    @Autowired
+    private EventosRepository eventosRepository;
+
     private EventoDTO eventoDTO;
 
     @Override
@@ -117,6 +127,40 @@ public class CrudEventos implements Initializable {
         }
 
     }
+
+    @FXML
+    private void actualizar_insertarEvento() {
+        if (validarDatosEvento()) {
+            try {
+                Cliente cliente = clientesRepository.findByNombre(txtNombreCliente.getText())
+                        .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+                Evento evento = new Evento();
+                evento.setCliente(cliente);
+                evento.setFechaInicio(txtFechaInicio.getValue());
+                evento.setFechaFin(txtFechaFin.getValue());
+                evento.setDireccionEvento(txtDireccion.getText());
+                evento.setDetalles(txtDetalles.getText());
+
+                eventosRepository.save(evento);
+                FuncionesMenu.mostrarMensajeAlerta("Evento guardado", "El evento fue guardado con éxito");
+                volver();
+            } catch (Exception e) {
+                FuncionesMenu.mostrarMensajeAlerta("Error al guardar", "No se pudo guardar el evento: " + e.getMessage());
+            }
+        } else {
+            FuncionesMenu.mostrarMensajeAlerta("Validación", "Verifique que todos los campos estén llenos");
+        }
+    }
+//MODIFICAR EL METODO DE LA CLASE FUNCIONES MENU PARA QUE TAMBIEN ME ACEPTE CAMPOS DE FECHA
+    private boolean validarDatosEvento() {
+        return txtNombreCliente.getText() != null && !txtNombreCliente.getText().isEmpty() &&
+                txtFechaInicio.getValue() != null &&
+                txtFechaFin.getValue() != null &&
+                txtDireccion.getText() != null && !txtDireccion.getText().isEmpty();
+    }
+
+
     private void cargarInformacionEnTabla() {
         List<EventoEmpleadosDTO> detalles = eventoEmpleadoRepository.findDetallesEmpleadosPorEvento(eventoDTO.getId());
         tablaInformes.setItems(FXCollections.observableArrayList(detalles));
@@ -126,7 +170,6 @@ public class CrudEventos implements Initializable {
         columEntrada.setCellValueFactory(new PropertyValueFactory<>("horaEntrada"));
         columSalida.setCellValueFactory(new PropertyValueFactory<>("horaSalida"));
         columFuncion.setCellValueFactory(new PropertyValueFactory<>("descripcionFuncion"));
-
     }
     @FXML
     private void volver(){

@@ -13,10 +13,7 @@ import java.util.Optional;
 
 public interface EventosRepository extends JpaRepository<Evento,Integer> {
     Optional<Evento> findById(Integer id);
-    Optional<Evento> findByDireccionEvento(String direccionEvento);
-    Optional<Evento> findByCliente(Cliente cliente);
-    Optional<Evento> findByFechaInicio(Date fechaInicio);
-    Optional<Evento> findByFechaFin(Date fechaFin);
+
 
 // Recupero los eventos por año, mes y DNI del empleado para informes detallados de actividades.
 // Filtro los eventos donde participa un empleado específico durante un mes y año dados.
