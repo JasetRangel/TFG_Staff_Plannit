@@ -2,6 +2,7 @@ package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoEmpleadosDTO;
+import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import javafx.collections.FXCollections;
@@ -105,7 +106,6 @@ public class CrudEventos implements Initializable {
 
         eventoDTO= (EventoDTO) FuncionesMenu.getObjetoSeleccionado();
 
-        cargarInformacionEnTabla();
         if(eventoDTO!=null){
             txtId.setText(String.valueOf(eventoDTO.getId()));
             txtNombreCliente.setText(eventoDTO.getNombreCliente());
@@ -113,7 +113,7 @@ public class CrudEventos implements Initializable {
             txtFechaFin.setValue(eventoDTO.getFechaFin());
             txtFechaInicio.setValue(eventoDTO.getFechaInicio());
             txtDetalles.setText(String.valueOf(eventoDTO.getDetalles()));
-
+            cargarInformacionEnTabla();
         }
 
     }
@@ -127,5 +127,9 @@ public class CrudEventos implements Initializable {
         columSalida.setCellValueFactory(new PropertyValueFactory<>("horaSalida"));
         columFuncion.setCellValueFactory(new PropertyValueFactory<>("descripcionFuncion"));
 
+    }
+    @FXML
+    private void volver(){
+        Main.cambiarVista("/com/java/fx/eventos.fxml");
     }
 }

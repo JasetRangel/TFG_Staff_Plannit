@@ -156,7 +156,7 @@ public class CrudClientes implements Initializable {
 
     @FXML
     private void volver(){
-
+        Main.setObjetoSeleccionado(null);
         Main.cambiarVista("/com/java/fx/clientes.fxml");
     }
 

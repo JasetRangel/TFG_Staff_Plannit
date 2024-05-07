@@ -153,6 +153,7 @@ public class EmpleadosController implements Initializable {
     }
     @FXML
     private void agregarEmpleado(){
+        FuncionesMenu.limpiarObjetoSeleccionado();
         Main.cambiarVista("/com/java/fx/crudEmpleados.fxml");
     }
 

@@ -126,6 +126,7 @@ public class ClientesController implements Initializable {
     }
     @FXML
     private void agregarCliente(){
+        FuncionesMenu.limpiarObjetoSeleccionado();
         Main.cambiarVista("/com/java/fx/crudClientes.fxml");
     }
     @FXML

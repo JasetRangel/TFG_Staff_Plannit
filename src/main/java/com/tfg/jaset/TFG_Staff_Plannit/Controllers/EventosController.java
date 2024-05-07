@@ -94,4 +94,10 @@ public class EventosController implements Initializable {
         List<EventoDTO> eventos = eventosRepository.findAllEventosWithClientDetails();
         tablaEventos.setItems(FXCollections.observableArrayList(eventos));
     }
+
+    @FXML
+    private void agregarEvento(){
+        FuncionesMenu.limpiarObjetoSeleccionado();
+        Main.cambiarVista("/com/java/fx/eventosCrud.fxml");
+    }
 }

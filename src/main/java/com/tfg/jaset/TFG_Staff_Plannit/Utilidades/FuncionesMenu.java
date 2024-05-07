@@ -198,7 +198,9 @@ public class FuncionesMenu {
 
     }
 
-
+    public static void limpiarObjetoSeleccionado() {
+        setObjetoSeleccionado(null);
+    }
 
 
 }

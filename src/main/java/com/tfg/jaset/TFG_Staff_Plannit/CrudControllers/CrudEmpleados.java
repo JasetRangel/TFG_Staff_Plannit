@@ -142,14 +142,11 @@ public class CrudEmpleados implements Initializable {
             txtEmail.setText(empleado.getEmail());
             txtTel.setText(empleado.getTelefono());
             txtBanco.setText(empleado.getCuentaBancaria());
-
         }
         FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
         FuncionesMenu.configurarEstiloBotones(btnEliminar,btnInformar,btnVerInforme,btnVolver,btnGuardar);
 
         cargarInformesEmpleado();
-
-
     }
     // Método para cargar los informes en la tabla
     // Método para cargar los informes y los eventos relacionados en la tabla
@@ -167,7 +164,6 @@ public class CrudEmpleados implements Initializable {
 
     @FXML
     private void volver(){
-
         Main.cambiarVista("/com/java/fx/empleados.fxml");
     }
     @FXML

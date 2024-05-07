@@ -36,6 +36,8 @@ public class Main extends Application {
 		launch();
 	}
 
+
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		context=SpringApplication.run(Main.class);
@@ -64,6 +66,8 @@ public class Main extends Application {
            	e.printStackTrace();
         }
 	}
+
+
 
 
 }
