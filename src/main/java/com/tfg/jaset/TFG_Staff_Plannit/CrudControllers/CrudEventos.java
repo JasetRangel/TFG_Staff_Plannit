@@ -9,16 +9,21 @@ import com.tfg.jaset.TFG_Staff_Plannit.Repositories.ClientesRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
+import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.SpringContextUtil;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.List;
@@ -42,6 +47,7 @@ public class CrudEventos implements Initializable {
     @FXML
     private Button btnVolver;
 
+
     @FXML
     private TableColumn<EventoEmpleadosDTO, String> columApellidos;
 
@@ -64,7 +70,7 @@ public class CrudEventos implements Initializable {
     private HBox padreBotonones;
 
     @FXML
-    private VBox padreColun1;
+    AnchorPane modificable;
 
     @FXML
     private VBox padreColun2;
@@ -175,4 +181,51 @@ public class CrudEventos implements Initializable {
     private void volver(){
         Main.cambiarVista("/com/java/fx/eventos.fxml");
     }
+    @FXML
+    private void agregarEmpleadoAEvento() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/java/fx/empleadosEventos.fxml"));
+            loader.setControllerFactory(SpringContextUtil.getContext()::getBean);
+
+            DialogPane dialogPane = loader.load();
+
+            Dialog<ButtonType> dialog=new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Agregar Empleado");
+            // Crear los botones dinámicamente
+            ButtonType agregarButtonType = new ButtonType("Agregar", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cerrarButtonType = new ButtonType("Cerrar", ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().addAll(agregarButtonType, cerrarButtonType);
+
+
+            EmpleadosEventos controller = loader.getController();
+            // Pasar la información del evento al controlador del diálogo
+            controller.setEventoInfo(
+                    txtId.getText(),
+                    txtNombreCliente.getText(),
+                    txtDireccion.getText(),
+                    txtFechaInicio.getValue(),
+                    txtFechaFin.getValue()
+            );
+
+            // Estableco el callback para actualizar la tabla al cerrar el diálogo
+            dialog.setOnHidden(event -> cargarInformacionEnTabla());
+
+            // Obtener el botón "Agregar" y definir su acción manualmente. Lo hago para que no se cierre el dialog
+            Button agregarButton = (Button) dialog.getDialogPane().lookupButton(agregarButtonType);
+            agregarButton.addEventFilter(ActionEvent.ACTION, event -> {
+
+                controller.agregarEmpleado();
+                controller.limpiarCampos();
+                // Consumir el evento para evitar que el diálogo se cierre
+                event.consume();
+            });
+
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Manejar error de carga de vista
+        }
+    }
+
 }

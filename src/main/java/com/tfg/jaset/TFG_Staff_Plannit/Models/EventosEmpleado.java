@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
@@ -33,5 +34,8 @@ public class EventosEmpleado {
 
     @Column(name = "hora_salida")
     private LocalTime horaSalida;
+
+    @Column(name = "fecha")
+    private LocalDate fecha;
 
 }

@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface ClientesRepository extends JpaRepository<Cliente,Integer> {
     Optional<Cliente>findByNombre(String nombre);
 
+    List<Cliente> findAllByNombre(String nombre);
+
     @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeClientesDTO(YEAR(e.fechaInicio), MONTHNAME(e.fechaInicio), CONCAT('Informe ', c.nombre)) " +
             "FROM Evento e JOIN e.cliente c " +
             "WHERE c.id = :clienteId " +

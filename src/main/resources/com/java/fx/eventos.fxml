@@ -33,13 +33,21 @@
                               <Insets top="15.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Buscar" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#filtrarDatosPorNombreCliente" prefHeight="25.0" prefWidth="60.0" text="Buscar" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="10.0" right="30.0" top="15.0" />
+                              <Insets left="15.0" right="20.0" top="15.0" />
                            </HBox.margin>
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
+                        </Button>
+                        <Button fx:id="btnListar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#listar" prefHeight="25.0" prefWidth="80.0" text="Cancelar">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="15.0" top="15.0" />
+                           </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
@@ -52,14 +60,6 @@
                   <Button fx:id="btnNewEvento" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#agregarEvento" prefHeight="30.0" prefWidth="110.0" text="Evento Nuevo">
                      <VBox.margin>
                         <Insets left="10.0" top="20.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnModificar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Modificar">
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
                      </VBox.margin>
                      <font>
                         <Font name="System Bold" size="13.0" />

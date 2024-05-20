@@ -158,7 +158,6 @@ public class CrudEmpleados implements Initializable {
             List<Evento> eventos = eventoRepository.findEventosPorInforme(informe.getAnio(), informe.getMes(), dniEmpleado);
             informe.setEventos(eventos);  // Asegúrate de que esta línea esté agregando correctamente los eventos
         }
-
         tablaInformes.setItems(FXCollections.observableArrayList(informes));
     }
 
@@ -170,11 +169,73 @@ public class CrudEmpleados implements Initializable {
     private void verInforme() {
         if (tablaInformes.getSelectionModel().getSelectedItem() != null) {
             InformeEmpleadoDTO informeSeleccionado = tablaInformes.getSelectionModel().getSelectedItem();
-            mostrarDetallesInforme(informeSeleccionado);
+            double totalHoras = calcularHorasTrabajadasEnMes(informeSeleccionado);
+            mostrarDetallesInforme(informeSeleccionado, totalHoras);
         } else {
             FuncionesMenu.mostrarMensajeAlerta("Selección requerida", "Seleccione un informe de la tabla para ver los detalles.");
         }
     }
+
+    private double calcularHorasTrabajadasEnMes(InformeEmpleadoDTO informe) {
+        List<Evento> eventos = informe.getEventos();
+        double totalHoras = 0.0;
+
+        for (Evento evento : eventos) {
+            totalHoras += calcularHorasEvento(evento, informe.getDniEmpleado(), informe.getAnio(), informe.getMes());
+        }
+
+        return totalHoras;
+    }
+
+    private double calcularHorasEvento(Evento evento, String dniEmpleado, int anio, String mes) {
+        List<EventosEmpleado> registros = eventoEmpleadoRepository.findByEventoIdAndEmpleadoDniAndAnioAndMesOrderByFechaAsc(evento.getId(), dniEmpleado, anio, mes);
+        double horasTotales = 0.0;
+
+        for (EventosEmpleado registro : registros) {
+            System.out.println("Hora entrada: " + registro.getHoraEntrada());
+            System.out.println("Hora salida: " + registro.getHoraSalida());
+            LocalTime entrada = registro.getHoraEntrada();
+            LocalTime salida = registro.getHoraSalida();
+
+
+
+            if (entrada != null && salida != null) {
+                double horasEntrada = convertirHoraADouble(entrada);
+                double horasSalida = convertirHoraADouble(salida);
+                System.out.println("Hora entrada double: " + horasEntrada);
+                System.out.println("Hora salida double: " + horasSalida);
+                if (horasSalida >= horasEntrada) {
+                    horasTotales+=horasSalida-horasEntrada;
+                    System.out.println("Horas totales mias: "+ horasTotales);
+                }else{
+                    horasTotales+=(24-horasEntrada)+horasSalida;
+                    System.out.println("Horas totales mias: "+ horasTotales);
+                }
+                //horasTotales += horasSalida - horasEntrada; // Esto suma las horas en formato double.
+
+                // Debugging output
+              /*  System.out.println("Registro: " + registro);
+                System.out.println("Entrada (double): " + horasEntrada);
+                System.out.println("Salida (double): " + horasSalida);*/
+            }
+        }
+
+        System.out.println("Total horas: " + horasTotales);
+        return horasTotales;
+    }
+
+    private double convertirHoraADouble(LocalTime hora) {
+        return hora.getHour() + hora.getMinute() / 60.0 + hora.getSecond() / 3600.0;
+    }
+
+    private void mostrarDetallesInforme(InformeEmpleadoDTO informe, double totalHoras) {
+        // Mostrar el total de horas trabajadas en un diálogo
+        FuncionesMenu.mostrarMensajeAlerta("Total de Horas Trabajadas",
+                "Total de horas trabajadas en " + informe.getMes() + " " + informe.getAnio() + ": " + totalHoras);
+    }
+
+
+
     @FXML
     private void informar(){
         FuncionesMenu.mostrarMensajeAlerta("Desarrollando","Función en desarollo");
@@ -217,41 +278,15 @@ public class CrudEmpleados implements Initializable {
         }
     }
 
-    private void mostrarDetallesInforme(InformeEmpleadoDTO informe) {
-        System.out.println("Detalles del Informe:");
-        System.out.println("Año: " + informe.getAnio());
-        System.out.println("Mes: " + informe.getMes());
-        System.out.println("Informe: " + informe.getNombreInforme());
-        System.out.println("Eventos Participados:");
-        for (Evento evento : informe.getEventos()) {
-            System.out.println(" - Evento: " + evento.getDetalles()
-                    + ", Fecha Inicio: " + evento.getFechaInicio()
-                    + ", Fecha Fin: " + evento.getFechaFin()
-                    + ", Horas Trabajadas: " + encontrarHoras(evento));
-        }
+    private void mostrarDetallesInforme(InformeEmpleadoDTO informe, Double totalHoras) {
+
+        // Mostrar el total de horas trabajadas en un diálogo
+        FuncionesMenu.mostrarMensajeAlerta("Total de Horas Trabajadas",
+                "Total de horas trabajadas en " + informe.getMes() + " " + informe.getAnio() + ": " + totalHoras);
     }
 
-    private BigDecimal encontrarHoras(Evento evento) {
-        // Recuperar todos los registros EventosEmpleado para un evento específico
-        List<EventosEmpleado> registros = eventoEmpleadoRepository.findByEventoId(evento.getId());
-        BigDecimal horasTotales = BigDecimal.ZERO;
 
-        // Sumar todas las horas trabajadas para este evento
-        for (EventosEmpleado registro : registros) {
-            LocalTime entrada = registro.getHoraEntrada();
-            LocalTime salida = registro.getHoraSalida();
-            if (entrada != null && salida != null && !salida.isBefore(entrada)) {
-                // Calcula la duración entre la hora de entrada y la hora de salida
-                Duration duracion = Duration.between(entrada, salida);
-                // Convierte la duración a horas en formato decimal
-                BigDecimal horas = BigDecimal.valueOf(duracion.toMinutes() / 60.0);
-                // Añade al total
-                horasTotales = horasTotales.add(horas);
-            }
-        }
 
-        return horasTotales;
-    }
 
 
 

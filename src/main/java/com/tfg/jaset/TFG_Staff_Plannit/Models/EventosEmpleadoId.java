@@ -21,8 +21,7 @@ public class EventosEmpleadoId implements Serializable {
     @Column(name = "empleado_dni", nullable = false, length = 9)
     private String empleadoDni;
 
-    @Column(name = "fecha", nullable = false)
-    private LocalDate fecha;
+
 
 
 }

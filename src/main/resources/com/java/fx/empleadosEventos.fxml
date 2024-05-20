@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane fx:id="padre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.CrudControllers.EmpleadosEventos">
+   <content>
+   <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0">
+      <children>
+         <HBox fx:id="padre1" layoutX="20.8" layoutY="20.8" prefHeight="349.0" prefWidth="673.0" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <children>
+               <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="NEVER">
+                  <children>
+                     <Label prefHeight="30.0" prefWidth="80.0" text="ID EVENTO:" VBox.vgrow="NEVER">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" text="CLIENTE:">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label prefHeight="30.0" prefWidth="80.0" text="DIRECCIÓN:" VBox.vgrow="ALWAYS">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label prefHeight="30.0" prefWidth="100.0" text="INICIO:">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label prefHeight="30.0" prefWidth="100.0" text="FIN:" VBox.vgrow="ALWAYS">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                  </children>
+                  <HBox.margin>
+                     <Insets left="50.0" top="30.0" />
+                  </HBox.margin>
+               </VBox>
+               <VBox fx:id="padreColun1" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="NEVER">
+                  <children>
+                     <TextField fx:id="txtId" disable="true" editable="false" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </TextField>
+                     <TextField fx:id="txtNombreCliente" disable="true" editable="false" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </TextField>
+                     <TextField fx:id="txtDireccion" disable="true" editable="false" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0">
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </TextField>
+                     <DatePicker fx:id="txtFechaInicio" disable="true" editable="false" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="NEVER">
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                     </DatePicker>
+                     <DatePicker fx:id="txtFechaFin" disable="true" editable="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" VBox.vgrow="NEVER">
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                     </DatePicker>
+                  </children>
+                  <HBox.margin>
+                     <Insets top="30.0" />
+                  </HBox.margin>
+               </VBox>
+               <VBox minWidth="-Infinity" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="NEVER">
+                  <children>
+                     <Label prefHeight="30.0" prefWidth="80.0" text="EMPLEADO:" VBox.vgrow="NEVER">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label prefHeight="30.0" prefWidth="80.0" text="APELLIDOS:">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label layoutX="10.0" layoutY="56.0" prefHeight="30.0" prefWidth="100.0" text="FUNCIÓN:">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label prefHeight="30.0" prefWidth="80.0" text="DÍA:">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label prefHeight="30.0" prefWidth="100.0" text="HORA ENTRADA:">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Label prefHeight="30.0" prefWidth="100.0" text="HORA ENTRADA:">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     </Label>
+                  </children>
+                  <HBox.margin>
+                     <Insets left="20.0" top="30.0" />
+                  </HBox.margin>
+               </VBox>
+               <VBox fx:id="padreColun2" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="NEVER">
+                  <children>
+                     <TextField fx:id="txtEmpleado" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0">
+                        <VBox.margin>
+                           <Insets bottom="15.0" left="10.0" />
+                        </VBox.margin>
+                     </TextField>
+                     <TextField fx:id="txtApellidos" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0">
+                        <VBox.margin>
+                           <Insets bottom="15.0" left="10.0" />
+                        </VBox.margin></TextField>
+                     <ComboBox fx:id="comboFunciones" prefHeight="30.0" prefWidth="170.0">
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                        <VBox.margin>
+                           <Insets bottom="15.0" left="10.0" />
+                        </VBox.margin>
+                     </ComboBox>
+                     <DatePicker fx:id="txtFechaDia" prefHeight="30.0" prefWidth="170.0" promptText="DÍA TRABAJDO">
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                        <VBox.margin>
+                           <Insets bottom="15.0" left="10.0" />
+                        </VBox.margin>
+                     </DatePicker>
+                     <TextField fx:id="txtHoraEntrada" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" promptText="00:00 - 23:00">
+                        <VBox.margin>
+                           <Insets bottom="15.0" left="10.0" />
+                        </VBox.margin>
+                     </TextField>
+                     <TextField fx:id="txtHoraSalida" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" promptText="00:00 - 23:00">
+                        <VBox.margin>
+                           <Insets bottom="15.0" left="10.0" />
+                        </VBox.margin>
+                     </TextField>
+                  </children>
+                  <HBox.margin>
+                     <Insets right="50.0" top="30.0" />
+                  </HBox.margin>
+               </VBox>
+            </children>
+         </HBox>
+      </children>
+   </AnchorPane>
+
+   </content>
+
+
+</DialogPane>

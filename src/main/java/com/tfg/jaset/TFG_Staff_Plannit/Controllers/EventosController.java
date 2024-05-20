@@ -2,6 +2,7 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import javafx.collections.FXCollections;
@@ -17,8 +18,10 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component
 public class EventosController implements Initializable {
@@ -31,7 +34,7 @@ public class EventosController implements Initializable {
     private Button btnEliminar;
 
     @FXML
-    private Button btnModificar;
+    private Button btnListar;
 
     @FXML
     private Button btnNewEvento;
@@ -65,6 +68,7 @@ public class EventosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        txtBusqueda.setPromptText("INGRESE EL NOMBRE DEL CLIENTE");
         columId.prefWidthProperty().bind(tablaEventos.widthProperty().multiply(0.1));
         columCliente.prefWidthProperty().bind(tablaEventos.widthProperty().multiply(0.2));
         columInicio.prefWidthProperty().bind(tablaEventos.widthProperty().multiply(0.1));
@@ -90,6 +94,24 @@ public class EventosController implements Initializable {
 
     }
 
+    @FXML
+    private  void filtrarDatosPorNombreCliente() {
+        String filtro = txtBusqueda.getText();
+        if (filtro.isEmpty()) {
+            FuncionesMenu.mostrarMensajeAlerta("Campo vacío","Debe rellenar el campo de búsqueda");
+            txtBusqueda.requestFocus();
+        }else{
+            List<Evento> eventos = eventosRepository.findEventosByNombreCliente(filtro);
+            List<EventoDTO> eventosDTO = eventos.stream()
+                    .map(evento -> new EventoDTO(evento.getId(), evento.getCliente().getNombre(), evento.getFechaInicio(),
+                            evento.getFechaFin(), evento.getDireccionEvento(), evento.getDetalles()))
+                    .collect(Collectors.toList());
+            tablaEventos.setItems(FXCollections.observableArrayList(eventosDTO));
+        }
+
+
+    }
+
     private void cargarDatos(){
         List<EventoDTO> eventos = eventosRepository.findAllEventosWithClientDetails();
         tablaEventos.setItems(FXCollections.observableArrayList(eventos));
@@ -99,5 +121,10 @@ public class EventosController implements Initializable {
     private void agregarEvento(){
         FuncionesMenu.limpiarObjetoSeleccionado();
         Main.cambiarVista("/com/java/fx/eventosCrud.fxml");
+    }
+    @FXML
+    private void listar(){
+        txtBusqueda.setText("");
+        cargarDatos();
     }
 }

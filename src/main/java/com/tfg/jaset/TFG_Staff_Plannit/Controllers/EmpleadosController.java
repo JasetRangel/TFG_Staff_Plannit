@@ -136,7 +136,7 @@ public class EmpleadosController implements Initializable {
         if (filtro.isEmpty()) {
             // Si no hay filtro, cargar todos los empleados
             //tablaEmpleados.setItems(FXCollections.observableArrayList(empleadoRepository.findAll()));
-            FuncionesMenu.mostrarMensajeAlerta("Campo requerido","Debe rellenar el campo de búsqueda");
+            FuncionesMenu.mostrarMensajeAlerta("Campo vacío","Debe rellenar el campo de búsqueda");
         } else {
             empleadoRepository.findByDni(filtro).ifPresentOrElse(
                     empleadoEncontrado -> {

@@ -1,13 +1,11 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Repositories;
 
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO;
-import com.tfg.jaset.TFG_Staff_Plannit.Models.Cliente;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +27,10 @@ public interface EventosRepository extends JpaRepository<Evento,Integer> {
     @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO(e.id, c.nombre, e.fechaInicio, e.fechaFin, e.direccionEvento, e.detalles) " +
             "FROM Evento e JOIN e.cliente c")
     List<EventoDTO> findAllEventosWithClientDetails();
+
+    Optional<Object> findByDireccionEvento(String nombre);
+
+    // FETCH me permite acceder a una propiedad, aunque esta sea LAZY
+    @Query("SELECT e FROM Evento e JOIN FETCH e.cliente c WHERE c.nombre = :nombreCliente")
+    List<Evento> findEventosByNombreCliente(@Param("nombreCliente") String nombreCliente);
 }

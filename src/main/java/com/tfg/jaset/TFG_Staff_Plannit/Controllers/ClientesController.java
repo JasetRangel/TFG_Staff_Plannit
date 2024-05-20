@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -64,6 +65,7 @@ public class ClientesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        txtBusqueda.setPromptText("Introduzca el Nombre del Cliente");
 
         columId.prefWidthProperty().bind(tablaClientes.widthProperty().multiply(0.1));
         columNombre.prefWidthProperty().bind(tablaClientes.widthProperty().multiply(0.2));
@@ -108,20 +110,15 @@ public class ClientesController implements Initializable {
     private void filtrarClientePorNombre(){
         String filtro = txtBusqueda.getText().trim();
         if (filtro.isEmpty()) {
-
-            FuncionesMenu.mostrarMensajeAlerta("Campo requerido","Debe rellenar el campo de búsqueda");
+            FuncionesMenu.mostrarMensajeAlerta("Campo requerido", "Debe rellenar el campo de búsqueda");
         } else {
-            clientesRepository.findByNombre(filtro).ifPresentOrElse(
-                    clienteEncontrado -> {
-                        // Si encuentra el empleado, actualizar la tabla mostrando solo ese empleado
-                        tablaClientes.setItems(FXCollections.observableArrayList(Collections.singletonList(clienteEncontrado)));
-                    },
-                    () -> {
-                        // Si no encuentra nada, limpiar la tabla
-                        tablaClientes.setItems(FXCollections.observableArrayList());
-                        FuncionesMenu.mostrarMensajeAlerta("Búsqueda", "No se encontró un empleado con el DNI especificado.");
-                    }
-            );
+            List<Cliente> clientesEncontrados = clientesRepository.findAllByNombre(filtro);
+            if (clientesEncontrados.isEmpty()) {
+                FuncionesMenu.mostrarMensajeAlerta("Búsqueda", "No se encontró ningún cliente con el nombre especificado.");
+                tablaClientes.setItems(FXCollections.observableArrayList());
+            } else {
+                tablaClientes.setItems(FXCollections.observableArrayList(clientesEncontrados));
+            }
         }
     }
     @FXML

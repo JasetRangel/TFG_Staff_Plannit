@@ -14,14 +14,16 @@ public class InformeEmpleadoDTO {
     private Integer anio;
     private String mes;
     private String nombreInforme;
+    private String dniEmpleado;
     private LocalTime horaEntrada;
     private LocalTime horaSalida;
     private List<Evento>eventos;
 
-    public InformeEmpleadoDTO(Integer anio, String mes, String nombreInforme, LocalTime horaEntrada, LocalTime horaSalida) {
+    public InformeEmpleadoDTO(Integer anio, String mes, String nombreInforme,String dniEmpleado, LocalTime horaEntrada, LocalTime horaSalida) {
         this.anio = anio;
         this.mes = mes;
         this.nombreInforme = String.format("%s_%s_%d",nombreInforme,mes,anio);
+        this.dniEmpleado = dniEmpleado;
         this.horaEntrada = horaEntrada;
         this.horaSalida = horaSalida;
         this.eventos = new ArrayList<>();
