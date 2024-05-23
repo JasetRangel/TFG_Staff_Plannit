@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface ClientesRepository extends JpaRepository<Cliente,Integer> {
     Optional<Cliente>findByNombre(String nombre);
-
+    Optional<Cliente> findById(int id);
     List<Cliente> findAllByNombre(String nombre);
 
     @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeClientesDTO(YEAR(e.fechaInicio), MONTHNAME(e.fechaInicio), CONCAT('Informe ', c.nombre)) " +

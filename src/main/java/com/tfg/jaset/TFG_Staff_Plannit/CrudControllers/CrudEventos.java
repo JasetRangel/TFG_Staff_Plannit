@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -107,6 +108,8 @@ public class CrudEventos implements Initializable {
 
     private EventoDTO eventoDTO;
 
+    private Evento evento;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         columNombre.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.2));
@@ -129,6 +132,13 @@ public class CrudEventos implements Initializable {
             txtFechaFin.setValue(eventoDTO.getFechaFin());
             txtFechaInicio.setValue(eventoDTO.getFechaInicio());
             txtDetalles.setText(String.valueOf(eventoDTO.getDetalles()));
+
+            evento=new Evento();
+            evento.setId(eventoDTO.getId());
+            evento.setFechaInicio(eventoDTO.getFechaInicio());
+            evento.setFechaFin(eventoDTO.getFechaFin());
+            evento.setDetalles(eventoDTO.getDetalles());
+            evento.setDireccionEvento(eventoDTO.getDireccion());
             cargarInformacionEnTabla();
         }
 
@@ -138,19 +148,25 @@ public class CrudEventos implements Initializable {
     private void actualizar_insertarEvento() {
         if (validarDatosEvento()) {
             try {
-                Cliente cliente = clientesRepository.findByNombre(txtNombreCliente.getText())
+                System.out.println(eventoDTO.getIdCliente());
+                Cliente cliente = clientesRepository.findById(eventoDTO.getIdCliente())
                         .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                Evento eventoModificar = new Evento();
+                
+                eventoModificar.setCliente(cliente);
+                eventoModificar.setFechaInicio(txtFechaInicio.getValue());
+                eventoModificar.setFechaFin(txtFechaFin.getValue());
+                eventoModificar.setDireccionEvento(txtDireccion.getText());
+                eventoModificar.setDetalles(txtDetalles.getText());
+                if(eventoDTO==null || eventoModificar.esDiferente(evento,eventoModificar)){
+                    eventosRepository.save(eventoModificar);
+                    FuncionesMenu.actualizarObjeto(eventosRepository,evento);
+                    FuncionesMenu.mostrarMensajeAlerta("Evento guardado", "El evento fue guardado con éxito");
+                    volver();
+                }else{
+                    FuncionesMenu.mostrarMensajeAlerta("Objeto sin cambios", "No se han realizado cambios.");
+                }
 
-                Evento evento = new Evento();
-                evento.setCliente(cliente);
-                evento.setFechaInicio(txtFechaInicio.getValue());
-                evento.setFechaFin(txtFechaFin.getValue());
-                evento.setDireccionEvento(txtDireccion.getText());
-                evento.setDetalles(txtDetalles.getText());
-
-                eventosRepository.save(evento);
-                FuncionesMenu.mostrarMensajeAlerta("Evento guardado", "El evento fue guardado con éxito");
-                volver();
             } catch (Exception e) {
                 FuncionesMenu.mostrarMensajeAlerta("Error al guardar", "No se pudo guardar el evento: " + e.getMessage());
             }
@@ -224,7 +240,6 @@ public class CrudEventos implements Initializable {
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
-            // Manejar error de carga de vista
         }
     }
 

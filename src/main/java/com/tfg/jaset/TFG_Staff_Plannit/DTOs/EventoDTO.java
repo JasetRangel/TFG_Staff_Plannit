@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class EventoDTO {
 
     private Integer id;
+    private  Integer idCliente;
     private String nombreCliente;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -17,9 +18,10 @@ public class EventoDTO {
     private String detalles;
 
     // Constructor, getters y setters
-    public EventoDTO(Integer id, String nombreCliente, LocalDate fechaInicio, LocalDate fechaFin, String direccion, String detalles) {
+    public EventoDTO(Integer id, String nombreCliente,Integer idCliente, LocalDate fechaInicio, LocalDate fechaFin, String direccion, String detalles) {
         this.id = id;
         this.nombreCliente = nombreCliente;
+        this.idCliente = idCliente;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.direccion = direccion;

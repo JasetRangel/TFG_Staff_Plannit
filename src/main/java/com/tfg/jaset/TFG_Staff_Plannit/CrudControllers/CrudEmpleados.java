@@ -156,7 +156,7 @@ public class CrudEmpleados implements Initializable {
 
         for (InformeEmpleadoDTO informe : informes) {
             List<Evento> eventos = eventoRepository.findEventosPorInforme(informe.getAnio(), informe.getMes(), dniEmpleado);
-            informe.setEventos(eventos);  // Asegúrate de que esta línea esté agregando correctamente los eventos
+            informe.setEventos(eventos);
         }
         tablaInformes.setItems(FXCollections.observableArrayList(informes));
     }
@@ -197,8 +197,6 @@ public class CrudEmpleados implements Initializable {
             LocalTime entrada = registro.getHoraEntrada();
             LocalTime salida = registro.getHoraSalida();
 
-
-
             if (entrada != null && salida != null) {
                 double horasEntrada = convertirHoraADouble(entrada);
                 double horasSalida = convertirHoraADouble(salida);
@@ -211,12 +209,6 @@ public class CrudEmpleados implements Initializable {
                     horasTotales+=(24-horasEntrada)+horasSalida;
                     System.out.println("Horas totales mias: "+ horasTotales);
                 }
-                //horasTotales += horasSalida - horasEntrada; // Esto suma las horas en formato double.
-
-                // Debugging output
-              /*  System.out.println("Registro: " + registro);
-                System.out.println("Entrada (double): " + horasEntrada);
-                System.out.println("Salida (double): " + horasSalida);*/
             }
         }
 
@@ -278,12 +270,7 @@ public class CrudEmpleados implements Initializable {
         }
     }
 
-    private void mostrarDetallesInforme(InformeEmpleadoDTO informe, Double totalHoras) {
 
-        // Mostrar el total de horas trabajadas en un diálogo
-        FuncionesMenu.mostrarMensajeAlerta("Total de Horas Trabajadas",
-                "Total de horas trabajadas en " + informe.getMes() + " " + informe.getAnio() + ": " + totalHoras);
-    }
 
 
 

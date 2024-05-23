@@ -2,9 +2,12 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Usuario;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
+import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -103,18 +106,33 @@ public class EventosController implements Initializable {
         }else{
             List<Evento> eventos = eventosRepository.findEventosByNombreCliente(filtro);
             List<EventoDTO> eventosDTO = eventos.stream()
-                    .map(evento -> new EventoDTO(evento.getId(), evento.getCliente().getNombre(), evento.getFechaInicio(),
+                    .map(evento -> new EventoDTO(evento.getId(), evento.getCliente().getNombre(),evento.getCliente().getId(), evento.getFechaInicio(),
                             evento.getFechaFin(), evento.getDireccionEvento(), evento.getDetalles()))
                     .collect(Collectors.toList());
             tablaEventos.setItems(FXCollections.observableArrayList(eventosDTO));
         }
-
-
     }
 
     private void cargarDatos(){
         List<EventoDTO> eventos = eventosRepository.findAllEventosWithClientDetails();
         tablaEventos.setItems(FXCollections.observableArrayList(eventos));
+    }
+
+    @FXML
+    private void eliminar(){
+        EventoDTO eventoSelected=tablaEventos.getSelectionModel().getSelectedItem();
+        if (eventoSelected != null) {
+            Usuario user=UsuarioUtils.getUsuarioActual();
+            if(user.getPermiso().equals("ADMIN")){
+                if(FuncionesMenu.mostrarDialogConfirmacion("Eliminación Empleado.","¿Está seguro de eliminar a este empleado?")){
+                    eventosRepository.deleteById(eventoSelected.getId());
+                    cargarDatos();
+                }
+            }
+        } else {
+            FuncionesMenu.mostrarMensajeAlerta("Selección Requerida", "Debe seleccionar un usuario de la tabla");
+            return;
+        }
     }
 
     @FXML

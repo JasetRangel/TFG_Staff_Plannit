@@ -2,6 +2,7 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
+import com.tfg.jaset.TFG_Staff_Plannit.Repositories.ClientesRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
@@ -74,6 +75,9 @@ public class EmpleadosController implements Initializable {
 
     @Autowired
     EmpleadoRepository empleadoRepository;
+
+    @Autowired
+    ClientesRepository clientesRepository;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

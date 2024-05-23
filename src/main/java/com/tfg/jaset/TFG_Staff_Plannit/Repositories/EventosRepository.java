@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface EventosRepository extends JpaRepository<Evento,Integer> {
     Optional<Evento> findById(Integer id);
 
+    void deleteById(Integer id);
 
 // Recupero los eventos por año, mes y DNI del empleado para informes detallados de actividades.
 // Filtro los eventos donde participa un empleado específico durante un mes y año dados.
@@ -24,7 +25,7 @@ public interface EventosRepository extends JpaRepository<Evento,Integer> {
     List<Evento> findEventosByClienteAndYearAndMonth(@Param("clienteId") Integer clienteId, @Param("anio") Integer anio, @Param("mes") String mes);
 
 // Recupero los datos de los eventos y los almaceno en EventoDTO.
-    @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO(e.id, c.nombre, e.fechaInicio, e.fechaFin, e.direccionEvento, e.detalles) " +
+    @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO(e.id, c.nombre,c.id, e.fechaInicio, e.fechaFin, e.direccionEvento, e.detalles) " +
             "FROM Evento e JOIN e.cliente c")
     List<EventoDTO> findAllEventosWithClientDetails();
 
