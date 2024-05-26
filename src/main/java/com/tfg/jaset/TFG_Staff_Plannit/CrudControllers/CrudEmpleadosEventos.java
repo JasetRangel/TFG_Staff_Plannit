@@ -1,5 +1,6 @@
 package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 
+import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoEmpleadosDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.*;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
@@ -19,13 +20,14 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 @Component
-public class EmpleadosEventos implements Initializable {
+public class CrudEmpleadosEventos implements Initializable {
 
     @FXML
     private ComboBox<String> comboFunciones;
@@ -84,6 +86,9 @@ public class EmpleadosEventos implements Initializable {
     @Autowired
     private EventosRepository eventosRepository;
 
+    // Declaración de la variable eventoEmpleado
+    private EventosEmpleado eventoEmpleado;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         txtHoraEntrada.setTextFormatter(formatoHora());
@@ -114,16 +119,16 @@ public class EmpleadosEventos implements Initializable {
                 EventosEmpleadoId eventoEmpleadoId = new EventosEmpleadoId();
                 eventoEmpleadoId.setEmpleadoDni(empleado.getDni());
                 eventoEmpleadoId.setEventoId(evento.getId());
+                eventoEmpleadoId.setFecha(txtFechaDia.getValue());
+                eventoEmpleadoId.setHoraEntrada(LocalTime.parse(txtHoraEntrada.getText()));
 
                 // Crear la entidad EventosEmpleado
                 EventosEmpleado eventoEmpleado = new EventosEmpleado();
                 eventoEmpleado.setId(eventoEmpleadoId);
                 eventoEmpleado.setEmpleadoDni(empleado);
-                eventoEmpleado.setEvento(evento);
-                eventoEmpleado.setFecha(txtFechaDia.getValue());
-                eventoEmpleado.setHoraEntrada(LocalTime.parse(txtHoraEntrada.getText()));
                 eventoEmpleado.setHoraSalida(LocalTime.parse(txtHoraSalida.getText()));
                 eventoEmpleado.setFuncion(funcion);
+                eventoEmpleado.setEvento(evento);
 
                 // Guardar la entidad
                 eventoEmpleadoRepository.save(eventoEmpleado);
@@ -173,6 +178,68 @@ public class EmpleadosEventos implements Initializable {
         txtFechaDia.setOnShowing(event -> {
             txtFechaDia.setValue(fechaInicio);
         });
+    }
+
+    public void cargarDatosEmpleado(EventoEmpleadosDTO empleadoEvento) {
+        Empleado empleado = empleadoRepository.findByNombreAndApellidos(empleadoEvento.getNombreEmpleado(), empleadoEvento.getApellidosEmpleado())
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+        // Llenar los campos con los datos del empleado
+        txtEmpleado.setText(empleado.getNombre());
+        txtApellidos.setText(empleado.getApellidos());
+        txtFechaDia.setValue(empleadoEvento.getFecha());
+        txtHoraEntrada.setText(empleadoEvento.getHoraEntrada().toString());
+        txtHoraSalida.setText(empleadoEvento.getHoraSalida().toString());
+        comboFunciones.setValue(empleadoEvento.getDescripcionFuncion());
+
+        // Buscar la relación EventoEmpleado para la modificación
+        EventosEmpleadoId eventoEmpleadoId = new EventosEmpleadoId();
+
+        eventoEmpleadoId.setEmpleadoDni(empleado.getDni());
+        eventoEmpleadoId.setEventoId(Integer.parseInt(txtId.getText()));
+        eventoEmpleadoId.setFecha(empleadoEvento.getFecha());
+        // Parsear la hora con segundos y milisegundos opcionales
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm[:ss][.SSSSSS]");
+        eventoEmpleadoId.setHoraEntrada(LocalTime.parse(txtHoraEntrada.getText(), formatter));
+
+        System.out.println("Evento id "+eventoEmpleadoId.getEventoId());
+        System.out.println("Evento fecha "+eventoEmpleadoId.getFecha());
+        System.out.println("Empleado Hora Entrada "+eventoEmpleadoId.getHoraEntrada());
+        System.out.println("Empleado DNI "+eventoEmpleadoId.getEmpleadoDni());
+
+        // Intentar encontrar la relación Evento-Empleado
+        eventoEmpleado = eventoEmpleadoRepository.findById(eventoEmpleadoId)
+                .orElseThrow(() -> new RuntimeException("Relación Evento-Empleado no encontrada"));
+
+    }
+
+    public void modificarEmpleado() {
+        try {
+            // Validar los campos
+            if (validarCampos()) {
+                String nombreEmpleado = txtEmpleado.getText();
+                String apellidosEmpleado = txtApellidos.getText();
+                Empleado empleado = empleadoRepository.findByNombreAndApellidos(nombreEmpleado, apellidosEmpleado)
+                        .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+                String descripcionFuncion = comboFunciones.getValue();
+                Funciones funcion = funcionRepository.findByDescripcion(descripcionFuncion)
+                        .orElseThrow(() -> new RuntimeException("Función no encontrada"));
+
+                eventoEmpleado.setHoraSalida(LocalTime.parse(txtHoraSalida.getText()));
+                eventoEmpleado.setFuncion(funcion);
+
+                // Guardar la entidad
+                FuncionesMenu.actualizarObjeto(eventoEmpleadoRepository,eventoEmpleado);
+
+                FuncionesMenu.mostrarMensajeAlerta("Éxito", "Empleado modificado con éxito");
+            } else {
+                FuncionesMenu.mostrarMensajeAlerta("Error", "Debe completar todos los campos");
+            }
+        } catch (Exception e) {
+            FuncionesMenu.mostrarMensajeAlerta("Error", "No se pudo modificar el empleado: " + e.getMessage());
+            System.out.println(e.getMessage());
+        }
     }
 
     private TextFormatter<String> formatoHora() {

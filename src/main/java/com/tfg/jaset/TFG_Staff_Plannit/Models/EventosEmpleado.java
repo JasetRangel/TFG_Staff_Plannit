@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
@@ -29,13 +28,7 @@ public class EventosEmpleado {
     @JoinColumn(name = "funcion_id")
     private Funciones funcion;
 
-    @Column(name = "hora_entrada")
-    private LocalTime horaEntrada;
-
     @Column(name = "hora_salida")
     private LocalTime horaSalida;
-
-    @Column(name = "fecha")
-    private LocalDate fecha;
 
 }

@@ -125,13 +125,14 @@
          <children>
             <TableView fx:id="tablaInformes" layoutX="238.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
                <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
                <columns>
                   <TableColumn fx:id="columNombre" minWidth="100.0" prefWidth="100.0" text="NOMBRE" />
                   <TableColumn fx:id="columApellidos" minWidth="180.0" prefWidth="180.0" text="APELLIDOS" />
-                  <TableColumn fx:id="columEntrada" minWidth="100.0" prefWidth="100.0" text="HORA DE ENTRADA" />
-                  <TableColumn fx:id="columSalida" minWidth="100.0" prefWidth="100.0" text="HORA DE SALIDA" />
+                  <TableColumn fx:id="columFecha" minWidth="75.0" prefWidth="75.0" text="FECHA" />
+                  <TableColumn fx:id="columEntrada" minWidth="75.0" prefWidth="75.0" text="HORA DE ENTRADA" />
+                  <TableColumn fx:id="columSalida" minWidth="75.0" prefWidth="75.0" text="HORA DE SALIDA" />
                   <TableColumn fx:id="columFuncion" minWidth="75.0" prefWidth="75.0" text="FUNCIÓN" />
                </columns>
             </TableView>

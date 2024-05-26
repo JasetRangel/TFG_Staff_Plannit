@@ -191,7 +191,7 @@
                         <TableColumn fx:id="informe" minWidth="100.0" prefWidth="250.0" text="INFORME" />
                      </columns>
                      <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
+                        <Cursor fx:constant="HAND" />
                      </cursor>
                   </TableView>
                </children>

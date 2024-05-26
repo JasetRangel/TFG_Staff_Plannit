@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -117,6 +116,7 @@ public class UsuariosController implements Initializable {
                 table.getSelectionModel().clearSelection();
             }
         });
+
 ///////////////////////----------------------------ACIONES DE LOS BOTONES -------------------------///////////////////////////7
         btnModificar.setOnAction(event -> {
             if(table.getSelectionModel().getSelectedItem()==null){
@@ -216,7 +216,7 @@ public class UsuariosController implements Initializable {
         Usuario userSelected=table.getSelectionModel().getSelectedItem();
         if(userSelected.getDni().equals(UsuarioUtils.getUsuarioActual().getDni())){
 
-            seguir=FuncionesMenu.mostrarDialogConfirmacion("Modificación Usuario Aactual",
+            seguir=FuncionesMenu.mostrarDialogConfirmacion("Modificación Usuario Actual",
                     "Va a modificar el usuario con el que ha iniciado sesión. Tendrá que volver a iniciar sesión.");
             if(!seguir){
                 return;

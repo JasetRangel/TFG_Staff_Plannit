@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane fx:id="padre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.CrudControllers.EmpleadosEventos">
+<DialogPane fx:id="padre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfg.jaset.TFG_Staff_Plannit.CrudControllers.CrudEmpleadosEventos">
    <content>
    <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0">
       <children>

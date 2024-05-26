@@ -25,9 +25,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -48,6 +48,8 @@ public class CrudEventos implements Initializable {
     @FXML
     private Button btnVolver;
 
+    @FXML
+    private TableColumn<EventoEmpleadosDTO, LocalDate> columFecha;
 
     @FXML
     private TableColumn<EventoEmpleadosDTO, String> columApellidos;
@@ -112,12 +114,12 @@ public class CrudEventos implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        columNombre.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.2));
-        columApellidos.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
+        columNombre.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.15));
+        columApellidos.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.25));
         columEntrada.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.15));
         columSalida.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.15));
-        columFuncion.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.2));
-
+        columFuncion.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.15));
+        columFecha.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.15));
 
 
         padreColun2.setFocusTraversable(true);
@@ -141,6 +143,18 @@ public class CrudEventos implements Initializable {
             evento.setDireccionEvento(eventoDTO.getDireccion());
             cargarInformacionEnTabla();
         }
+
+        // Detectar doble clic en la tabla
+        tablaInformes.setRowFactory(tv -> {
+            TableRow<EventoEmpleadosDTO> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    EventoEmpleadosDTO rowData = row.getItem();
+                    mostrarDialogoModificarEmpleado(rowData);
+                }
+            });
+            return row;
+        });
 
     }
 
@@ -192,6 +206,7 @@ public class CrudEventos implements Initializable {
         columEntrada.setCellValueFactory(new PropertyValueFactory<>("horaEntrada"));
         columSalida.setCellValueFactory(new PropertyValueFactory<>("horaSalida"));
         columFuncion.setCellValueFactory(new PropertyValueFactory<>("descripcionFuncion"));
+        columFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
     }
     @FXML
     private void volver(){
@@ -214,7 +229,7 @@ public class CrudEventos implements Initializable {
             dialog.getDialogPane().getButtonTypes().addAll(agregarButtonType, cerrarButtonType);
 
 
-            EmpleadosEventos controller = loader.getController();
+            CrudEmpleadosEventos controller = loader.getController();
             // Pasar la información del evento al controlador del diálogo
             controller.setEventoInfo(
                     txtId.getText(),
@@ -235,6 +250,52 @@ public class CrudEventos implements Initializable {
                 controller.limpiarCampos();
                 // Consumir el evento para evitar que el diálogo se cierre
                 event.consume();
+            });
+
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mostrarDialogoModificarEmpleado(EventoEmpleadosDTO empleadoEvento) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/java/fx/empleadosEventos.fxml"));
+            loader.setControllerFactory(SpringContextUtil.getContext()::getBean);
+
+            DialogPane dialogPane = loader.load();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Modificar Empleado");
+
+            // Crear los botones dinámicamente
+            ButtonType modificarButtonType = new ButtonType("Modificar", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cerrarButtonType = new ButtonType("Cerrar", ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().addAll(modificarButtonType, cerrarButtonType);
+
+
+
+            CrudEmpleadosEventos controller = loader.getController();
+            // Pasar la información del evento al controlador del diálog
+            controller.setEventoInfo(
+                    txtId.getText(),
+                    txtNombreCliente.getText(),
+                    txtDireccion.getText(),
+                    txtFechaInicio.getValue(),
+                    txtFechaFin.getValue()
+            );
+            // Pasar la información del empleado al controlador del diálogo
+            controller.cargarDatosEmpleado(empleadoEvento);
+
+            // Establezco el callback para actualizar la tabla al cerrar el diálogo
+            dialog.setOnHidden(event -> cargarInformacionEnTabla());
+
+            // Obtener el botón "Modificar" y definir su acción manualmente para guardar los cambios
+            Button modificarButton = (Button) dialog.getDialogPane().lookupButton(modificarButtonType);
+            modificarButton.addEventFilter(ActionEvent.ACTION, event -> {
+                controller.modificarEmpleado();
+                dialog.close(); // Cerrar el diálogo después de modificar
             });
 
             dialog.showAndWait();

@@ -192,9 +192,9 @@ public class CrudEmpleados implements Initializable {
         double horasTotales = 0.0;
 
         for (EventosEmpleado registro : registros) {
-            System.out.println("Hora entrada: " + registro.getHoraEntrada());
+            System.out.println("Hora entrada: " + registro.getId().getHoraEntrada());
             System.out.println("Hora salida: " + registro.getHoraSalida());
-            LocalTime entrada = registro.getHoraEntrada();
+            LocalTime entrada = registro.getId().getHoraEntrada();
             LocalTime salida = registro.getHoraSalida();
 
             if (entrada != null && salida != null) {
