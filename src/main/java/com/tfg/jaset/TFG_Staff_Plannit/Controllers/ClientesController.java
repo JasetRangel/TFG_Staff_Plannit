@@ -2,7 +2,9 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Cliente;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.ClientesRepository;
+import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -63,6 +65,9 @@ public class ClientesController implements Initializable {
     @Autowired
     ClientesRepository clientesRepository;
 
+    @Autowired
+    private EventosRepository eventosRepository;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         txtBusqueda.setPromptText("Introduzca el Nombre del Cliente");
@@ -95,16 +100,18 @@ public class ClientesController implements Initializable {
     }
     @FXML
     private void eliminarCliente() {
-        Cliente clienteSelected=tablaClientes.getSelectionModel().getSelectedItem();
-        if (clienteSelected==null) {
-            FuncionesMenu.mostrarMensajeAlerta("Selección Requerida", "Debe seleccionar un usuario de la tabla");
-            return;
+        Cliente clienteEliminar = tablaClientes.getSelectionModel().getSelectedItem();
+        if (clienteEliminar != null) {
+            List<Evento> eventosAsignados = eventosRepository.findEventosByNombreCliente(clienteEliminar.getNombre());
+            if (!eventosAsignados.isEmpty()) {
+                FuncionesMenu.mostrarMensajeAlerta("Error", "Este cliente no se puede eliminar, dado que tiene uno o más eventos asignados.");
+            } else {
+                if (FuncionesMenu.mostrarDialogConfirmacion("Eliminación Cliente.", "¿Está seguro de eliminar a este Cliente?")) {
+                    clientesRepository.delete(clienteEliminar);
+                    FuncionesMenu.refrescarDatosTabla(tablaClientes,clientesRepository);
+                }
+            }
         }
-        FuncionesMenu.eliminarEntidad(clienteSelected,cliente -> {
-            clientesRepository.delete(cliente);
-            FuncionesMenu.refrescarDatosTabla(tablaClientes,clientesRepository);
-            FuncionesMenu.mostrarMensajeAlerta("Eliminación Existosa.","El usuario se ha eliminado correctamente.");
-        });
     }
     @FXML
     private void filtrarClientePorNombre(){

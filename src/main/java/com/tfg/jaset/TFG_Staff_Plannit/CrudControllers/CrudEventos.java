@@ -162,22 +162,30 @@ public class CrudEventos implements Initializable {
     private void actualizar_insertarEvento() {
         if (validarDatosEvento()) {
             try {
-                System.out.println(eventoDTO.getIdCliente());
-                Cliente cliente = clientesRepository.findById(eventoDTO.getIdCliente())
-                        .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                Cliente cliente;
+                if (eventoDTO == null) {
+                    // Si es un evento nuevo, crea un nuevo objeto Cliente o selecciona un cliente existente de otra manera
+                    cliente = clientesRepository.findByNombre(txtNombreCliente.getText())
+                            .orElseThrow(() -> new RuntimeException("No se encontro el cliente"));
+                } else {
+                    // Si es un evento existente, obtiene el cliente del eventoDTO
+                    cliente = clientesRepository.findById(eventoDTO.getIdCliente())
+                            .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                }
+
                 Evento eventoModificar = new Evento();
-                
                 eventoModificar.setCliente(cliente);
                 eventoModificar.setFechaInicio(txtFechaInicio.getValue());
                 eventoModificar.setFechaFin(txtFechaFin.getValue());
                 eventoModificar.setDireccionEvento(txtDireccion.getText());
                 eventoModificar.setDetalles(txtDetalles.getText());
-                if(eventoDTO==null || eventoModificar.esDiferente(evento,eventoModificar)){
+
+                if (eventoDTO == null || eventoModificar.esDiferente(evento, eventoModificar)) {
                     eventosRepository.save(eventoModificar);
-                    FuncionesMenu.actualizarObjeto(eventosRepository,evento);
+                    FuncionesMenu.actualizarObjeto(eventosRepository, eventoModificar); // Actualiza usando el nuevo objeto
                     FuncionesMenu.mostrarMensajeAlerta("Evento guardado", "El evento fue guardado con éxito");
                     volver();
-                }else{
+                } else {
                     FuncionesMenu.mostrarMensajeAlerta("Objeto sin cambios", "No se han realizado cambios.");
                 }
 
@@ -188,7 +196,19 @@ public class CrudEventos implements Initializable {
             FuncionesMenu.mostrarMensajeAlerta("Validación", "Verifique que todos los campos estén llenos");
         }
     }
-//MODIFICAR EL METODO DE LA CLASE FUNCIONES MENU PARA QUE TAMBIEN ME ACEPTE CAMPOS DE FECHA
+
+    // Método para obtener un nuevo cliente o seleccionar uno existente
+    private Cliente obtenerClienteNuevo() {
+        // Aquí puedes implementar la lógica para seleccionar o crear un nuevo cliente
+        // Esto es solo un ejemplo, ajústalo a tus necesidades
+        List<Cliente> clientes = clientesRepository.findAll();
+        if (clientes.isEmpty()) {
+            throw new RuntimeException("No hay clientes disponibles. Por favor, crea un cliente primero.");
+        }
+        return clientes.get(0); // Selecciona el primer cliente de la lista, por ejemplo
+    }
+
+    //MODIFICAR EL METODO DE LA CLASE FUNCIONES MENU PARA QUE TAMBIEN ME ACEPTE CAMPOS DE FECHA
     private boolean validarDatosEvento() {
         return txtNombreCliente.getText() != null && !txtNombreCliente.getText().isEmpty() &&
                 txtFechaInicio.getValue() != null &&
@@ -220,14 +240,13 @@ public class CrudEventos implements Initializable {
 
             DialogPane dialogPane = loader.load();
 
-            Dialog<ButtonType> dialog=new Dialog<>();
+            Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(dialogPane);
             dialog.setTitle("Agregar Empleado");
             // Crear los botones dinámicamente
             ButtonType agregarButtonType = new ButtonType("Agregar", ButtonBar.ButtonData.OK_DONE);
             ButtonType cerrarButtonType = new ButtonType("Cerrar", ButtonBar.ButtonData.CANCEL_CLOSE);
             dialog.getDialogPane().getButtonTypes().addAll(agregarButtonType, cerrarButtonType);
-
 
             CrudEmpleadosEventos controller = loader.getController();
             // Pasar la información del evento al controlador del diálogo
@@ -239,17 +258,17 @@ public class CrudEventos implements Initializable {
                     txtFechaFin.getValue()
             );
 
-            // Estableco el callback para actualizar la tabla al cerrar el diálogo
+            // Establezco el callback para actualizar la tabla al cerrar el diálogo
             dialog.setOnHidden(event -> cargarInformacionEnTabla());
 
             // Obtener el botón "Agregar" y definir su acción manualmente. Lo hago para que no se cierre el dialog
             Button agregarButton = (Button) dialog.getDialogPane().lookupButton(agregarButtonType);
             agregarButton.addEventFilter(ActionEvent.ACTION, event -> {
-
-                controller.agregarEmpleado();
-                controller.limpiarCampos();
-                // Consumir el evento para evitar que el diálogo se cierre
-                event.consume();
+                try {
+                    controller.agregarEmpleado();
+                } catch (Exception e) {
+                    event.consume(); // Consumir el evento para evitar que el diálogo se cierre en caso de error
+                }
             });
 
             dialog.showAndWait();
@@ -257,6 +276,7 @@ public class CrudEventos implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     private void mostrarDialogoModificarEmpleado(EventoEmpleadosDTO empleadoEvento) {
         try {

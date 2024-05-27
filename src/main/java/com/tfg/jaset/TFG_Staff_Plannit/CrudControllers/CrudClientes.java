@@ -30,9 +30,6 @@ public class CrudClientes implements Initializable {
     private TableColumn<InformeClientesDTO, String> anio;
 
     @FXML
-    private Button btnEliminar;
-
-    @FXML
     private Button btnGuardar;
 
     @FXML
@@ -96,15 +93,13 @@ public class CrudClientes implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        FuncionesMenu.botonMano(btnGuardar, btnEliminar, btnInformar, btnVerInforme, btnVolver);
+        FuncionesMenu.botonMano(btnGuardar, btnInformar, btnVerInforme, btnVolver);
         anio.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
         mes.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
         informe.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.4));
 
         initializeTableColumns();
-
-
-        txtId.setFocusTraversable(true);
+        txtId.setStyle("-fx-text-fill: #070707; -fx-background-color:  rgba(77,92,92,0.53)");
         txtNombre.setFocusTraversable(true);
         txtTel.setFocusTraversable(true);
         txtDescripcion.setFocusTraversable(true);
@@ -115,7 +110,7 @@ public class CrudClientes implements Initializable {
 
 
         FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
-        FuncionesMenu.configurarEstiloBotones(btnEliminar,btnInformar,btnVerInforme,btnVolver,btnGuardar);
+        FuncionesMenu.configurarEstiloBotones(btnInformar,btnVerInforme,btnVolver,btnGuardar);
 
         cliente= (Cliente) FuncionesMenu.getObjetoSeleccionado();
         if(cliente!=null){
@@ -144,10 +139,6 @@ public class CrudClientes implements Initializable {
         tablaInformes.setItems(FXCollections.observableArrayList(informes));
     }
 
-//    private void cargarInformesClientes(Integer clienteId) {
-//        List<InformeClientes> informes = clientesRepository.findInformesPorCliente(clienteId);
-//        tablaInformes.setItems(FXCollections.observableArrayList(informes));
-//    }
 
     @FXML
     private void verInforme() {
@@ -165,35 +156,41 @@ public class CrudClientes implements Initializable {
         FuncionesMenu.mostrarMensajeAlerta("Desarrollando","Función en desarollo");
     }
 
-    @FXML
-    private void eliminar(){
-        Cliente clienteEliminar= (Cliente) FuncionesMenu.getObjetoSeleccionado();
-        if(FuncionesMenu.mostrarDialogConfirmacion("Eliminación Cliente.","¿Está seguro de eliminar a este Cliente?")){
-            clientesRepository.delete(clienteEliminar);
-        }
-    }
 
 
     @FXML
     private  void actualiza_InsertarEmpleado(){
         Cliente clienteNuevo=new Cliente();
-        if(FuncionesMenu.camposCompletos(txtId,txtDescripcion,txtNombre,txtTel,txtEmail)){
+        if(FuncionesMenu.camposCompletos(txtDescripcion,txtNombre,txtTel,txtEmail)){
 
-            clienteNuevo.setId(Integer.parseInt(txtId.getText()));
+            if(!txtId.getText().isEmpty()){
+                clienteNuevo.setId(Integer.parseInt(txtId.getText()));
+            }
             clienteNuevo.setNombre(txtNombre.getText());
             clienteNuevo.setTelefono(txtTel.getText());
             clienteNuevo.setEmail(txtEmail.getText());
             clienteNuevo.setDetalles(txtDescripcion.getText());
+
+            if (cliente==null || cliente.esDiferente(cliente,clienteNuevo)) {
+                if(FuncionesMenu.mostrarDialogConfirmacion("Guardar Cambios","¿Quiere guardar los cambios?")){
+                    FuncionesMenu.actualizarObjeto(clientesRepository,clienteNuevo);
+                    limpiarCampos();
+                }
+            }else{
+                FuncionesMenu.mostrarMensajeAlerta("Cambios requeridos","No se ha hecho ningún cambio en el Cliente");
+            }
         }else {
             FuncionesMenu.mostrarMensajeAlerta("Campos vacíos","Asegurese de que todos los campos estás rellenos");
         }
-        if (cliente==null || cliente.esDiferente(cliente,clienteNuevo)) {
-            if(FuncionesMenu.mostrarDialogConfirmacion("Guardar Cambios","¿Quiere guardar los cambios?")){
-                FuncionesMenu.actualizarObjeto(clientesRepository,clienteNuevo);
-            }
-        }else{
-            FuncionesMenu.mostrarMensajeAlerta("Cambios requeridos","No se ha hecho ningún cambio en el Cliente");
-        }
+
+    }
+
+    private  void limpiarCampos(){
+        txtId.setText("");
+        txtDescripcion.setText("");
+        txtTel.setText("");
+        txtNombre.setText("");
+        txtEmail.setText("");
     }
 
 

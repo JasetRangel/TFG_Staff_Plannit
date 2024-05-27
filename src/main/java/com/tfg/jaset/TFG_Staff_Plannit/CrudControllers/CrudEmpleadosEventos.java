@@ -115,18 +115,33 @@ public class CrudEmpleadosEventos implements Initializable {
                 Evento evento = eventosRepository.findById(Integer.parseInt(txtId.getText()))
                         .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
 
+                LocalDate fecha = txtFechaDia.getValue();
+                LocalTime horaEntrada = LocalTime.parse(txtHoraEntrada.getText());
+                LocalTime horaSalida = LocalTime.parse(txtHoraSalida.getText());
+
+                // Verificar que no haya conflictos de horarios con otros eventos
+                List<EventosEmpleado> eventosConflicto = eventoEmpleadoRepository.findConflictingEvents(empleado.getDni(), fecha, horaEntrada, horaSalida);
+                if (!eventosConflicto.isEmpty()) {
+                    EventosEmpleado eventoConflicto = eventosConflicto.get(0);
+                    Cliente clienteConflicto = eventoConflicto.getEvento().getCliente();
+                    throw new RuntimeException("El empleado ya está asignado a otro evento en el mismo intervalo de tiempo. Detalles del conflicto: " +
+                            "\nCliente: " + clienteConflicto.getNombre() +
+                            "\nFecha: " + eventoConflicto.getId().getFecha() +
+                            "\nDirección: " + eventoConflicto.getEvento().getDireccionEvento());
+                }
+
                 // Crear el ID embebido
                 EventosEmpleadoId eventoEmpleadoId = new EventosEmpleadoId();
                 eventoEmpleadoId.setEmpleadoDni(empleado.getDni());
                 eventoEmpleadoId.setEventoId(evento.getId());
-                eventoEmpleadoId.setFecha(txtFechaDia.getValue());
-                eventoEmpleadoId.setHoraEntrada(LocalTime.parse(txtHoraEntrada.getText()));
+                eventoEmpleadoId.setFecha(fecha);
+                eventoEmpleadoId.setHoraEntrada(horaEntrada);
 
                 // Crear la entidad EventosEmpleado
                 EventosEmpleado eventoEmpleado = new EventosEmpleado();
                 eventoEmpleado.setId(eventoEmpleadoId);
                 eventoEmpleado.setEmpleadoDni(empleado);
-                eventoEmpleado.setHoraSalida(LocalTime.parse(txtHoraSalida.getText()));
+                eventoEmpleado.setHoraSalida(horaSalida);
                 eventoEmpleado.setFuncion(funcion);
                 eventoEmpleado.setEvento(evento);
 
@@ -134,6 +149,7 @@ public class CrudEmpleadosEventos implements Initializable {
                 eventoEmpleadoRepository.save(eventoEmpleado);
 
                 FuncionesMenu.mostrarMensajeAlerta("Éxito", "Empleado agregado al evento con éxito");
+                limpiarCampos(); // Limpiar los campos si la inserción es exitosa
             } else {
                 FuncionesMenu.mostrarMensajeAlerta("Error", "Debe completar todos los campos");
             }
@@ -142,6 +158,8 @@ public class CrudEmpleadosEventos implements Initializable {
             System.out.println(e.getMessage());
         }
     }
+
+
 
     public void limpiarCampos(){
         txtEmpleado.setText("");
@@ -226,11 +244,26 @@ public class CrudEmpleadosEventos implements Initializable {
                 Funciones funcion = funcionRepository.findByDescripcion(descripcionFuncion)
                         .orElseThrow(() -> new RuntimeException("Función no encontrada"));
 
-                eventoEmpleado.setHoraSalida(LocalTime.parse(txtHoraSalida.getText()));
-                eventoEmpleado.setFuncion(funcion);
+                // Crear el nuevo ID embebido con la nueva hora de entrada
+                EventosEmpleadoId nuevoEventoEmpleadoId = new EventosEmpleadoId();
+                nuevoEventoEmpleadoId.setEmpleadoDni(empleado.getDni());
+                nuevoEventoEmpleadoId.setEventoId(Integer.parseInt(txtId.getText()));
+                nuevoEventoEmpleadoId.setFecha(txtFechaDia.getValue());
+                nuevoEventoEmpleadoId.setHoraEntrada(LocalTime.parse(txtHoraEntrada.getText()));
 
-                // Guardar la entidad
-                FuncionesMenu.actualizarObjeto(eventoEmpleadoRepository,eventoEmpleado);
+                // Crear la nueva entidad EventosEmpleado
+                EventosEmpleado nuevoEventoEmpleado = new EventosEmpleado();
+                nuevoEventoEmpleado.setId(nuevoEventoEmpleadoId);
+                nuevoEventoEmpleado.setEmpleadoDni(empleado);
+                nuevoEventoEmpleado.setHoraSalida(LocalTime.parse(txtHoraSalida.getText()));
+                nuevoEventoEmpleado.setFuncion(funcion);
+                nuevoEventoEmpleado.setEvento(eventoEmpleado.getEvento());
+
+                // Eliminar el registro antiguo
+                eventoEmpleadoRepository.delete(eventoEmpleado);
+
+                // Guardar el nuevo registro
+                eventoEmpleadoRepository.save(nuevoEventoEmpleado);
 
                 FuncionesMenu.mostrarMensajeAlerta("Éxito", "Empleado modificado con éxito");
             } else {
@@ -241,6 +274,7 @@ public class CrudEmpleadosEventos implements Initializable {
             System.out.println(e.getMessage());
         }
     }
+
 
     private TextFormatter<String> formatoHora() {
         UnaryOperator<TextFormatter.Change> formatter = change -> {

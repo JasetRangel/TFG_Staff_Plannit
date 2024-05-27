@@ -30,7 +30,7 @@ public class Cliente {
     @Column(name = "detalles")
     private String detalles;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Evento> eventos = new LinkedHashSet<>();
 
     public boolean esDiferente(Cliente c1, Cliente c2) {

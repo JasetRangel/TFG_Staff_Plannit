@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +35,11 @@ public interface EventoEmpleadoRepository extends JpaRepository<EventosEmpleado,
             "WHERE ee.evento.id = :eventoId")
     List<EventoEmpleadosDTO> findDetallesEmpleadosPorEvento(@Param("eventoId") Integer eventoId);
 
+    @Query("SELECT e FROM EventosEmpleado e WHERE e.empleadoDni.dni = :dni AND e.evento.id = :eventoId AND e.id.fecha = :fecha")
+    List<EventosEmpleado> findByEmpleadoDniAndEventoIdAndFecha(@Param("dni") String dni, @Param("eventoId") Integer eventoId, @Param("fecha") LocalDate fecha);
 
-
+    @Query("SELECT ee FROM EventosEmpleado ee JOIN FETCH ee.evento e JOIN FETCH e.cliente c WHERE ee.id.empleadoDni = :dni AND ee.id.fecha = :fecha AND ((ee.id.horaEntrada <= :horaSalida AND ee.horaSalida >= :horaEntrada) OR (ee.id.horaEntrada <= :horaSalida AND ee.horaSalida IS NULL))")
+    List<EventosEmpleado> findConflictingEvents(@Param("dni") String dni, @Param("fecha") LocalDate fecha, @Param("horaEntrada") LocalTime horaEntrada, @Param("horaSalida") LocalTime horaSalida);
 
 
 }

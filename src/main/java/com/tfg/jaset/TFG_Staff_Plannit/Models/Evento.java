@@ -19,7 +19,8 @@ public class Evento {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_cliente_evento",
+            foreignKeyDefinition = "FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE"))
     private Cliente cliente;
 
     @Column(name = "fecha_inicio", nullable = false)
