@@ -20,18 +20,6 @@
          <children>
             <HBox fx:id="padreBotonones" layoutX="100.0" layoutY="286.0" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1A1769;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button fx:id="btnEliminar" layoutX="40.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#eliminar" style="-fx-background-color: transparent;" text="ELIMINAR" textFill="WHITE" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../images/Delete.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                   <Button fx:id="btnVerInforme" layoutX="140.0" layoutY="10.0" maxWidth="1.7976931348623157E308" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#verInforme" style="-fx-background-color: transparent;" text="VER INFORME" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="System Bold" size="13.0" />

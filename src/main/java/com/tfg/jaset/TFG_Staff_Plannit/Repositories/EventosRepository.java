@@ -31,7 +31,11 @@ public interface EventosRepository extends JpaRepository<Evento,Integer> {
 
     Optional<Object> findByDireccionEvento(String nombre);
 
-    // FETCH me permite acceder a una propiedad, aunque esta sea LAZY
     @Query("SELECT e FROM Evento e JOIN FETCH e.cliente c WHERE c.nombre = :nombreCliente")
     List<Evento> findEventosByNombreCliente(@Param("nombreCliente") String nombreCliente);
+
+
+    // FETCH me permite acceder a una propiedad, aunque esta sea LAZY
+    @Query("SELECT e FROM Evento e JOIN FETCH e.cliente c WHERE c.nombre = :nombreCliente AND c.detalles = :detalles")
+    List<Evento> findEventosByNombreClienteAndDetalles(@Param("nombreCliente") String nombreCliente,@Param("detalles")String detalles);
 }

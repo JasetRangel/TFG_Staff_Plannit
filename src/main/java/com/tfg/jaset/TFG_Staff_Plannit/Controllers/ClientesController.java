@@ -102,14 +102,16 @@ public class ClientesController implements Initializable {
     private void eliminarCliente() {
         Cliente clienteEliminar = tablaClientes.getSelectionModel().getSelectedItem();
         if (clienteEliminar != null) {
-            List<Evento> eventosAsignados = eventosRepository.findEventosByNombreCliente(clienteEliminar.getNombre());
+            List<Evento> eventosAsignados = eventosRepository.findEventosByNombreClienteAndDetalles(clienteEliminar.getNombre(),clienteEliminar.getDetalles());
             if (!eventosAsignados.isEmpty()) {
                 FuncionesMenu.mostrarMensajeAlerta("Error", "Este cliente no se puede eliminar, dado que tiene uno o más eventos asignados.");
             } else {
-                if (FuncionesMenu.mostrarDialogConfirmacion("Eliminación Cliente.", "¿Está seguro de eliminar a este Cliente?")) {
-                    clientesRepository.delete(clienteEliminar);
-                    FuncionesMenu.refrescarDatosTabla(tablaClientes,clientesRepository);
-                }
+                FuncionesMenu.eliminarEntidad(clienteEliminar,cliente -> {
+                        clientesRepository.delete(clienteEliminar);
+                        FuncionesMenu.refrescarDatosTabla(tablaClientes,clientesRepository);
+                    });
+
+
             }
         }
     }

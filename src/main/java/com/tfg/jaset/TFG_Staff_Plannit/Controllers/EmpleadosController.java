@@ -2,8 +2,10 @@ package com.tfg.jaset.TFG_Staff_Plannit.Controllers;
 
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
 import com.tfg.jaset.TFG_Staff_Plannit.Models.Empleado;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.EventosEmpleado;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.ClientesRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
+import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.collections.FXCollections;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -78,6 +81,8 @@ public class EmpleadosController implements Initializable {
 
     @Autowired
     ClientesRepository clientesRepository;
+    @Autowired
+    private EventoEmpleadoRepository eventoEmpleadoRepository;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -128,10 +133,14 @@ public class EmpleadosController implements Initializable {
                     "con el que ha iniciado sesión, pertenece a este empleado.");
             return;
         }
+        List<EventosEmpleado>eventosAsignados=eventoEmpleadoRepository.findByEmpleadoDni(empleadoSelected.getDni());
+        if(!eventosAsignados.isEmpty()){
+            FuncionesMenu.mostrarMensajeAlerta("Acción Prohibida", "No puede eliminar a este empleado ya que está asignado a uno o más eventos.");
+            return;
+        }
         FuncionesMenu.eliminarEntidad(empleadoSelected, empleado -> {
             empleadoRepository.delete(empleado);
             FuncionesMenu.refrescarDatosTabla(tablaEmpleados, empleadoRepository);
-            FuncionesMenu.mostrarMensajeAlerta("Eliminación Existosa.","El usuario se ha eliminado correctamente.");
         });
     }
     @FXML

@@ -186,6 +186,7 @@ public class CrudClientes implements Initializable {
     }
 
     private  void limpiarCampos(){
+        Main.setObjetoSeleccionado(null);
         txtId.setText("");
         txtDescripcion.setText("");
         txtTel.setText("");

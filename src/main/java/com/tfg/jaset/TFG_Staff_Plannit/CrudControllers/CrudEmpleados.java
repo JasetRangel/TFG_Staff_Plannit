@@ -47,9 +47,6 @@ public class CrudEmpleados implements Initializable {
     private TableColumn<InformeEmpleadoDTO, String> informe;
 
     @FXML
-    private Button btnEliminar;
-
-    @FXML
     private Button btnInformar;
 
     @FXML
@@ -110,7 +107,7 @@ public class CrudEmpleados implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 
-        FuncionesMenu.botonMano(btnGuardar, btnEliminar, btnInformar, btnVerInforme, btnVolver);
+        FuncionesMenu.botonMano(btnGuardar,  btnInformar, btnVerInforme, btnVolver);
 
         anio.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
         mes.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
@@ -144,7 +141,7 @@ public class CrudEmpleados implements Initializable {
             txtBanco.setText(empleado.getCuentaBancaria());
         }
         FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
-        FuncionesMenu.configurarEstiloBotones(btnEliminar,btnInformar,btnVerInforme,btnVolver,btnGuardar);
+        FuncionesMenu.configurarEstiloBotones(btnInformar,btnVerInforme,btnVolver,btnGuardar);
 
         cargarInformesEmpleado();
     }
@@ -163,6 +160,7 @@ public class CrudEmpleados implements Initializable {
 
     @FXML
     private void volver(){
+        Main.setObjetoSeleccionado(null);
         Main.cambiarVista("/com/java/fx/empleados.fxml");
     }
     @FXML
@@ -232,19 +230,7 @@ public class CrudEmpleados implements Initializable {
     private void informar(){
         FuncionesMenu.mostrarMensajeAlerta("Desarrollando","Función en desarollo");
     }
-    @FXML
-    private void eliminar(){
-        Empleado empleadoEliminar= (Empleado) FuncionesMenu.getObjetoSeleccionado();
 
-            if (empleadoEliminar.getDni().equals(UsuarioUtils.getUsuarioActual().getDni())) {
-                FuncionesMenu.mostrarMensajeAlerta("Acción no permitida","No puede eliminar a este empleado, "
-                +"ya que el usuario con el que ha iniciado sesión, pertenece a este empleado");
-            } else {
-                if(FuncionesMenu.mostrarDialogConfirmacion("Eliminación Empleado.","¿Está seguro de eliminar a este empleado?")){
-                    empleadoRepository.delete(empleadoEliminar);
-                }
-            }
-    }
 
     @FXML
     private  void actualiza_InsertarEmpleado(){
@@ -264,13 +250,25 @@ public class CrudEmpleados implements Initializable {
         if (empleado==null || empleado.esDiferente(empleado,empleNuevo)) {
             if(FuncionesMenu.mostrarDialogConfirmacion("Guardar Cambios","¿Quiere guardar los cambios?")){
                 FuncionesMenu.actualizarObjeto(empleadoRepository,empleNuevo);
+                limpiarCampos();
             }
         }else{
             FuncionesMenu.mostrarMensajeAlerta("Cambios requeridos","No se ha hecho ningún cambio en el Empleado");
         }
     }
 
+    private  void limpiarCampos(){
+        Main.setObjetoSeleccionado(null);
+        txtDNI.clear();
+        txtDireccion.clear();
+        txtApellidos.clear();
+        txtNombre.clear();
+        txtTel.clear();
+        txtEdad.clear();
+        txtBanco.clear();
+        txtEmail.clear();
 
+    }
 
 
 
