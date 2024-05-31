@@ -249,8 +249,18 @@ public class CrudEmpleados implements Initializable {
         }
         if (empleado==null || empleado.esDiferente(empleado,empleNuevo)) {
             if(FuncionesMenu.mostrarDialogConfirmacion("Guardar Cambios","¿Quiere guardar los cambios?")){
-                FuncionesMenu.actualizarObjeto(empleadoRepository,empleNuevo);
-                limpiarCampos();
+                if(!empleado.getDni().equals(empleNuevo.getDni())){
+                    try{
+                        empleadoRepository.delete(empleado);
+                        FuncionesMenu.actualizarObjeto(empleadoRepository,empleNuevo);
+                        limpiarCampos();
+                    }catch(Exception e){
+                        FuncionesMenu.mostrarMensajeAlerta("Fallo al modificar al empleado","El DNI de este empleado no puede ser modificado");
+                        System.out.println(e.getMessage());
+                    }
+                }else{
+                    FuncionesMenu.actualizarObjeto(empleadoRepository,empleNuevo);
+                }
             }
         }else{
             FuncionesMenu.mostrarMensajeAlerta("Cambios requeridos","No se ha hecho ningún cambio en el Empleado");

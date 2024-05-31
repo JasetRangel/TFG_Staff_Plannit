@@ -39,23 +39,20 @@ public class Evento {
     @OneToMany(mappedBy = "evento")
     private Set<EventosEmpleado> eventosEmpleados = new LinkedHashSet<>();
 
-
     public boolean esDiferente(Evento e1, Evento e2) {
         boolean esDiferente = false;
         if (!e1.getFechaInicio().isEqual(e2.getFechaInicio())) {
             esDiferente = true;
         }
-        if(!esDiferente && !e1.getFechaFin().isEqual(e2.getFechaFin())) {
+        if (!esDiferente && !e1.getFechaFin().isEqual(e2.getFechaFin())) {
             esDiferente = true;
         }
-        if(!esDiferente && !e1.getDireccionEvento().equals(e2.getDireccionEvento())) {
+        if (!esDiferente && !e1.getDireccionEvento().equals(e2.getDireccionEvento())) {
             esDiferente = true;
         }
-        if(!esDiferente && !e1.getDetalles().equals(e2.getDetalles())) {
+        if (!esDiferente && !e1.getDetalles().equals(e2.getDetalles())) {
             esDiferente = true;
         }
         return esDiferente;
     }
-
-
 }

@@ -11,12 +11,11 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface EventoEmpleadoRepository extends JpaRepository<EventosEmpleado, EventosEmpleadoId> {
     // List<EventosEmpleado> findByEventoId(Integer eventoId); // asumiendo que Evento tiene un atributo id
     @Query("SELECT ee FROM EventosEmpleado ee WHERE ee.empleadoDni.dni = :dni")
-    List<EventosEmpleado> findByEmpleadoDni(@Param("dni") String dni);
+    List<EventosEmpleado> findEventosByEmpleadoDni(@Param("dni") String dni);
 
     @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleadoDTO(YEAR(e.id.fecha), FUNCTION('MONTHNAME', e.id.fecha), emp.nombre, emp.dni, MIN(e.id.horaEntrada), MAX(e.horaSalida)) " +
             "FROM EventosEmpleado e " +

@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.Hibernate;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,6 +15,7 @@ import java.util.Objects;
 @Embeddable
 public class EventosEmpleadoId implements Serializable {
     private static final long serialVersionUID = 6200176535441162874L;
+
     @Column(name = "evento_id", nullable = false)
     private Integer eventoId;
 
@@ -43,5 +43,4 @@ public class EventosEmpleadoId implements Serializable {
     public int hashCode() {
         return Objects.hash(eventoId, empleadoDni, fecha, horaEntrada);
     }
-
 }

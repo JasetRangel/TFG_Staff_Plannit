@@ -3,6 +3,8 @@ package com.tfg.jaset.TFG_Staff_Plannit.Models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -31,25 +33,25 @@ public class Empleado {
     @Column(name = "direccion")
     private String direccion;
 
-    @Column(name = "cuentaBancaria")
+    @Column(name = "cuenta_bancaria")
     private String cuentaBancaria;
 
     @Column(name = "telefono")
     private String telefono;
 
     @OneToMany(mappedBy = "empleadoDni")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<EventosEmpleado> eventosEmpleados = new LinkedHashSet<>();
 
     @OneToOne(mappedBy = "empleado")
     private Usuario usuario;
 
     public Empleado() {
-
     }
 
     public boolean esDiferente(Empleado e1, Empleado e2) {
         boolean esDiferente = false;
-        if(!e1.getDni().equals(e2.getDni())){
+        if (!e1.getDni().equals(e2.getDni())) {
             esDiferente = true;
         }
         if (!esDiferente && !e1.getNombre().equals(e2.getNombre())) {
@@ -64,13 +66,13 @@ public class Empleado {
         if (!esDiferente && !e1.getDireccion().equals(e2.getDireccion())) {
             esDiferente = true;
         }
-        if(!esDiferente && !e1.getCuentaBancaria().equals(e2.getCuentaBancaria())) {
+        if (!esDiferente && !e1.getCuentaBancaria().equals(e2.getCuentaBancaria())) {
             esDiferente = true;
         }
-        if(!esDiferente && !e1.getTelefono().equals(e2.getTelefono())) {
+        if (!esDiferente && !e1.getTelefono().equals(e2.getTelefono())) {
             esDiferente = true;
         }
-        if(!esDiferente && !e1.getEdad().equals(e2.getEdad())) {
+        if (!esDiferente && !e1.getEdad().equals(e2.getEdad())) {
             esDiferente = true;
         }
         return esDiferente;

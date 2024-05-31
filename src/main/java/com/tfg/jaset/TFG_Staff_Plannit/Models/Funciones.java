@@ -21,10 +21,9 @@ public class Funciones {
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
 
-    @Column(name = "valorHora", nullable = false, precision = 10, scale = 2)
+    @Column(name = "valor_hora", nullable = false, precision = 10, scale = 2)
     private BigDecimal valorHora;
 
     @OneToMany(mappedBy = "funcion")
     private Set<EventosEmpleado> eventosEmpleados = new LinkedHashSet<>();
-
 }

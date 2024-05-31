@@ -19,9 +19,9 @@ public class Usuario {
     @Column(name = "dni", nullable = false, length = 9, unique = true)
     private String dni;
 
-
-    @OneToOne(fetch = FetchType.EAGER, optional = false)// HE CAMBIADO DE LAZY A EAGER
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "dni", referencedColumnName = "dni", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Empleado empleado;
 
     @Column(name = "nombre_usuario", nullable = false)
@@ -33,5 +33,4 @@ public class Usuario {
     @Lob
     @Column(name = "permiso", nullable = false)
     private String permiso;
-
 }

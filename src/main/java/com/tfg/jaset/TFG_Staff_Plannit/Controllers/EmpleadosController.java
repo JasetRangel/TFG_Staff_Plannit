@@ -9,14 +9,11 @@ import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.collections.FXCollections;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -133,7 +130,7 @@ public class EmpleadosController implements Initializable {
                     "con el que ha iniciado sesión, pertenece a este empleado.");
             return;
         }
-        List<EventosEmpleado>eventosAsignados=eventoEmpleadoRepository.findByEmpleadoDni(empleadoSelected.getDni());
+        List<EventosEmpleado>eventosAsignados=eventoEmpleadoRepository.findEventosByEmpleadoDni(empleadoSelected.getDni());
         if(!eventosAsignados.isEmpty()){
             FuncionesMenu.mostrarMensajeAlerta("Acción Prohibida", "No puede eliminar a este empleado ya que está asignado a uno o más eventos.");
             return;
