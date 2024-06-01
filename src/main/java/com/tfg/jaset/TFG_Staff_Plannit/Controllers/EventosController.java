@@ -124,10 +124,19 @@ public class EventosController implements Initializable {
         if (eventoSelected != null) {
             Usuario user=UsuarioUtils.getUsuarioActual();
             if(user.getPermiso().equals("ADMIN")){
-                if(FuncionesMenu.mostrarDialogConfirmacion("Eliminación Empleado.","¿Está seguro de eliminar a este empleado?")){
-                    eventosRepository.deleteById(eventoSelected.getId());
-                    cargarDatos();
+                if(eventosRepository.existsEmpleadosByEventoId(eventoSelected.getId())){
+                    if(FuncionesMenu.mostrarDialogConfirmacion("Eliminación Evento.","Este evento cuenta con uno o más empleados asignados, " +
+                            "¿está seguro de eliminar este evento?")){
+                        eventosRepository.deleteById(eventoSelected.getId());
+                        cargarDatos();
+                    }
+                }else{
+                    FuncionesMenu.eliminarEntidad(eventoSelected, evento ->{
+                        eventosRepository.deleteById(evento.getId());
+                        cargarDatos();
+                    });
                 }
+
             }
         } else {
             FuncionesMenu.mostrarMensajeAlerta("Selección Requerida", "Debe seleccionar un usuario de la tabla");

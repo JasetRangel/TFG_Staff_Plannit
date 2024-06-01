@@ -28,18 +28,26 @@
                               <Insets left="30.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="txtBusqueda" maxHeight="-Infinity" maxWidth="700.0" prefHeight="25.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="txtBusqueda" maxHeight="-Infinity" maxWidth="700.0" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets top="15.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="100.0" minHeight="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Buscar" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="10.0" right="30.0" top="15.0" />
+                              <Insets left="10.0" right="15.0" top="15.0" />
                            </HBox.margin>
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
+                        </Button>
+                        <Button fx:id="btnCancelar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="100.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#cancelar" prefHeight="27.0" prefWidth="62.0" text="Cancelar" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="30.0" top="15.0" />
+                           </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
@@ -57,31 +65,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnModificar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Modificar">
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
                   <Button fx:id="btnEliminar" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Eliminar">
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnPassword" alignment="BASELINE_LEFT" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Contraseña">
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnVerDatos" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Ver Datos">
                      <VBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </VBox.margin>

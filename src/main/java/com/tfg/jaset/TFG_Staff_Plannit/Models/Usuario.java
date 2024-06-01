@@ -33,4 +33,18 @@ public class Usuario {
     @Lob
     @Column(name = "permiso", nullable = false)
     private String permiso;
+
+    public boolean esDiferente(Usuario user1, Usuario user2) {
+        boolean sonDiferente = false;
+        if(!user1.getNombreUsuario().equals(user2.getNombreUsuario())) {
+            sonDiferente = true;
+        }
+        if(!sonDiferente && !user1.getContrasenia().equals(user2.getContrasenia())) {
+            sonDiferente = true;
+        }
+        if(!sonDiferente && !user1.getPermiso().equals(user2.getPermiso())) {
+            sonDiferente = true;
+        }
+        return sonDiferente;
+    }
 }

@@ -14,6 +14,9 @@ public interface EventosRepository extends JpaRepository<Evento,Integer> {
 
     void deleteById(Integer id);
 
+    @Query("SELECT COUNT(ee) > 0 FROM EventosEmpleado ee WHERE ee.evento.id = :eventoId")
+    boolean existsEmpleadosByEventoId(@Param("eventoId") Integer eventoId);
+
 // Recupero los eventos por año, mes y DNI del empleado para informes detallados de actividades.
 // Filtro los eventos donde participa un empleado específico durante un mes y año dados.
     @Query("SELECT e FROM Evento e JOIN e.eventosEmpleados ee JOIN ee.empleadoDni emp WHERE EXTRACT(YEAR FROM e.fechaInicio) = :anio AND FUNCTION('MONTHNAME', e.fechaInicio) = :mes AND emp.dni = :dni")

@@ -9,7 +9,6 @@ import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.FuncionesMenu;
-import com.tfg.jaset.TFG_Staff_Plannit.Utilidades.UsuarioUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,9 +22,7 @@ import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.net.URL;
-import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -181,6 +178,7 @@ public class CrudEmpleados implements Initializable {
         for (Evento evento : eventos) {
             totalHoras += calcularHorasEvento(evento, informe.getDniEmpleado(), informe.getAnio(), informe.getMes());
         }
+
 
         return totalHoras;
     }
