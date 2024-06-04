@@ -156,7 +156,7 @@ public class FuncionesMenu {
 
     public static void configurarEstiloBotones(Button... botones) {
         for (Button boton : botones) {
-
+            boton.setCursor(Cursor.HAND);
             // Añadir listeners para el enfoque y el hover del mouse
             boton.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
                 if (isNowFocused) {

@@ -95,6 +95,7 @@ public class ModifyUser implements Initializable {
                 usuario.setContrasenia(isPasswordVisible ? txtContrsenia.getText() : usuario.getContrasenia());
                 usuario.setPermiso(comboPermisos.getValue());
                 return usuario;
+
             }else{
                 FuncionesMenu.mostrarMensajeAlerta("Usuario sin cambios.","No se han realizado Cambios");
                 return null;

@@ -103,8 +103,8 @@ public class CrudEmpleados implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
-        FuncionesMenu.botonMano(btnGuardar,  btnInformar, btnVerInforme, btnVolver);
+        FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
+        FuncionesMenu.configurarEstiloBotones(btnInformar,btnVerInforme,btnVolver,btnGuardar);
 
         anio.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
         mes.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
@@ -137,8 +137,6 @@ public class CrudEmpleados implements Initializable {
             txtTel.setText(empleado.getTelefono());
             txtBanco.setText(empleado.getCuentaBancaria());
         }
-        FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
-        FuncionesMenu.configurarEstiloBotones(btnInformar,btnVerInforme,btnVolver,btnGuardar);
 
         cargarInformesEmpleado();
     }

@@ -92,8 +92,10 @@ public class CrudClientes implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        FuncionesMenu.configurarEstiloBotones(btnInformar,btnVerInforme,btnVolver,btnGuardar);
+        FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
 
-        FuncionesMenu.botonMano(btnGuardar, btnInformar, btnVerInforme, btnVolver);
+        //FuncionesMenu.botonMano(btnGuardar, btnInformar, btnVerInforme, btnVolver);
         anio.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
         mes.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.3));
         informe.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.4));
@@ -107,10 +109,6 @@ public class CrudClientes implements Initializable {
 
         padreColun2.setFocusTraversable(true);
         padreBotonones.setFocusTraversable(true);
-
-
-        FuncionesMenu.tabular(padre,padreColun1,padreColun2,padreBotonones);
-        FuncionesMenu.configurarEstiloBotones(btnInformar,btnVerInforme,btnVolver,btnGuardar);
 
         cliente= (Cliente) FuncionesMenu.getObjetoSeleccionado();
         if(cliente!=null){

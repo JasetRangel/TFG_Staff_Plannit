@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -27,4 +28,22 @@ public class EventoEmpleadosDTO {
         this.descripcionFuncion = descripcionFuncion;
     }
 
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EventoEmpleadosDTO that)) return false;
+
+        return Objects.equals(getNombreEmpleado(), that.getNombreEmpleado()) && Objects.equals(getApellidosEmpleado(), that.getApellidosEmpleado()) && Objects.equals(getFecha(), that.getFecha()) && Objects.equals(getHoraEntrada(), that.getHoraEntrada()) && Objects.equals(getHoraSalida(), that.getHoraSalida()) && Objects.equals(getDescripcionFuncion(), that.getDescripcionFuncion());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(getNombreEmpleado());
+        result = 31 * result + Objects.hashCode(getApellidosEmpleado());
+        result = 31 * result + Objects.hashCode(getFecha());
+        result = 31 * result + Objects.hashCode(getHoraEntrada());
+        result = 31 * result + Objects.hashCode(getHoraSalida());
+        result = 31 * result + Objects.hashCode(getDescripcionFuncion());
+        return result;
+    }
 }

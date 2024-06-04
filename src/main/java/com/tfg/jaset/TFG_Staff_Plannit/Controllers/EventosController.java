@@ -71,6 +71,7 @@ public class EventosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        FuncionesMenu.desactivarByPermiso(btnEliminar);
         txtBusqueda.setPromptText("INGRESE EL NOMBRE DEL CLIENTE");
         columId.prefWidthProperty().bind(tablaEventos.widthProperty().multiply(0.1));
         columCliente.prefWidthProperty().bind(tablaEventos.widthProperty().multiply(0.2));

@@ -34,9 +34,6 @@ import java.util.ResourceBundle;
 public class CrudEventos implements Initializable {
 
     @FXML
-    private Button btnEliminar;
-
-    @FXML
     private Button btnGuardar;
 
     @FXML
@@ -155,6 +152,8 @@ public class CrudEventos implements Initializable {
             });
             return row;
         });
+
+        FuncionesMenu.configurarEstiloBotones(btnAddEmpleado,btnEliminarEmpleado,btnGuardar,btnVolver);
 
     }
 
@@ -314,8 +313,12 @@ public class CrudEventos implements Initializable {
             // Obtener el botón "Modificar" y definir su acción manualmente para guardar los cambios
             Button modificarButton = (Button) dialog.getDialogPane().lookupButton(modificarButtonType);
             modificarButton.addEventFilter(ActionEvent.ACTION, event -> {
-                controller.modificarEmpleado();
-                dialog.close(); // Cerrar el diálogo después de modificar
+                if(controller.modificarEmpleado()){
+                    dialog.close(); // Cerrar el diálogo después de modificar
+                }else{
+                    event.consume();
+                }
+
             });
 
             dialog.showAndWait();

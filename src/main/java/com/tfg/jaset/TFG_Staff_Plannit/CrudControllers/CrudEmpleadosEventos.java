@@ -231,7 +231,8 @@ public class CrudEmpleadosEventos implements Initializable {
 
     }
 
-    public void modificarEmpleado() {
+    public boolean modificarEmpleado() {
+        boolean modificado=false;
         try {
             // Validar los campos
             if (validarCampos()) {
@@ -258,14 +259,17 @@ public class CrudEmpleadosEventos implements Initializable {
                 nuevoEventoEmpleado.setHoraSalida(LocalTime.parse(txtHoraSalida.getText()));
                 nuevoEventoEmpleado.setFuncion(funcion);
                 nuevoEventoEmpleado.setEvento(eventoEmpleado.getEvento());
+                if(eventoEmpleado.equals(nuevoEventoEmpleado)){
+                    // Eliminar el registro antiguo
+                    eventoEmpleadoRepository.delete(eventoEmpleado);
+                    // Guardar el nuevo registro
+                    eventoEmpleadoRepository.save(nuevoEventoEmpleado);
+                    FuncionesMenu.mostrarMensajeAlerta("Éxito", "Empleado modificado con éxito");
+                    modificado=true;
+                }else{
+                    FuncionesMenu.mostrarMensajeAlerta("Cambios Requeridos.", "No se han realizado cambios");
+                }
 
-                // Eliminar el registro antiguo
-                eventoEmpleadoRepository.delete(eventoEmpleado);
-
-                // Guardar el nuevo registro
-                eventoEmpleadoRepository.save(nuevoEventoEmpleado);
-
-                FuncionesMenu.mostrarMensajeAlerta("Éxito", "Empleado modificado con éxito");
             } else {
                 FuncionesMenu.mostrarMensajeAlerta("Error", "Debe completar todos los campos");
             }
@@ -273,6 +277,7 @@ public class CrudEmpleadosEventos implements Initializable {
             FuncionesMenu.mostrarMensajeAlerta("Error", "No se pudo modificar el empleado: " + e.getMessage());
             System.out.println(e.getMessage());
         }
+        return modificado;
     }
 
 

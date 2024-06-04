@@ -81,7 +81,14 @@ public class UsuariosController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     Usuario rowData = table.getSelectionModel().getSelectedItem();
-                    mostrarDialogUsuario(rowData);
+                    Usuario usuarioActual = UsuarioUtils.getUsuarioActual();
+                    if(usuarioActual.getDni().equals(rowData.getDni())){
+                        mostrarDialogUsuario(rowData);
+                    }else {
+                        FuncionesMenu.mostrarMensajeAlerta("Acción Prohibida.","No se puede modificar este usuario ya que " +
+                                " no pertenece a usted.");
+                    }
+
                 }
             });
             return row;
