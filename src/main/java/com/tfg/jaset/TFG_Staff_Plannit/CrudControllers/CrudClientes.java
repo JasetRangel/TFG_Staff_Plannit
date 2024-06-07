@@ -120,6 +120,11 @@ public class CrudClientes implements Initializable {
             cargarInformesClientes(Integer.parseInt(txtId.getText()) );
         }
 
+        FuncionesMenu.validarTelefono(txtTel,9);
+        FuncionesMenu.restringirEmail(txtEmail,50);
+        FuncionesMenu.restringirSoloLetras(txtNombre,30);
+        FuncionesMenu.restringirLetrasNumerosSignos(txtDescripcion,200);
+        FuncionesMenu.convertirTextoAMayusculas(txtEmail,txtNombre);
     }
 
     private void initializeTableColumns() {

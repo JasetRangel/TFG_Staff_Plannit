@@ -1,6 +1,8 @@
 package com.tfg.jaset.TFG_Staff_Plannit.Utilidades;
 
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 import javafx.scene.input.KeyEvent;
 import lombok.Getter;
@@ -201,6 +204,355 @@ public class FuncionesMenu {
     public static void limpiarObjetoSeleccionado() {
         setObjetoSeleccionado(null);
     }
+////////////////////---------- MÉTODOS PARA VALIDAR LA ENTRADA DE TEXTO EN LOS CAMPOS----------------//////////////////
 
+    public static void validarTelefono(TextField textField, int maxLength) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+        textField.setTextFormatter(new TextFormatter<>(filter));
+
+        // Añadir listener para verificar el tamaño del número al perder el foco
+        textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Al perder el foco
+                String text = textField.getText();
+                if(!textField.getText().isEmpty()){
+                    if (text.length() < maxLength) {
+                        mostrarMensajeAlerta("Número de teléfono inválido", "El número de teléfono debe contener exactamente " + maxLength + " dígitos.");
+                        textField.requestFocus();
+                    }
+                }
+            }
+        });
+    }
+
+    // Método para restringir el texto en un TextField a solo letras
+    public static void restringirSoloLetras(TextField textField, int maxLength) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("[a-zA-Z]*") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+        textField.setTextFormatter(new TextFormatter<>(filter));
+    }
+
+    // Método para restringir el texto en un TextField a letras y números
+    public static void restringirLetrasNumeros(TextField textField, int maxLength) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("[a-zA-Z0-9]*") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+        textField.setTextFormatter(new TextFormatter<>(filter));
+    }
+
+    // Método para restringir el texto en un TextArea a letras, números, signos de puntuación y permitir saltos de línea
+    public static void restringirLetrasNumerosSignos(TextArea textArea, int maxLength) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("[a-zA-Z0-9\\p{Punct}\\n]*") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+        textArea.setTextFormatter(new TextFormatter<>(filter));
+    }
+
+    // Método para restringir el texto en un TextField a un formato de email
+    public static void restringirEmail(TextField textField, int maxLength) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("[a-zA-Z0-9_@.]*") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+        textField.setTextFormatter(new TextFormatter<>(filter));
+
+        // Añadir listener para verificar el formato de correo electrónico al perder el foco
+        textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Al perder el foco
+                String text = textField.getText();
+                int atIndex = text.indexOf("@");
+                if(!textField.getText().isEmpty()){
+                    if (atIndex == -1 || atIndex >= text.length() - 3) {
+                        mostrarMensajeAlerta("Formato de correo inválido", "El correo electrónico debe contener un '@' seguido de al menos tres caracteres.");
+                        textField.requestFocus();
+                    }
+                }
+            }
+        });
+    }
+
+    // Método para hacer que tod0 el texto en los TextFields se convierta a mayúsculas
+    public static void convertirTextoAMayusculas(TextField... textFields) {
+        for (TextField textField : textFields) {
+            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null && !newValue.equals(newValue.toUpperCase())) {
+                    textField.setText(newValue.toUpperCase());
+                }
+            });
+        }
+    }
+
+    // Método para validar la edad en un TextField
+    public static void validarEdad(TextField textField, int maxLength) {
+        // Configurar TextFormatter para limitar la entrada a números y restringir la longitud
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+        textField.setTextFormatter(new TextFormatter<>(filter));
+
+        // Añadir listener para verificar la validez de la edad al perder el foco
+        textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Al perder el foco
+                String text = textField.getText();
+                if (!text.isEmpty()) {
+                    int edad = Integer.parseInt(text);
+                    if(!textField.getText().isEmpty()){
+                        if (edad <= 16 || edad > 120) {
+                            mostrarMensajeAlerta("Edad inválida", "La edad debe estar entre 0 y 120 años.");
+                            textField.requestFocus();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /////////////-------------- MÉTODOS PARA VALIDAR LOS DOCUMENTOS DE IDENTIDAD ----------//////////////////////
+
+    public static void validarIdentificacion(TextField textField, int maxLength) {
+        // Configurar TextFormatter para limitar el número máximo de caracteres y permitir solo caracteres válidos
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText().toUpperCase();
+            if (newText.matches("[A-Z0-9]*") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+        textField.setTextFormatter(new TextFormatter<>(filter));
+
+        // Añadir listener para verificar la validez de la identificación al perder el foco
+        textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Al perder el foco
+                String text = textField.getText();
+                if(!textField.getText().isEmpty()){
+                    if (!validarIdentificacion(text) || text.length() < maxLength) {
+                        mostrarMensajeAlerta("Identificación inválida", "El DNI, NIE o CIF ingresado no es válido o no tiene la longitud correcta.");
+                            textField.requestFocus();
+                    }
+                }
+            }
+        });
+    }
+
+    private static boolean validarIdentificacion(String identificacion) {
+        if (identificacion == null || identificacion.isEmpty()) {
+            return false;
+        }
+
+        identificacion = identificacion.toUpperCase();
+
+        if (validarDNI(identificacion) || validarNIE(identificacion) || validarCIF(identificacion)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean validarDNI(String dni) {
+        if (!dni.matches("\\d{8}[A-Z]")) {
+            return false;
+        }
+
+        String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+        int numero = Integer.parseInt(dni.substring(0, 8));
+        char letra = dni.charAt(8);
+
+        return letras.charAt(numero % 23) == letra;
+    }
+
+    private static boolean validarNIE(String nie) {
+        if (!nie.matches("[XYZ]\\d{7}[A-Z]")) {
+            return false;
+        }
+
+        // Reemplaza la letra inicial por su equivalente numérico
+        char inicial = nie.charAt(0);
+        String nieNumerico = "";
+        switch (inicial) {
+            case 'X':
+                nieNumerico = "0" + nie.substring(1);
+                break;
+            case 'Y':
+                nieNumerico = "1" + nie.substring(1);
+                break;
+            case 'Z':
+                nieNumerico = "2" + nie.substring(1);
+                break;
+        }
+
+        return validarDNI(nieNumerico);
+    }
+
+    private static boolean validarCIF(String cif) {
+        if (!cif.matches("[A-HJ-NP-SUVW]\\d{7}[0-9A-J]")) {
+            return false;
+        }
+
+        char letraInicial = cif.charAt(0);
+        String digitos = cif.substring(1, 8);
+        char digitoControl = cif.charAt(8);
+
+        int sumaPar = 0;
+        int sumaImpar = 0;
+
+        for (int i = 0; i < digitos.length(); i++) {
+            int digito = Integer.parseInt(String.valueOf(digitos.charAt(i)));
+
+            if (i % 2 == 0) {
+                int doble = digito * 2;
+                sumaImpar += doble / 10 + doble % 10;
+            } else {
+                sumaPar += digito;
+            }
+        }
+
+        int sumaTotal = sumaPar + sumaImpar;
+        int digitoControlCalculado = (10 - (sumaTotal % 10)) % 10;
+
+        if (Character.isDigit(digitoControl)) {
+            return digitoControl == '0' + digitoControlCalculado;
+        } else {
+            String letrasControl = "JABCDEFGHI";
+            return digitoControl == letrasControl.charAt(digitoControlCalculado);
+        }
+    }
+
+//////////////-------- VALIDAR LA CUENTA BANCARIA -----------//////////////////
+
+// Método para validar número de cuenta bancaria (CCC e IBAN)
+private static boolean validarNumeroCuenta(String cuenta) {
+    if (cuenta == null || cuenta.isEmpty()) {
+        return false;
+    }
+
+    cuenta = cuenta.replaceAll("\\s+", "").toUpperCase();
+
+    if (cuenta.matches("\\d{20}")) { // CCC
+        return validarCCC(cuenta);
+    } else if (cuenta.matches("ES\\d{22}")) { // IBAN
+        return validarIBAN(cuenta);
+    }
+
+    return false;
+}
+
+    private static boolean validarCCC(String ccc) {
+        if (ccc.length() != 20) {
+            return false;
+        }
+
+        String entidad = ccc.substring(0, 4);
+        String oficina = ccc.substring(4, 8);
+        String dc = ccc.substring(8, 10);
+        String cuenta = ccc.substring(10, 20);
+
+        String dcCalculado = calcularDigitosControl(entidad, oficina, cuenta);
+
+        return dc.equals(dcCalculado);
+    }
+
+    private static String calcularDigitosControl(String entidad, String oficina, String cuenta) {
+        String ceros = "00";
+        String dc1 = calcularDigitoControl(ceros + entidad + oficina);
+        String dc2 = calcularDigitoControl(cuenta);
+
+        return dc1 + dc2;
+    }
+
+    private static String calcularDigitoControl(String parte) {
+        int[] factores = {1, 2, 4, 8, 5, 10, 9, 7, 3, 6};
+        int suma = 0;
+
+        for (int i = 0; i < parte.length(); i++) {
+            suma += Character.getNumericValue(parte.charAt(i)) * factores[i];
+        }
+
+        int resto = 11 - (suma % 11);
+
+        if (resto == 10) {
+            return "1";
+        } else if (resto == 11) {
+            return "0";
+        } else {
+            return String.valueOf(resto);
+        }
+    }
+
+    private static boolean validarIBAN(String iban) {
+        if (iban.length() != 24) {
+            return false;
+        }
+
+        // Mover los 4 primeros caracteres al final del string
+        String reformattedIban = iban.substring(4) + iban.substring(0, 4);
+
+        // Convertir las letras en números (A=10, B=11, ..., Z=35)
+        StringBuilder numericIban = new StringBuilder();
+        for (char c : reformattedIban.toCharArray()) {
+            int numericValue;
+            if (Character.isDigit(c)) {
+                numericValue = Character.getNumericValue(c);
+            } else {
+                numericValue = c - 'A' + 10;
+            }
+            numericIban.append(numericValue);
+        }
+
+        // Validar el IBAN usando aritmética modular
+        return new java.math.BigInteger(numericIban.toString()).mod(java.math.BigInteger.valueOf(97)).intValue() == 1;
+    }
+
+    // Método para validar número de cuenta en un TextField
+    public static void validarNumeroCuenta(TextField textField, int maxLength) {
+        // Configurar TextFormatter para limitar el número máximo de caracteres y permitir solo caracteres válidos
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText().toUpperCase();
+            if (newText.matches("[A-Z0-9]*") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+        textField.setTextFormatter(new TextFormatter<>(filter));
+
+        // Añadir listener para verificar la validez de la cuenta al perder el foco
+        textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Al perder el foco
+                String text = textField.getText();
+                if(!textField.getText().isEmpty()){
+                    if (!validarNumeroCuenta(text) || text.length() < maxLength) {
+                        mostrarMensajeAlerta("Número de cuenta inválido", "El número de cuenta bancaria ingresado no es válido o no tiene la longitud correcta.");
+                            textField.requestFocus();
+                    }
+                }
+            }
+        });
+    }
 
 }
+
+

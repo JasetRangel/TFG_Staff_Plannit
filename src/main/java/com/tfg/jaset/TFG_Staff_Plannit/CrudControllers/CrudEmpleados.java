@@ -140,6 +140,14 @@ public class CrudEmpleados implements Initializable {
             txtTel.setText(empleado.getTelefono());
             txtBanco.setText(empleado.getCuentaBancaria());
         }
+        FuncionesMenu.validarIdentificacion(txtDNI,9);
+        FuncionesMenu.restringirSoloLetras(txtNombre,30);
+        FuncionesMenu.restringirEmail(txtEmail,50);
+        FuncionesMenu.restringirLetrasNumeros(txtBanco,24);
+        FuncionesMenu.validarNumeroCuenta(txtBanco,24);
+        FuncionesMenu.validarTelefono(txtTel,9);
+        FuncionesMenu.validarEdad(txtEdad,3);
+        FuncionesMenu.convertirTextoAMayusculas(txtDireccion,txtEmail,txtNombre,txtApellidos);
 
         cargarInformesEmpleado();
     }
@@ -248,18 +256,9 @@ public class CrudEmpleados implements Initializable {
         }
         if (empleado==null || empleado.esDiferente(empleado,empleNuevo)) {
             if(FuncionesMenu.mostrarDialogConfirmacion("Guardar Cambios","¿Quiere guardar los cambios?")){
-                if(!empleado.getDni().equals(empleNuevo.getDni())){
-                    try{
-                        empleadoRepository.delete(empleado);
-                        FuncionesMenu.actualizarObjeto(empleadoRepository,empleNuevo);
-                        limpiarCampos();
-                    }catch(Exception e){
-                        FuncionesMenu.mostrarMensajeAlerta("Fallo al modificar al empleado","El DNI de este empleado no puede ser modificado");
-                        System.out.println(e.getMessage());
-                    }
-                }else{
-                    FuncionesMenu.actualizarObjeto(empleadoRepository,empleNuevo);
-                }
+
+                FuncionesMenu.actualizarObjeto(empleadoRepository,empleNuevo);
+                limpiarCampos();
             }
         }else{
             FuncionesMenu.mostrarMensajeAlerta("Cambios requeridos","No se ha hecho ningún cambio en el Empleado");
@@ -278,11 +277,6 @@ public class CrudEmpleados implements Initializable {
         txtEmail.clear();
 
     }
-
-
-
-
-
 
 
 }

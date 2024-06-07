@@ -72,6 +72,9 @@ public class CrudEventos implements Initializable {
     AnchorPane modificable;
 
     @FXML
+    private VBox padreColun1;
+
+    @FXML
     private VBox padreColun2;
 
     @FXML
@@ -117,6 +120,10 @@ public class CrudEventos implements Initializable {
         columFuncion.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.15));
         columFecha.prefWidthProperty().bind(tablaInformes.widthProperty().multiply(0.15));
 
+        txtId.setStyle("-fx-text-fill: #070707; -fx-background-color:  rgba(77,92,92,0.53)");
+        txtId.setEditable(false);
+        txtId.setEditable(false);
+        txtId.setFocusTraversable(false);
 
         padreColun2.setFocusTraversable(true);
         padreBotonones.setFocusTraversable(true);
@@ -125,10 +132,6 @@ public class CrudEventos implements Initializable {
 
         if(eventoDTO!=null){
             txtId.setText(String.valueOf(eventoDTO.getId()));
-            txtId.setStyle("-fx-text-fill: #070707; -fx-background-color:  rgba(77,92,92,0.53)");
-            txtId.setEditable(false);
-            txtId.setEditable(false);
-
             txtNombreCliente.setText(eventoDTO.getNombreCliente());
             txtDireccion.setText(eventoDTO.getDireccion());
             txtFechaFin.setValue(eventoDTO.getFechaFin());
@@ -157,6 +160,13 @@ public class CrudEventos implements Initializable {
         });
 
         FuncionesMenu.configurarEstiloBotones(btnAddEmpleado,btnEliminarEmpleado,btnGuardar,btnVolver);
+        FuncionesMenu.tabular(padreColun1,padreColun2,padreBotonones);
+
+        FuncionesMenu.tabular(txtNombreCliente,txtFechaFin,txtFechaInicio,txtDetalles,txtDireccion);
+        FuncionesMenu.restringirLetrasNumeros(txtNombreCliente,50);
+        FuncionesMenu.restringirLetrasNumeros(txtDireccion,60);
+        FuncionesMenu.restringirLetrasNumeros(txtDetalles,70);
+        FuncionesMenu.convertirTextoAMayusculas(txtDireccion,txtNombreCliente,txtDetalles);
 
     }
 
