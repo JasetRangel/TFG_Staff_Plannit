@@ -129,6 +129,9 @@ public class CrudEmpleados implements Initializable {
         empleado= (Empleado) FuncionesMenu.getObjetoSeleccionado();
         if(empleado!=null){
             txtDNI.setText(empleado.getDni());
+            txtDNI.setStyle("-fx-text-fill: #070707; -fx-background-color:  rgba(77,92,92,0.53)");
+            txtDNI.setEditable(false);
+            txtDNI.setEditable(false);
             txtNombre.setText(empleado.getNombre());
             txtApellidos.setText(empleado.getApellidos());
             txtEdad.setText(empleado.getEdad().toString());

@@ -130,7 +130,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="btnSalir" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#salirDelaApp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Salir" textAlignment="CENTER" textFill="WHITE">
+                        <Button fx:id="btnSalir" alignment="BASELINE_LEFT" mnemonicParsing="false"  prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: transparent;" text="Salir" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>

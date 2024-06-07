@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
+
 @Component
 public class InicioController extends MenuController implements Initializable  {
 
@@ -66,13 +68,17 @@ public class InicioController extends MenuController implements Initializable  {
 
     private final DateTimeFormatter formatter= DateTimeFormatter.ofPattern("HH:mm");
 
+    private static Button botonSeleccionado;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contenidoPaneStatic=contenidoPane;// Asigno el StackPane de la instancia al estático
         //ALMACENO AL OBJETO USUARIO ACTUAL
         Usuario usuarioActual= UsuarioUtils.getUsuarioActual();
 
-        FuncionesMenu.configurarEstiloBotones(btnCerrarSesion,btnClienttes,btnEmpleados,btnSalir,btnEventos,btnUsuarios);
+        // Configurar botones con el nuevo método
+        configurarEstiloBotonesMenu(this::handleButtonAction, btnCerrarSesion, btnClienttes, btnEmpleados, btnSalir, btnEventos, btnUsuarios);
+
 
         // combio de forma al cursor al pasar por encima de un boton
         btnCerrarSesion.setCursor(Cursor.HAND);
@@ -93,6 +99,9 @@ public class InicioController extends MenuController implements Initializable  {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        });
+        btnSalir.setOnAction(event -> {
+            MenuController.salirDelaApp(event);
         });
     }
 
@@ -132,5 +141,57 @@ public class InicioController extends MenuController implements Initializable  {
         Main.cambiarVista("/com/java/fx/eventos.fxml");
     }
 
+    private void configurarEstiloBotonesMenu(Consumer<Button> buttonAction, Button... botones) {
+        for (Button boton : botones) {
+            boton.setCursor(Cursor.HAND);
 
+            // Añadir listeners para el enfoque y el hover del mouse
+            boton.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+                if (isNowFocused) {
+                    boton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+                } else if (!boton.isHover() && !boton.equals(botonSeleccionado)) {
+                    boton.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
+                }
+            });
+
+            boton.hoverProperty().addListener((obs, wasHovered, isNowHovered) -> {
+                if (isNowHovered) {
+                    boton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+                } else if (!boton.isFocused() && !boton.equals(botonSeleccionado)) {
+                    boton.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
+                }
+            });
+
+            boton.setOnAction(event -> {
+                if (botonSeleccionado != null) {
+                    botonSeleccionado.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
+                }
+                botonSeleccionado = boton;
+                boton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+
+                // Ejecutar la acción proporcionada
+                buttonAction.accept(boton);
+            });
+        }
+    }
+
+    private void handleButtonAction(Button button) {
+        try {
+            if (button == btnClienttes) {
+                mostrarClientes();
+            } else if (button == btnEmpleados) {
+                mostrarEmpleados();
+            } else if (button == btnUsuarios) {
+                mostrarUsuarios();
+            } else if (button == btnEventos) {
+                mostrarEventos();
+            }else{
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }

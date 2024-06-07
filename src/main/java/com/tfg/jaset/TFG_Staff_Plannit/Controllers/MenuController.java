@@ -12,7 +12,7 @@ public abstract class MenuController{
 
     }
 
-    public  void salirDelaApp(ActionEvent event){
+    public static void salirDelaApp(ActionEvent event){
         Stage stageActual=(Stage) ((Node)event.getSource()).getScene().getWindow();
         stageActual.close();
     }

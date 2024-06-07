@@ -9,12 +9,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+@Getter
+@Setter
 @Component
 public class ModifyUser implements Initializable {
 
@@ -41,34 +46,63 @@ public class ModifyUser implements Initializable {
 
     private Usuario usuario;
     private boolean isPasswordVisible = false;
+    private boolean isAdmin = false;
+    private boolean onlyChangePermiso = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Inicializar aquí las variables de visibilidad de las contraseñas.
         mostrar.setVisible(true);
         ocultar.setVisible(false);
-
-        mostrar.setOnMouseClicked(event -> togglePasswordVisibility(true));
-        ocultar.setOnMouseClicked(event -> togglePasswordVisibility(false));
-        setUsuario(usuario);
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+
+    public void initializeFields() {
         if (usuario != null) {
             txtDNI.setText(usuario.getDni());
+            txtDNI.setStyle("-fx-text-fill: #070707; -fx-background-color:  rgba(77,92,92,0.53)");
+            txtDNI.setEditable(false);
+            txtDNI.setEditable(false);
             txtusuario.setText(usuario.getNombreUsuario());
             txtContrsenia.setText(usuario.getContrasenia().replaceAll(".", "*")); // Mostrar asteriscos por defecto
             comboPermisos.setValue(usuario.getPermiso());
         }
+
+        // Lógica para manejar la visibilidad y editabilidad de campos según los permisos
+        if (isAdmin && onlyChangePermiso) {
+            txtContrsenia.setEditable(false);
+            txtusuario.setEditable(false);
+            mostrar.setVisible(false);
+            ocultar.setVisible(false);
+        } else if (isAdmin) {
+            txtContrsenia.setEditable(true);
+            txtusuario.setEditable(true);
+            mostrar.setOnMouseClicked(event -> togglePasswordVisibility(true));
+            ocultar.setOnMouseClicked(event -> togglePasswordVisibility(false));
+        } else {
+            txtContrsenia.setEditable(false);
+            txtusuario.setEditable(false);
+            mostrar.setVisible(false);
+            ocultar.setVisible(false);
+        }
     }
 
     public void cargarPermisos() {
-        comboPermisos.setItems(FXCollections.observableArrayList(userRepository.findDistinctPermisos()));
+        List<String> permisos = userRepository.findDistinctPermisos();
+        comboPermisos.setItems(FXCollections.observableArrayList(permisos));
+        for(String permiso : permisos) {
+            if(permiso.equals("USER")){
+                comboPermisos.setValue(permiso);
+                return;
+            }else{
+                comboPermisos.setValue(permisos.getFirst());
+            }
+        }
     }
 
     private void togglePasswordVisibility(boolean visible) {
         if(usuario != null) {
-            if (visible ) {
+            if (visible) {
                 txtContrsenia.setText(usuario.getContrasenia());
                 mostrar.setVisible(false);
                 ocultar.setVisible(true);
@@ -82,31 +116,28 @@ public class ModifyUser implements Initializable {
     }
 
     public Usuario actualizarUsuario() {
-        if (FuncionesMenu.camposCompletos(txtContrsenia,txtusuario)) {
+        if (FuncionesMenu.camposCompletos(txtContrsenia, txtusuario)) {
             Usuario usuarioSinCambios = new Usuario();
             usuarioSinCambios.setContrasenia(isPasswordVisible ? txtContrsenia.getText() : usuario.getContrasenia());
             usuarioSinCambios.setNombreUsuario(txtusuario.getText());
             usuarioSinCambios.setDni(txtDNI.getText());
             usuarioSinCambios.setPermiso(comboPermisos.getValue());
 
-            if(usuarioSinCambios.esDiferente(usuarioSinCambios,usuario)){
+            if (usuarioSinCambios.esDiferente(usuarioSinCambios, usuario)) {
                 usuario.setDni(txtDNI.getText());
                 usuario.setNombreUsuario(txtusuario.getText());
-                usuario.setContrasenia(isPasswordVisible ? txtContrsenia.getText() : usuario.getContrasenia());
+                if (!onlyChangePermiso) {
+                    usuario.setContrasenia(isPasswordVisible ? txtContrsenia.getText() : usuario.getContrasenia());
+                }
                 usuario.setPermiso(comboPermisos.getValue());
                 return usuario;
-
-            }else{
-                FuncionesMenu.mostrarMensajeAlerta("Usuario sin cambios.","No se han realizado Cambios");
+            } else {
+                FuncionesMenu.mostrarMensajeAlerta("Usuario sin cambios.", "No se han realizado cambios.");
                 return null;
             }
         } else {
-            FuncionesMenu.mostrarMensajeAlerta("Campos Vacíos..","Comprube que no hay ningun campo vacío");
+            FuncionesMenu.mostrarMensajeAlerta("Campos Vacíos.", "Compruebe que no hay ningún campo vacío.");
             return null;
         }
-    }
-
-    public void cerrarVentana() {
-        // No se usa aquí, se manejará en el controlador del diálogo
     }
 }

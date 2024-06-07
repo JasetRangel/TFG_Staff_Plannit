@@ -97,6 +97,14 @@ public class CrudEmpleadosEventos implements Initializable {
         // ASIGNO AL COMBO BOX LAS OPCIONES DE FUNCIONES QUE HAY EN MI BBDD
         List<String> funciones = funcionRepository.findAll().stream().map(Funciones::getDescripcion).collect(Collectors.toList());
         comboFunciones.setItems(FXCollections.observableArrayList(funciones));
+        for(String funcion : funciones) {
+            if(funcion.equals("CAMARERO")){
+                comboFunciones.setValue(funcion);
+                return;
+            }else{
+                comboFunciones.setValue(funciones.getFirst());
+            }
+        }
     }
 
     public void agregarEmpleado() {
@@ -280,7 +288,6 @@ public class CrudEmpleadosEventos implements Initializable {
         return modificado;
     }
 
-
     private TextFormatter<String> formatoHora() {
         UnaryOperator<TextFormatter.Change> formatter = change -> {
             String text = change.getControlNewText();
@@ -296,7 +303,7 @@ public class CrudEmpleadosEventos implements Initializable {
             }
 
             // Agregar dos puntos automáticamente después de dos dígitos
-            if (text.matches("[0-9]{2}")) {
+            if (text.matches("[0-9]{2}") && !text.contains(":")) {
                 change.setText(change.getText() + ":");
                 change.setCaretPosition(change.getCaretPosition() + 1);
                 change.setAnchor(change.getAnchor() + 1);
@@ -308,13 +315,18 @@ public class CrudEmpleadosEventos implements Initializable {
                 return change;
             }
 
-            // Validar entrada parcial de hora HH:mm
+            // Validar entrada parcial de minutos dentro del rango [0-5]
             if (text.matches("([01][0-9]|2[0-3]):[0-5]")) {
                 return change;
             }
 
-            // Permitir ingreso de dígitos
-            if (text.matches("[0-9]*")) {
+            // Validar entrada de minutos completos dentro del rango [00-59]
+            if (text.matches("([01][0-9]|2[0-3]):[0-5][0-9]")) {
+                return change;
+            }
+
+            // Permitir ingreso de dígitos pero no más de 4 antes de agregar ":"
+            if (text.matches("[0-9]{0,2}")) {
                 return change;
             }
 
@@ -324,6 +336,11 @@ public class CrudEmpleadosEventos implements Initializable {
 
         return new TextFormatter<>(formatter);
     }
+
+
+
+
+
 
     private boolean validarCampos() {
         return !txtEmpleado.getText().isEmpty() &&

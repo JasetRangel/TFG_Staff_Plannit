@@ -3,8 +3,7 @@ package com.tfg.jaset.TFG_Staff_Plannit.CrudControllers;
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.DTOs.EventoEmpleadosDTO;
 import com.tfg.jaset.TFG_Staff_Plannit.Main;
-import com.tfg.jaset.TFG_Staff_Plannit.Models.Cliente;
-import com.tfg.jaset.TFG_Staff_Plannit.Models.Evento;
+import com.tfg.jaset.TFG_Staff_Plannit.Models.*;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.ClientesRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventoEmpleadoRepository;
 import com.tfg.jaset.TFG_Staff_Plannit.Repositories.EventosRepository;
@@ -126,6 +125,10 @@ public class CrudEventos implements Initializable {
 
         if(eventoDTO!=null){
             txtId.setText(String.valueOf(eventoDTO.getId()));
+            txtId.setStyle("-fx-text-fill: #070707; -fx-background-color:  rgba(77,92,92,0.53)");
+            txtId.setEditable(false);
+            txtId.setEditable(false);
+
             txtNombreCliente.setText(eventoDTO.getNombreCliente());
             txtDireccion.setText(eventoDTO.getDireccion());
             txtFechaFin.setValue(eventoDTO.getFechaFin());
@@ -215,7 +218,6 @@ public class CrudEventos implements Initializable {
                 txtDireccion.getText() != null && !txtDireccion.getText().isEmpty();
     }
 
-
     private void cargarInformacionEnTabla() {
         List<EventoEmpleadosDTO> detalles = eventoEmpleadoRepository.findDetallesEmpleadosPorEvento(eventoDTO.getId());
         tablaInformes.setItems(FXCollections.observableArrayList(detalles));
@@ -227,6 +229,7 @@ public class CrudEventos implements Initializable {
         columFuncion.setCellValueFactory(new PropertyValueFactory<>("descripcionFuncion"));
         columFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
     }
+
     @FXML
     private void volver(){
         Main.cambiarVista("/com/java/fx/eventos.fxml");
@@ -326,5 +329,39 @@ public class CrudEventos implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void eliminarEmpleadoDeEvento() {
+        EventoEmpleadosDTO selectedEmpleado = tablaInformes.getSelectionModel().getSelectedItem();
+        if (selectedEmpleado != null) {
+            // Usar la nueva consulta para obtener el `EventosEmpleado`
+            EventosEmpleado eventosEmpleado = eventoEmpleadoRepository.findByEmpleadoDetails(
+                    selectedEmpleado.getNombreEmpleado(),
+                    selectedEmpleado.getApellidosEmpleado(),
+                    selectedEmpleado.getFecha(),
+                    selectedEmpleado.getHoraEntrada(),
+                    eventoDTO.getId()
+            );
+
+            if (eventosEmpleado != null) {
+                // Crear el ID compuesto usando el `dniEmpleado` obtenido
+                EventosEmpleadoId id = new EventosEmpleadoId(
+                        eventosEmpleado.getId().getEventoId(),
+                        eventosEmpleado.getId().getEmpleadoDni(),
+                        eventosEmpleado.getId().getFecha(),
+                        eventosEmpleado.getId().getHoraEntrada()
+                );
+                if(FuncionesMenu.mostrarDialogConfirmacion("Eliminación Empleado.","¿Está seguro que desea eliminar este registro?")){
+                    eventoEmpleadoRepository.deleteById(id); // Eliminar el registro
+                    cargarInformacionEnTabla(); // Actualizar la tabla
+                }
+            } else {
+                FuncionesMenu.mostrarMensajeAlerta("Error", "No se pudo encontrar el empleado para eliminar.");
+            }
+        } else {
+            FuncionesMenu.mostrarMensajeAlerta("Selección Requerida", "Debe seleccionar un empleado de la tabla para eliminar.");
+        }
+    }
+
 
 }

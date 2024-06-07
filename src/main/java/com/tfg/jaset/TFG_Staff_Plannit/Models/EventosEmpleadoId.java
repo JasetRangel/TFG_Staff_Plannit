@@ -28,6 +28,15 @@ public class EventosEmpleadoId implements Serializable {
     @Column(name = "hora_entrada", nullable = false)
     private LocalTime horaEntrada;
 
+    public EventosEmpleadoId(Integer eventoId, String empleadoDni, LocalDate fecha, LocalTime horaEntrada) {
+        this.eventoId = eventoId;
+        this.empleadoDni = empleadoDni;
+        this.fecha = fecha;
+        this.horaEntrada = horaEntrada;
+    }
+
+    public EventosEmpleadoId() {}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

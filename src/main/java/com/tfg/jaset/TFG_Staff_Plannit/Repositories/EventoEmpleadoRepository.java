@@ -17,6 +17,15 @@ public interface EventoEmpleadoRepository extends JpaRepository<EventosEmpleado,
     @Query("SELECT ee FROM EventosEmpleado ee WHERE ee.empleadoDni.dni = :dni")
     List<EventosEmpleado> findEventosByEmpleadoDni(@Param("dni") String dni);
 
+    @Query("SELECT ee FROM EventosEmpleado ee JOIN ee.empleadoDni emp WHERE emp.nombre = :nombreEmpleado AND emp.apellidos = :apellidosEmpleado AND ee.id.fecha = :fecha AND ee.id.horaEntrada = :horaEntrada AND ee.id.eventoId = :eventoId")
+    EventosEmpleado findByEmpleadoDetails(
+            @Param("nombreEmpleado") String nombreEmpleado,
+            @Param("apellidosEmpleado") String apellidosEmpleado,
+            @Param("fecha") LocalDate fecha,
+            @Param("horaEntrada") LocalTime horaEntrada,
+            @Param("eventoId") Integer eventoId
+    );
+
     @Query("SELECT new com.tfg.jaset.TFG_Staff_Plannit.DTOs.InformeEmpleadoDTO(YEAR(e.id.fecha), FUNCTION('MONTHNAME', e.id.fecha), emp.nombre, emp.dni, MIN(e.id.horaEntrada), MAX(e.horaSalida)) " +
             "FROM EventosEmpleado e " +
             "JOIN e.empleadoDni emp " +

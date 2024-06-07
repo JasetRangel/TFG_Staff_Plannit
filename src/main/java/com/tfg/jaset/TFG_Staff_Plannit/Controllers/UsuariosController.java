@@ -82,11 +82,11 @@ public class UsuariosController implements Initializable {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     Usuario rowData = table.getSelectionModel().getSelectedItem();
                     Usuario usuarioActual = UsuarioUtils.getUsuarioActual();
-                    if(usuarioActual.getDni().equals(rowData.getDni())){
+                    if(usuarioActual.getPermiso().equals("ADMIN")|| usuarioActual.getDni().equals(rowData.getDni()) ){
                         mostrarDialogUsuario(rowData);
                     }else {
-                        FuncionesMenu.mostrarMensajeAlerta("Acción Prohibida.","No se puede modificar este usuario ya que " +
-                                " no pertenece a usted.");
+                        FuncionesMenu.mostrarMensajeAlerta("Acción Prohibida.","No tiene permiso para modificar " +
+                                "para modificar otros usuarios ajenos al suyo.");
                     }
 
                 }
@@ -145,7 +145,23 @@ public class UsuariosController implements Initializable {
             DialogPane dialogPane = loader.load();
 
             ModifyUser modifyUserController = loader.getController();
+
+            Usuario usuarioActual = UsuarioUtils.getUsuarioActual();
+            if (usuarioActual.getPermiso().equals("ADMIN")) {
+                modifyUserController.setAdmin(true);
+                if (usuario !=null && !usuarioActual.getDni().equals(usuario.getDni()) ) {
+                    modifyUserController.setOnlyChangePermiso(true);
+                }
+            } else if (usuario !=null && usuarioActual.getDni().equals(usuario.getDni())) {
+                modifyUserController.setAdmin(false);
+                modifyUserController.setOnlyChangePermiso(false);
+            } else {
+                FuncionesMenu.mostrarMensajeAlerta("Acción Prohibida.", "No tiene permiso para modificar otros usuarios ajenos al suyo.");
+                return;
+            }
+
             modifyUserController.setUsuario(usuario);
+            modifyUserController.initializeFields();
             modifyUserController.cargarPermisos();
 
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -163,10 +179,9 @@ public class UsuariosController implements Initializable {
                     userRepository.save(updatedUser);
                     FuncionesMenu.refrescarDatosTabla(table, userRepository);
                     FuncionesMenu.mostrarMensajeAlerta("Actualización Exitosa", "Los cambios en el usuario han sido guardados correctamente.");
-                }else {
+                } else {
                     event.consume();
                 }
-
             });
 
             dialog.showAndWait();
@@ -175,6 +190,9 @@ public class UsuariosController implements Initializable {
             FuncionesMenu.mostrarMensajeAlerta("Error", "No se pudo cargar el diálogo de modificación.");
         }
     }
+
+
+
 
     @FXML
     private void eliminarUsuario(){
